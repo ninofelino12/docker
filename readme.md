@@ -2,6 +2,7 @@
 <h3>
 1. Intall portainer
 </h3>
+<img src="flask/static/portainer.png"/>
 <p>
 docker pull portainer/portainer<br>
 docker volume create portainer_data<br>
