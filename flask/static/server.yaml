@@ -1,0 +1,30 @@
+server:
+  -name:Clouds
+    -host:203.194.112.105 -p 22
+    -port:22
+    -password:@Abc12345678#
+  -name: exxpandev.com (natanetwork)
+    -host: exxpandev.com
+    -user: exxpandev.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

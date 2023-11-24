@@ -18,3 +18,7 @@ Install Odoo:17
 </h3>
 
 docker compose odoo17.yaml
+
+Install Odoo:15
+
+docker compose odoo17.yaml

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serial Terminal Example</title>
+</head>
+<body>
+
+    <textarea id="terminal" rows="10" cols="40" readonly></textarea>
+    <br>
+    <button id="connectButton">Connect to Serial Port</button>
+    <button id="disconnectButton" disabled>Disconnect</button>
+    <br>
+    <input type="text" id="inputField" placeholder="Enter text to send">
+    <button id="sendButton" disabled>Send</button>
+
+    <script>
+        let port;
+
+        const terminal = document.getElementById('terminal');
+        const connectButton = document.getElementById('connectButton');
+        const disconnectButton = document.getElementById('disconnectButton');
+        const inputField = document.getElementById('inputField');
+        const sendButton = document.getElementById('sendButton');
+
+        connectButton.addEventListener('click', async () => {
+            try {
+                port = await navigator.serial.requestPort();
+                await port.open({ baudRate: 9600 });
+                console.log('Connected to serial port:', port);
+
+                connectButton.disabled = true;
+                disconnectButton.disabled = false;
+                sendButton.disabled = false;
+
+                // Handle communication with the serial port here
+                port.addEventListener('read', ({ data }) => {
+                    const textDecoder = new TextDecoder();
+                    const receivedText = textDecoder.decode(data);
+                    appendToTerminal(receivedText);
+                });
+
+            } catch (error) {
+                console.error('Error connecting to serial port:', error);
+            }
+        });
+
+        disconnectButton.addEventListener('click', async () => {
+            try {
+                await port.close();
+                console.log('Disconnected from serial port');
+                connectButton.disabled = false;
+                disconnectButton.disabled = true;
+                sendButton.disabled = true;
+            } catch (error) {
+                console.error('Error disconnecting from serial port:', error);
+            }
+        });
+
+        sendButton.addEventListener('click', async () => {
+            try {
+                const textEncoder = new TextEncoder();
+                const data = textEncoder.encode(inputField.value + '\n');
+                await port.write(data);
+                console.log('Data sent:', inputField.value);
+                inputField.value = '';
+            } catch (error) {
+                console.error('Error sending data to serial port:', error);
+            }
+        });
+
+        function appendToTerminal(text) {
+            terminal.value += text;
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+    </script>
+
+</body>
+</html>
