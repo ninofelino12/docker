@@ -1,0 +1,5 @@
+server1:
+-url = 'http://203.194.112.105'
+-db = 'demo-01'
+-username = 'admin'  
+-password = 'odooadmin'

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="path/to/tailwind.css">
+  <title>Responsive Menu Example</title>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-500 p-4">
+    <div class="flex items-center justify-between">
+
+      <!-- Logo -->
+      <div class="text-white font-bold text-lg">
+        Logo
+      </div>
+
+      <!-- Hamburger Menu Button (Visible in Mobile) -->
+      <div class="lg:hidden">
+        <button id="menu-toggle" class="text-white focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navbar Links (Visible in Desktop) -->
+      <div class="hidden lg:flex space-x-4">
+        {{menu|safe}}
+        
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Mobile Menu (Hidden by default) -->
+  <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-blue-500 bg-opacity-75 hidden">
+    <div class="flex items-center justify-end p-4">
+      <button id="close-menu" class="text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Links -->
+    <div class="flex flex-col items-center">
+      
+      {{menu|safe}}
+    </div>
+  </div>
+  <content>
+    
+    {{content|safe}}
+    {% block content %}{% endblock %}
+  </h2>
+  "Menjadi pionir dan pemimpin dalam pengembangan solusi Internet of Things (IoT) yang inovatif dan berkelanjutan, mendorong transformasi positif dalam kehidupan sehari-hari, industri, dan masyarakat secara luas."
+  <h2>
+      Misi:
+  </h2>
+  
+  
+  Inovasi Teknologi:
+  Menyediakan solusi IoT yang inovatif dengan mengintegrasikan teknologi terbaru untuk memecahkan tantangan dunia nyata dan memperbaiki efisiensi, keamanan, dan kenyamanan.
+  
+  Keberlanjutan Lingkungan:
+  Mengembangkan solusi yang berfokus pada keberlanjutan dan ramah lingkungan, dengan tujuan mengurangi dampak lingkungan dan meningkatkan kesadaran akan tanggung jawab sosial perusahaan.
+  
+  Kemitraan dan Kolaborasi:
+  Membangun kemitraan strategis dengan pemangku kepentingan, termasuk industri, pemerintah, dan komunitas, untuk menciptakan ekosistem yang mendukung pertumbuhan dan keberhasilan bersama.
+  
+  Ketanggapan dan Kepuasan Pelanggan:
+  Menempatkan kepuasan pelanggan sebagai prioritas utama, dengan berfokus pada pengembangan solusi yang tanggap terhadap kebutuhan pelanggan, memberikan dukungan teknis yang unggul, dan memastikan keandalan sistem.
+  
+  Pendidikan dan Kesadaran:
+  Berkontribusi pada peningkatan pemahaman masyarakat tentang IoT, keamanan siber, dan manfaat teknologi terkini melalui program pendidikan, pelatihan, dan inisiatif kesadaran masyarakat.
+  
+  Kualitas dan Keamanan:
+  Menjadikan standar kualitas dan keamanan sebagai landasan utama dalam pengembangan produk dan layanan IoT, dengan komitmen untuk menjaga privasi pengguna dan melindungi data secara cermat.
+  
+  Ketangguhan dan Scalability:
+  Mengoptimalkan desain produk dan infrastruktur untuk ketangguhan dan skalabilitas, sehingga dapat memberikan layanan yang handal bahkan dalam kondisi yang paling tantang dan dapat berkembang seiring dengan pertumbuhan kebutuhan pengguna.
+  
+  Pemberdayaan dan Keterlibatan Karyawan:
+  Menciptakan lingkungan kerja yang inspiratif, memberikan peluang pengembangan pribadi dan profesional, serta mendorong keterlibatan karyawan, karena percaya bahwa sumber daya manusia yang berdedikasi adalah kunci keberhasilan perusahaan.
+      </div>
+  </content>
+
+  <script>
+    // JavaScript to toggle mobile menu visibility
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    closeMenu.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+

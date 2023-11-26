@@ -31,3 +31,16 @@ class OdooClient:
             {'fields': [], 'offset': offset, 'limit': limit, 'order': order}
         )
         return records
+    def product(self):
+        product_ids = self.models.execute_kw(self.db,self.uid,self.password,'product.product','search', [[]],    {'limit': 5})
+        products = self.models.execute_kw(self.db,self.uid,self.password,'product.product','read',[product_ids],{'fields': ['name', 'list_price']})  
+                                     
+
+# Menampilkan hasil
+        hasil=""
+        for product in products:
+        
+            print(f"Nama Produk: {product['name']}, Harga: {product['list_price']}")
+            hasil=hasil+"<tr><td>"+f"Nama Produk: {product['name']}, Harga: {product['list_price']}"+"</td></tr>"
+        return hasil  
+

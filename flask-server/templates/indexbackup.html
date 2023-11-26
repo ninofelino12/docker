@@ -3,43 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-   
+    <link rel="manifest" href="/static/manifest.json">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<!--
-    <link rel="stylesheet" href="https://gist.githubusercontent.com/ninofelino12/f1fa4b82892bb3638d814ffedc21c6dd/raw/6ccf731f969f6ac60f1d75e53230010f463cbab2/style.css">
--->
+    <title>IotApp</title>
 </head>
 <body>
-    source /home/exxpande/virtualenv/flask/3.9/bin/activate && cd /home/exxpande/flask
-    <nav>
-        <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="#news">News</a></li>
-        <li><a href="#odoo">Odoo</a></li>
-        <li><a href="/serial">Serial</a></li>
-        <li><a href="/docker">Docker</a></li>
-        <li><a href="/iot">IOT</a></li>
-        <li><a href="http://103.180.164.146:2082/">Hosting</a></li>
-        <li><a href="http://103.180.164.146:2082/">Hosting Exp</a></li>
-        <li><a href="/hosting">Hosting Setting</a></li>
-      </ul>
-    </nav>
-    
+
+    <h1>Bogor IOT!</h1>
+    <script>
       
-    <h1>Bogor Odoo-Iot {{user}}</h1>
-    <div>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/sw.js')
+          .then((registration) => {
+            
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch((error) => {
+            console.error('Service Worker registration failed:', error);
+          });
+      }
+    </script>
+
+<nav>
+  <ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/odoo">Odoo</a></li>
+  <li><a href="/serial">Serial</a></li>
+  <li><a href="/docker">Docker</a></li>
+  <li><a href="/iot">IOT</a></li>
+  <li><a href="/hosting">Hosting Setting</a></li>
+</ul>
+</nav>
+<div class="content">
+  {{content|safe}}
+  {% block content %}{% endblock %}
+
+</h2>
 <h2>
-
-
-Visi:
+  Visi
 </h2>
 "Menjadi pionir dan pemimpin dalam pengembangan solusi Internet of Things (IoT) yang inovatif dan berkelanjutan, mendorong transformasi positif dalam kehidupan sehari-hari, industri, dan masyarakat secara luas."
 <h2>
     Misi:
 </h2>
 
-
+<p>
 Inovasi Teknologi:
 Menyediakan solusi IoT yang inovatif dengan mengintegrasikan teknologi terbaru untuk memecahkan tantangan dunia nyata dan memperbaiki efisiensi, keamanan, dan kenyamanan.
 
@@ -63,10 +71,9 @@ Mengoptimalkan desain produk dan infrastruktur untuk ketangguhan dan skalabilita
 
 Pemberdayaan dan Keterlibatan Karyawan:
 Menciptakan lingkungan kerja yang inspiratif, memberikan peluang pengembangan pribadi dan profesional, serta mendorong keterlibatan karyawan, karena percaya bahwa sumber daya manusia yang berdedikasi adalah kunci keberhasilan perusahaan.
-    </div>
-    <a href="odoo">Odoo</a>
-    <script src="https://gist.github.com/ninofelino12/f1fa4b82892bb3638d814ffedc21c6dd.js"></script>
-   
+</p>    
+</div>
 
+</div>
 </body>
 </html>

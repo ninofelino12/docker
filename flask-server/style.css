@@ -1,0 +1,51 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+main {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  height: 100vh;
+}
+
+.section-bin {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+}
+
+.section-bin label {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.section-bin input {
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.err {
+  color: red;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  outline: none;
+  font-weight: bold;
+  color: #f8fafc;
+  background: #4f46e5;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+button:disabled {
+  background: #818cf8;
+  cursor: not-allowed;
+}
+
+textarea {
+  padding: 8px;
+}
