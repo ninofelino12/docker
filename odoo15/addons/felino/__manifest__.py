@@ -34,4 +34,7 @@
     ],
     'installable': True,
     'auto_install': False,
+    'css': [
+    'static/src/css/tailwind.css',],
+
 }

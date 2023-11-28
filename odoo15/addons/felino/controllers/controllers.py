@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from odoo import http
 from odoo.http import request
 
@@ -24,13 +25,13 @@ class Felino(http.Controller):
         return request.make_response("<h1>"+isi)
     @http.route('/felino/product', auth='public')
     def product(self, **kw):
-        partner = http.request.env['res.partner'].sudo().search([])
-        partner_list = [{'name': partner.name, 'email': partner.email} for partner in partners]
-
-        # Mengonversi list ke dalam format JSON
-        
-
-        return request.make_response(''.join(partner_list))
+        partners = http.request.env['res.partner'].sudo().search([])
+        #partner_list = [{'name': partner.name, 'email': partner.email} 
+        partner_list =""
+        for partner in partners:
+            partner_list="<tr><td>"+partner_list+partner.name+"</td></tr>"
+        hasil=json.dumps(partners)
+        return request.make_response(hasil)
 
     @http.route('/felino/felino/objects', auth='public')
     def list(self, **kw):
@@ -38,9 +39,36 @@ class Felino(http.Controller):
             'root': '/felino/felino',
             'objects': http.request.env['res.partner'].search([]),
         })
-
+    @http.route('/felino/coba', auth='public')
+    def cobalist(self, **kw):
+        print(dir(http.request.env['res.partner'].search([])))
+        return http.request.render('felino.listing',{})
+           
+        
+    
     @http.route('/felino/felino/objects/<model("felino.felino"):obj>', auth='public')
     def object(self, obj, **kw):
         return http.request.render('felino.object', {
             'object': obj
         })
+
+    @http.route('/felino/partners', auth='public', methods=['GET'], cors='*')
+    def get_partners(self, **kw):
+        partners = request.env['res.partner'].sudo().search([])
+        
+        partner_list = []
+        for partner in partners:
+            partner_dict = {
+                'id': partner.id,
+                'name': partner.name,
+                'email': partner.email,
+                # tambahkan kolom lainnya sesuai kebutuhan
+            }
+            partner_list.append(partner_dict)
+
+        response = {
+            'status': 'success',
+            'partners': partner_list
+        }
+        return request.make_response(json.dumps(response), headers=[('Content-Type', 'application/json')])
+
