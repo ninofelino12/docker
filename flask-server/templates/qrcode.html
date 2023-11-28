@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="font-sans bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-500 text-white p-4">
+        <div class="container mx-auto flex items-center justify-between">
+            <h1 class="text-2xl font-bold">QR Code Scanner</h1>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <section class="container mx-auto p-4">
+
+        <!-- QR Code Scanner Section -->
+        <div class="bg-white p-4 rounded shadow-md mb-4">
+            <h2 class="text-xl font-bold mb-4">QR Code Scanner</h2>
+
+            <!-- Hasil Pemindaian -->
+            <div id="result" class="mb-4">
+                <strong>Result:</strong> <span id="qr-result"></span>
+            </div>
+
+            <!-- Video Stream Container -->
+            <div id="video-container" class="relative">
+                <video id="qr-video" class="w-full h-full" playsinline></video>
+            </div>
+
+            <!-- Instructions -->
+            <p class="text-gray-600 mt-4">Arahkan kamera ke QR Code untuk memindainya.</p>
+        </div>
+
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-blue-500 text-white text-center py-2">
+        <p>&copy; 2023 QR Code Scanner</p>
+    </footer>
+
+    <!-- Script untuk QR Code Scanner menggunakan html5-qrcode -->
+    <script src="https://cdn.rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const resultElement = document.getElementById('qr-result');
+
+            const html5QrcodeScanner = new Html5QrcodeScanner(
+                'qr-video',
+                { fps: 10, qrbox: 250 },
+                /* verbose= */ false
+            );
+
+            html5QrcodeScanner.render(result => {
+                resultElement.textContent = result;
+                // Tambahkan logika atau panggil fungsi lain di sini
+            });
+        });
+    </script>
+
+</body>
+</html>

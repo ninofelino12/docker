@@ -15,6 +15,7 @@ menu="""
       <a href="/iphone" class="text-white py-2">Iphone camera</a>
       <a href="/viphone" class="text-white py-2">Iphone video</a>
       <a href="/docker" class="text-white py-2">Hosting</a>
+      <a href="/qrcode" class="text-white py-2">qrcode</a>
 
 
 
@@ -35,6 +36,9 @@ def hello():
 @app.route('/barcode')
 def barcode():
     return render_template('barcode.html',menu=menu)
+@app.route('/qrcode')
+def qrcode():
+    return render_template('qrcode.html',menu=menu)
 @app.route('/iphone')
 def iphone():
     return render_template('iphonecamera.html',menu=menu)
@@ -63,6 +67,8 @@ def od():
      <a href="/" class="text-white py-2">Home</a>
       <a href="/odoo?model=product" class="text-white py-2">Product</a>
       <a href="/odoo?model=partner" class="text-white py-2">Partner</a>
+      <a href="/odoo?model=kanban" class="text-white py-2">Kanban</a>
+      <a href="/odoo?model=odoojs" class="text-white py-2">OdooJs</a>
       <a href="/docker" class="text-white py-2">Hosting</a>
     """  
     return render_template('base.html', logo="/Odoo",title='Home Page'+name,menu=omenu,content='<table>'+tabel+"</table?>")
@@ -95,7 +101,7 @@ def hostinger():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0',port=4000)
+    #app.run(debug=True, host='0.0.0.0',port=4000)
     #app.run(ssl_context=('server.csr', 'server.key'))
     #app.run(host='0.0.0.0'c,ssl_context=('cert.pem', 'key.pem'))
-    #app.run(ssl_context='adhoc',host='0.0.0.0')    
+    app.run(ssl_context='adhoc',host='0.0.0.0')    
