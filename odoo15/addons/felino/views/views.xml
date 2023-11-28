@@ -4,7 +4,7 @@
 
     <record model="ir.ui.view" id="felino.list">
       <field name="name">felino list</field>
-      <field name="model">res.partner</field>
+      <field name="model">felino.felino</field>
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
@@ -19,7 +19,7 @@
 
     <record model="ir.actions.act_window" id="felino.action_window">
       <field name="name">felino window</field>
-      <field name="res_model">res.partner</field>
+      <field name="res_model">felino.felino</field>
       <field name="view_mode">tree,form</field>
     </record>
 
@@ -45,22 +45,22 @@
     <menuitem name="felino" id="felino.menu_root"/>
 
     <!-- menu categories -->
-<!-- 
+
     <menuitem name="Menu 1" id="felino.menu_1" parent="felino.menu_root"/>
     <menuitem name="Menu 2" id="felino.menu_2" parent="felino.menu_root"/>
 
  
     <menuitem name="List" id="felino.menu_1_list" parent="felino.menu_1"
               action="felino.action_window"/>
-    <menuitem name="Server to list" id="felino" parent="felino.menu_2"
+    <!-- <menuitem name="Server to list" id="felino" parent="felino.menu_2"
               action="felino.action_server"/>
  
 
 
     <menuitem name="List" id="felino.menu_1_list" parent="felino.menu_1"
-              action="felino.action_window"/>
-    <menuitem name="Server to list" id="felino" parent="felino.menu_2"
+              action="felino.action_window"/> -->
+    <!-- <menuitem name="Server to list" id="felino" parent="felino.menu_2"
               action="felino.action_server"/>
-  -->
+   -->
   </data>
 </odoo>

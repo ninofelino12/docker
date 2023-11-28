@@ -42,7 +42,8 @@ class Felino(http.Controller):
     @http.route('/felino/coba', auth='public')
     def cobalist(self, **kw):
         print(dir(http.request.env['res.partner'].search([])))
-        return http.request.render('felino.listing',{})
+        desktopMenu="menu baru"
+        return http.request.render('felino.listing',{'desktopMenu':desktopMenu})
            
         
     
