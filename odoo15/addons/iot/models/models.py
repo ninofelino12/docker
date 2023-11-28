@@ -1,24 +1,22 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
+
 from odoo import models, fields, api
 
 
-class felino(models.Model):
-    _name = 'felino.felino'
-    _description = 'felino.felino'
+class iot(models.Model):
+    _name = 'iot.iot'
+    _description = 'iot.iot'
 
     name = fields.Char()
+    mac = fields.Char()
+    board = fields.Char()
+    chipb = fields.Char()
     value = fields.Integer()
     value2 = fields.Float(compute="_value_pc", store=True)
     description = fields.Text()
+    image = fields.Binary(string='Image')
 
     @api.depends('value')
     def _value_pc(self):
         for record in self:
             record.value2 = float(record.value) / 100
-
-  
-
-    def button_method(self):
-        # Your logic when the button is clicked
-        print('click')
-        return True

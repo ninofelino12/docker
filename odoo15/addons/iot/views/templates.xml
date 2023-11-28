@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+       
+        <template id="listing">
+          <ul>
+            <li t-foreach="objects" t-as="object">
+              <a t-attf-href="#{ root }/objects/#{ object.id }">
+                <t t-esc="object.display_name"/>
+              </a>
+            </li>
+          </ul>
+        </template>
+        <template id="object">
+          <h1><t t-esc="object.display_name"/></h1>
+          <dl>
+            <t t-foreach="object._fields" t-as="field">
+              <dt><t t-esc="field"/></dt>
+              <dd><t t-esc="object[field]"/></dd>
+            </t>
+          </dl>
+        </template>
+
+        <template id="mobile">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+          <header class="bg-blue-500 text-white py-4 text-center">
+            <h1 class="text-3xl font-semibold">Mobile Menu Example</h1>
+            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+        </header>
+    
+        <!-- Navigation (Hidden by default on larger screens) -->
+        <nav class="text-2xl bg-gray-800 text-white py-2 ">
+            <ul class="flex justify-end">
+                <li><a href="#" class="hover:text-gray-300">Home</a></li>
+                <li><a href="#" class="hover:text-gray-300">About</a></li>
+                <li><a href="#" class="hover:text-gray-300">Services</a></li>
+                <li><a href="/felino/coba" class="hover:text-gray-300">Contact</a></li>
+            </ul>
+        </nav>
+    
+        <!-- Main Content -->
+        <main class="p-4">
+            <p class="text-lg mb-4">Welcome to our website! Click the button to open the menu.</p>
+    
+            <!-- Menu Button (Visible on smaller screens) -->
+            <button class="bg-gray-800 text-white py-2 px-4 rounded-md md:hidden" onclick="toggleMenu()">Menu</button>
+            <li><a href="#" class="hover:text-gray-300">Home</a></li>
+                <li><a href="#" class="hover:text-gray-300">About</a></li>
+                <li><a href="#" class="hover:text-gray-300">Services</a></li>
+                <li><a href="/felino/coba" class="hover:text-gray-300">Contact</a></li>
+    
+            <!-- Content Goes Here -->
+        </main>
+    
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-2 text-center">
+            <p> 2023 Mobile Menu Example</p>
+        </footer>
+        </template>
+
+    </data>
+</odoo>

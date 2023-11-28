@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "felino",
+    'name': "iot",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -16,7 +16,7 @@
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Uncategorized',
+    'category': 'IOT',
     'version': '0.1',
 
     # any module necessary for this one to work correctly
@@ -27,7 +27,7 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'security/ir.model.access.csv',
+         'security/ir.model.access.csv',
     ],
     # only loaded in demonstration mode
     'demo': [
@@ -35,7 +35,4 @@
     ],
     'installable': True,
     'auto_install': False,
-    'css': [
-    'static/src/css/tailwind.css',],
-
 }

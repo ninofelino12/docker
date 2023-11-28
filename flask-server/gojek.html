@@ -2,105 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Gojek-Like Mobile Page</title>
-
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- Font Awesome CSS CDN (for icons) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .navbar {
-            background-color: #ff2d55;
-        }
-
-        .navbar-brand {
-            color: #ffffff;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .navbar-toggler {
-            border: none;
-            color: #ffffff;
-        }
-
-        .navbar-toggler-icon {
-            color: #ffffff;
-        }
-
-        .navbar-nav {
-            text-align: center;
-        }
-
-        .nav-link {
-            color: #ffffff !important;
-            font-size: 0.9rem;
-        }
-
-        .carousel-inner img {
-            width: 100%;
-            height: auto;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Menu Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="font-sans bg-gray-100">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#">Gojek</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="far fa-envelope"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-bars"></i></a>
-            </li>
+    <!-- Header -->
+    <header class="bg-blue-500 text-white py-4 text-center">
+        <h1 class="text-xl font-semibold">Mobile Menu Example</h1>
+    </header>
+
+    <!-- Navigation (Hidden by default on larger screens) -->
+    <nav class="bg-gray-800 text-white py-2 md:hidden">
+        <ul class="flex justify-end">
+            <li><a href="#" class="hover:text-gray-300">Home</a></li>
+            <li><a href="#" class="hover:text-gray-300">About</a></li>
+            <li><a href="#" class="hover:text-gray-300">Services</a></li>
+            <li><a href="#" class="hover:text-gray-300">Contact</a></li>
         </ul>
-    </div>
-</nav>
+    </nav>
 
-<!-- Carousel (Banner) -->
-<div id="bannerCarousel" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="https://via.placeholder.com/800x400" class="d-block w-100" alt="Banner 1">
-        </div>
-        <div class="carousel-item">
-            <img src="https://via.placeholder.com/800x400" class="d-block w-100" alt="Banner 2">
-        </div>
-        <div class="carousel-item">
-            <img src="https://via.placeholder.com/800x400" class="d-block w-100" alt="Banner 3">
-        </div>
-    </div>
-</div>
+    <!-- Main Content -->
+    <main class="p-4">
+        <p class="text-lg mb-4">Welcome to our website! Click the button to open the menu.</p>
 
-<!-- Content -->
-<div class="container mt-4">
-    <h3>Featured Services</h3>
-    <!-- Your content goes here -->
-</div>
+        <!-- Menu Button (Visible on smaller screens) -->
+        <button class="bg-gray-800 text-white py-2 px-4 rounded-md md:hidden" onclick="toggleMenu()">Menu</button>
 
-<!-- Bootstrap JS and Popper.js CDN -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <!-- Content Goes Here -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-2 text-center">
+        <p>&copy; 2023 Mobile Menu Example</p>
+    </footer>
+
+    <!-- JavaScript to Toggle Menu Visibility -->
+    <script>
+        function toggleMenu() {
+            var nav = document.querySelector('nav');
+            nav.classList.toggle('hidden');
+        }
+    </script>
 
 </body>
 </html>
-

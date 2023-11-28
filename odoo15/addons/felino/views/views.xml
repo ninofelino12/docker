@@ -11,6 +11,7 @@
           <!-- <field name="value"/>
           <field name="value2"/> -->
         </tree>
+        <!-- <button string="Your Button" class="oe_highlight" type="object" name="button_method"/>  -->
       </field>
     </record>
 
