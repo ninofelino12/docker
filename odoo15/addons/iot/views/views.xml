@@ -7,11 +7,12 @@
       <field name="model">iot.iot</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="name"/>
-          <field name="mac"/>
-          <field name="board"/>
-          <!-- <field name="image" widget="image" options="{'preview_image': 'image',size': (60, 60)}"/> -->
-          <field name="image" widget='image' options="{'size': (100, 100)}"/>
+          <field name="name" />
+          <field name="mac" />
+          <field name="board" />
+          <!-- <field name="image" widget="image" options="{'preview_image': 'image',size': (60,
+          60)}"/> -->
+          <field name="image" widget='image' options="{'size': (100, 100)}" />
         </tree>
       </field>
     </record>
@@ -23,6 +24,7 @@
       <field name="name">iot window</field>
       <field name="res_model">iot.iot</field>
       <field name="view_mode">tree,form</field>
+
     </record>
 
 
@@ -30,13 +32,13 @@
 
     <record model="ir.actions.server" id="iot.action_server">
       <field name="name">iot server</field>
-      <field name="model_id" ref="model_iot_iot"/>
+      <field name="model_id" ref="model_iot_iot" />
       <field name="state">code</field>
       <field name="code">
         action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
+        "type": "ir.actions.act_window",
+        "view_mode": "tree,form",
+        "res_model": model._name,
         }
       </field>
     </record>
@@ -44,19 +46,30 @@
 
     <!-- Top menu item -->
 
-    <menuitem name="iot" id="iot.menu_root"/>
+    <menuitem name="iot" id="iot.menu_root" />
 
     <!-- menu categories -->
 
-    <menuitem name="Menu 1" id="iot.menu_1" parent="iot.menu_root"/>
-    <menuitem name="Menu 2" id="iot.menu_2" parent="iot.menu_root"/>
+    <menuitem name="Board" id="iot.menu_1" parent="iot.menu_root" />
+    <menuitem name="Logger" id="iot.menu_2" parent="iot.menu_root" />
+    <menuitem name="Barcode" id="iot.menu_3" parent="iot.menu_root" />
+    <menuitem name="Iot" id="iot.menu_4" parent="iot.menu_root" action="action_open_website2" />
 
     <!-- actions -->
-    
-    <menuitem name="List" id="iot.menu_1_list" parent="iot.menu_1"
-              action="iot.action_window"/>
-    <menuitem name="Server to list" id="iot" parent="iot.menu_2"
-              action="iot.action_server"/>
 
+    <menuitem name="List" id="iot.menu_1_list" parent="iot.menu_1"
+      action="iot.action_window" />
+    <menuitem name="Server to list" id="iot" parent="iot.menu_2"
+      action="iot.action_server" />
+    <menuitem name="IOT HOME" id="iotbarcode" parent="iot.menu_2"
+      action="iot.action_server" />
+
+
+      <record id="action_open_website2" model="ir.actions.act_url">
+        <field name="name">Open My Website</field>
+        <field name="url">http://localhost:8015/iot</field>
+        <field name="target">new</field> <!-- Untuk membuka di tab/baru -->
+    </record>
+    
   </data>
 </odoo>

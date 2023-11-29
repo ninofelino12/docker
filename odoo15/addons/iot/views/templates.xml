@@ -1,61 +1,80 @@
 <odoo>
-    <data>
-       
-        <template id="listing">
-          <ul>
-            <li t-foreach="objects" t-as="object">
-              <a t-attf-href="#{ root }/objects/#{ object.id }">
-                <t t-esc="object.display_name"/>
-              </a>
+  <data>
+
+    <template id="listing">
+      <ul>
+        <li t-foreach="objects" t-as="object">
+          <a t-attf-href="#{ root }/objects/#{ object.id }">
+            <t t-esc="object.display_name" />
+          </a>
+        </li>
+      </ul>
+    </template>
+    <template id="object">
+      <h1>
+        <t t-esc="object.display_name" />
+      </h1>
+      <dl>
+        <t t-foreach="object._fields" t-as="field">
+          <dt>
+            <t t-esc="field" />
+          </dt>
+          <dd>
+            <t t-esc="object[field]" />
+          </dd>
+        </t>
+      </dl>
+    </template>
+
+    <template id="mobile">
+      <t t-call-assets="web.assets_common" t-js="false" />
+      <t t-call-assets="web.assets_backend" t-js="false" />
+      <t t-call-assets="web.assets_common" t-css="false" />
+      <t t-call-assets="web.assets_backend" t-css="false" />
+      <t t-call-assets="web.assets_backend_prod_only" t-css="false" />
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <a class="navbar-brand" href="#">Hidden brand</a>
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="iot/objects">Objects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Action Server</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Action Windows</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="iot/reporting">Reporting</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="iot/barcode">Barcode</a>
+            </li>
+
+
           </ul>
-        </template>
-        <template id="object">
-          <h1><t t-esc="object.display_name"/></h1>
-          <dl>
-            <t t-foreach="object._fields" t-as="field">
-              <dt><t t-esc="field"/></dt>
-              <dd><t t-esc="object[field]"/></dd>
-            </t>
-          </dl>
-        </template>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search"
+              aria-label="Search" />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+      <div t-esc="my_string"/>
+     
+    </template>
 
-        <template id="mobile">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-          <header class="bg-blue-500 text-white py-4 text-center">
-            <h1 class="text-3xl font-semibold">Mobile Menu Example</h1>
-            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-        </header>
-    
-        <!-- Navigation (Hidden by default on larger screens) -->
-        <nav class="text-2xl bg-gray-800 text-white py-2 ">
-            <ul class="flex justify-end">
-                <li><a href="#" class="hover:text-gray-300">Home</a></li>
-                <li><a href="#" class="hover:text-gray-300">About</a></li>
-                <li><a href="#" class="hover:text-gray-300">Services</a></li>
-                <li><a href="/felino/coba" class="hover:text-gray-300">Contact</a></li>
-            </ul>
-        </nav>
-    
-        <!-- Main Content -->
-        <main class="p-4">
-            <p class="text-lg mb-4">Welcome to our website! Click the button to open the menu.</p>
-    
-            <!-- Menu Button (Visible on smaller screens) -->
-            <button class="bg-gray-800 text-white py-2 px-4 rounded-md md:hidden" onclick="toggleMenu()">Menu</button>
-            <li><a href="#" class="hover:text-gray-300">Home</a></li>
-                <li><a href="#" class="hover:text-gray-300">About</a></li>
-                <li><a href="#" class="hover:text-gray-300">Services</a></li>
-                <li><a href="/felino/coba" class="hover:text-gray-300">Contact</a></li>
-    
-            <!-- Content Goes Here -->
-        </main>
-    
-        <!-- Footer -->
-        <footer class="bg-gray-800 text-white py-2 text-center">
-            <p> 2023 Mobile Menu Example</p>
-        </footer>
-        </template>
-
-    </data>
+  </data>
 </odoo>
