@@ -6,7 +6,12 @@ class Iot(http.Controller):
     @http.route('/iot', auth='public')
     def index(self, **kw):
         my_string="""
-        Internet of Things (IoT) merujuk pada konsep di mana objek fisik di sekitar kita dilengkapi dengan teknologi dan terhubung ke internet. IoT memungkinkan objek tersebut untuk mengumpulkan dan bertukar data, serta mengambil tindakan berdasarkan data yang dikumpulkan. Ide dasar di balik IoT adalah membuat benda-benda sehari-hari menjadi pintar dan berkomunikasi satu sama lain, membentuk suatu ekosistem yang cerdas dan terhubung.
+        <h1>IOT</h1>
+        Internet of Things (IoT) merujuk pada konsep di mana objek fisik di sekitar kita 
+        dilengkapi dengan teknologi dan terhubung ke internet. IoT memungkinkan objek 
+        tersebut untuk mengumpulkan dan bertukar data, serta mengambil tindakan berdasarkan 
+        data yang dikumpulkan. Ide dasar di balik IoT adalah membuat benda-benda sehari-hari 
+        menjadi pintar dan berkomunikasi satu sama lain, membentuk suatu ekosistem yang cerdas dan terhubung.
 
         """
         return http.request.render('iot.mobile',{'my_string': my_string})

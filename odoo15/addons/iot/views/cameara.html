@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Image Example</title>
+</head>
+<body>
+
+    <h1>Camera Image Example</h1>
+
+    <video id="camera-preview" width="400" height="300" autoplay></video>
+    <button onclick="captureImage()">Capture Image</button>
+    <canvas id="captured-image" width="400" height="300"></canvas>
+
+    <script>
+        const video = document.getElementById('camera-preview');
+        const canvas = document.getElementById('captured-image');
+        const context = canvas.getContext('2d');
+
+        // Dapatkan akses ke kamera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error('Error accessing camera:', error);
+            });
+
+        // Tangkap gambar dari feed kamera
+        function captureImage() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Hentikan feed kamera
+            const tracks = video.srcObject.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+    </script>
+
+</body>
+</html>

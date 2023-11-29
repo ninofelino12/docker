@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Scanner Example</title>
+</head>
+<body>
+
+    <h1>Barcode Scanner Example</h1>
+
+    <label for="video-input">Scan Barcode:</label>
+    <input type="file" accept="image/*" capture="environment" id="video-input" onchange="handleFileInputChange(event)">
+    <p id="result"></p>
+
+    <script src="https://rawgit.com/serratus/quaggaJS/master/dist/quagga.min.js"></script>
+    <script>
+        function handleFileInputChange(event) {
+            const file = event.target.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imageData = new Image();
+                    imageData.onload = function () {
+                        detectBarcode(this);
+                    };
+                    imageData.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function detectBarcode(imageData) {
+            Quagga.decodeSingle({
+                decoder: {
+                    readers: ["code_128_reader"]
+                },
+                src: imageData.src
+            }, function (result) {
+                if (result && result.codeResult) {
+                    const resultElement = document.getElementById('result');
+                    resultElement.innerText = `Scanned Barcode: ${result.codeResult.code}`;
+                } else {
+                    alert('No barcode detected.');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
+
+

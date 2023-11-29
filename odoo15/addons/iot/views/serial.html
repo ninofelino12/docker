@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Serial API Example</title>
+</head>
+<body>
+
+    <h1>Web Serial API Example</h1>
+
+    <button id="connectButton">Connect to Serial Port</button>
+
+    <script>
+        async function connectToSerialPort() {
+            try {
+                // Request access to serial port
+                const port = await navigator.serial.requestPort();
+                await port.open({ baudRate: 9600 });
+
+                // Read from serial port
+                const reader = port.readable.getReader();
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    console.log('Received:', new TextDecoder().decode(value));
+                }
+
+                // Write to serial port
+                const writer = port.writable.getWriter();
+                await writer.write(new TextEncoder().encode('Hello, Serial!'));
+                writer.releaseLock();
+
+                // Close serial port
+                await port.close();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Attach the connectToSerialPort function to the button click event
+        document.getElementById('connectButton').addEventListener('click', connectToSerialPort);
+    </script>
+
+</body>
+</html>
