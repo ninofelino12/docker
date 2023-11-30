@@ -28,11 +28,26 @@ odoo_client=OdooClient(url,db, username, password)
 models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
 
 
-
-@app.route('/')
+def nav(menu_items):
+    navclass="navbar navbar-dark bg-info navbar-expand d-md-none d-lg-none d-xl-none fixed-bottom"    
+    hasil=f'<nav class="{navclass}"><ul class="navbar-nav nav-justified w-100">'
+    for item in menu_items:
+        hasil=hasil+f"<li class=\"nav-item\"><a class=\"nav-link\" href=\"{item['url']}\" /><span><img src=\"static/src/img/{item['svg']}\"/></span></a></li>"
+    hasil=hasil+"</ul></nav>"
+    return hasil
+@app.route('/hello')
 def hello():
     return render_template('index.html',menu=menu)
-
+@app.route('/')
+def menu():
+    menu_items = [
+        {"name": "Home", "url": '//iot/home',"svg":"home.svg"},
+        {"name": "Left", "url": '//iot/left',"svg":"left.svg"},
+        {"name": "Right", "url": '//iot/right',"svg":"right.svg"},
+        {"name": "enter", "url": '//iot/right',"svg":"enter.svg"}]
+    return render_template('bootstrap.html',hasil=nav(menu_items))
+        # To access the values, you can iterate through the list
+   
 @app.route('/barcode')
 def barcode():
     return render_template('barcode.html',menu=menu)
@@ -101,7 +116,7 @@ def hostinger():
 
 
 if __name__ == '__main__':
-    #app.run(debug=True, host='0.0.0.0',port=4000)
+    app.run(debug=True, host='0.0.0.0',port=4000)
     #app.run(ssl_context=('server.csr', 'server.key'))
     #app.run(host='0.0.0.0'c,ssl_context=('cert.pem', 'key.pem'))
-    app.run(ssl_context='adhoc',host='0.0.0.0')    
+    #app.run(ssl_context='adhoc',host='0.0.0.0')    

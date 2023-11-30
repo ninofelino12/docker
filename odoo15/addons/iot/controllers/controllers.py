@@ -16,9 +16,24 @@ class Iot(http.Controller):
         """
         return http.request.render('iot.mobile',{'my_string': my_string})
     
-    @http.route('/barcode', auth='public')
+    @http.route('/iot/barcode', auth='public')
     def barcode(self, **kw):
         return http.request.render('iot.barcode',{})
+    
+    @http.route('/iot/menu', auth='public')
+    def menu(self, **kw):
+        menux=['Home','Left','Right','Enter']
+        menu_items = [
+        {"name": "Home", "url": '//iot/home',"svg":"home.svg"},
+        {"name": "Left", "url": '//iot/left',"svg":"left.svg"},
+        {"name": "Right", "url": '//iot/right',"svg":"right.svg"},
+        {"name": "enter", "url": '//iot/right',"svg":"enter.svg"}]
+        # To access the values, you can iterate through the list
+        hasil=f'<nav class="navbar content="width=device-width navbar-light bg-light fixed-bottom"><ul class="navbar-nav nav-justified w-100">'
+        for item in menu_items:
+            hasil=hasil+f"<li class=\"nav-item\"><a class=\"nav-link\" href=\"{item['url']}\" /><span><img src=\"/iot/static/src/img/{item['svg']}\"/></span></a></li>"
+        hasil=hasil+"</ul></nav>" 
+        return http.request.render('iot.cetak',{'my_string': hasil})
 
     @http.route('/iot/objects', auth='public')
     def list(self, **kw):

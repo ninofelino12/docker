@@ -42,11 +42,10 @@
           <a class="navbar-brand" href="#">Hidden brand</a>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
-                  <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
-                </svg>
+              <a class="nav-link" href="/">
+               
                 Home 
+                <img t-att-src="'/iot/static/src/img/home.svg'" t-att-alt="'Home'" />
               </a>
             </li>
             <li class="nav-item">
@@ -57,15 +56,35 @@
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" href="#">Action Server</a>
+              <img t-att-src="'/iot/static/src/img/home.svg'" t-att-alt="'Alternative Text'" />
+
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">Action Windows</a>
+              <a class="nav-link" href="#">Action Windows
+          
+                <img t-att-src="'/iot/static/src/img/home.svg'" t-att-alt="'Alternative Text'" />
+
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="iot/reporting">Reporting</a>
+              <a class="nav-link disabled" href="iot/reporting">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="60" height="60" rx="4" fill="#ED1010"/>
+                  <g clip-path="url(#clip0_3_17)">
+                  <path d="M23 33.59L24.41 35L28 31.41L31.59 35L33 33.59L29.41 30L33 26.41L31.59 25L28 28.59L24.41 25L23 26.41L26.59 30L23 33.59ZM20 21C19.4696 21 18.9609 21.2107 18.5858 21.5858C18.2107 21.9609 18 22.4696 18 23V37C18 37.5304 18.2107 38.0391 18.5858 38.4142C18.9609 38.7893 19.4696 39 20 39H35C35.69 39 36.23 38.64 36.59 38.11L42 30L36.59 21.88C36.23 21.35 35.69 21 35 21H20ZM20 23H35L39.72 30L35 37H20V23Z" fill="black"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0_3_17">
+                  <rect width="24" height="24" fill="white" transform="translate(18 18)"/>
+                  </clipPath>
+                  </defs>
+                  </svg>
+                  
+                Reporting</a>
+
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="iot/barcode">
+              <a class="nav-link " href="iot/barcode">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upc-scan" viewBox="0 0 16 16">
                   <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5M3 4.5a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0zm2 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0z"/>
                 </svg>
@@ -85,6 +104,50 @@
       <div t-esc="my_string"/>
      
     </template>
+    <template id="cetak">
+      <t t-call-assets="web.assets_common" t-js="false" />
+      <t t-call-assets="web.assets_backend" t-js="false" />
+      <t t-call-assets="web.assets_common" t-css="false" />
+      <t t-call-assets="web.assets_backend" t-css="false" />
+      <t t-call-assets="web.assets_backend_prod_only" t-css="false" />
+      <div t-raw="my_string"/>
+    </template>
+    <template id="barcode">
+      <h1>Barcode</h1>
+      <h1>Camera Image Example</h1>
 
+    <video id="camera-preview" width="400" height="300" autoplay="true"></video>
+    <button onclick="captureImage()">Capture Image</button>
+    <canvas id="captured-image" width="400" height="300"></canvas>
+
+    <script>
+        const video = document.getElementById('camera-preview');
+        const canvas = document.getElementById('captured-image');
+        const context = canvas.getContext('2d');
+
+        // Dapatkan akses ke kamera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error('Error accessing camera:', error);
+            });
+
+        // Tangkap gambar dari feed kamera
+        function captureImage() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Hentikan feed kamera
+            const tracks = video.srcObject.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+    </script>
+
+      <!-- <t t-call="iot.mobile"/> -->
+      
+    </template>
+
+    
   </data>
 </odoo>

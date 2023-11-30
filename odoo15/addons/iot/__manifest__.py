@@ -1,22 +1,29 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "iot",
+    'name': "Iot",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+            Internet of Things, 
+            """,
 
     'description': """
-        Long description of module's purpose
+        
+        Internet of Things, merujuk pada jaringan perangkat 
+        fisik yang saling terhubung dan bertukar data melalui internet. Perangkat 
+        IoT, atau sering disebut sebagai "things," dilengkapi dengan sensor, 
+        perangkat lunak, dan teknologi lainnya untuk mengumpulkan dan bertukar data. 
+        Contoh aplikasi IoT melibatkan penggunaan sensor dalam berbagai bidang seperti rumah pintar, 
+        kesehatan, pertanian, dan industri untuk menghasilkan informasi yang berharga dan 
+        mendukung pengambilan keputusan berbasis data. 
     """,
 
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'author': "NinoFelino",
+    'website': "https://ninofelino12.github.io/",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'IOT',
+    'category': 'Services',
     'version': '0.1',
 
     # any module necessary for this one to work correctly
@@ -35,4 +42,9 @@
     ],
     'installable': True,
     'auto_install': False,
+    'assets': {
+        'web.assets_frontend': [
+            'iot/static/src/iot.css',
+        ],
+    },
 }
