@@ -19,6 +19,12 @@ class Barcodescaner(http.Controller):
         return http.request.render('barcodescaner.mobile', {
             'isi': isi
         })
+    @http.route('/barcodescaner/landing', auth='public',website=True)
+    def landing(self, **kw):
+        isi=hasil+"<h2>hello</h2>" 
+        return http.request.render('barcodescaner.landing', {
+            'isi': isi
+        })
     @http.route('/barcodescaner/test', auth='public')
     def indextest(self, **kw):
         isi=hasil+"<h2>hello</h2>" 

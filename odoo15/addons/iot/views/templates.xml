@@ -147,6 +147,10 @@
       <!-- <t t-call="iot.mobile"/> -->
       
     </template>
+    <template id="landing">
+      
+
+    </template>
 
     
   </data>

@@ -132,6 +132,19 @@
       </field>
     </record>
 
+    <record model="ir.actions.server" id="barcodescaner.action_server_landing">
+      <field name="name">barcodescaner server</field>
+      <field name="model_id" ref="model_barcodescaner_barcodescaner"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_url",
+          "url": "barcodescaner/landing", 
+          "target":"self"
+        }
+      </field>
+    </record>
+
     
     <!-- Top menu item -->
 
@@ -171,6 +184,9 @@
 
     <menuitem name="Server to list" id="barcodescaner" parent="barcodescaner.menu_2"
               action="barcodescaner.action_server"/>
+    <menuitem name="Landing Page" id="barcodescanerlanding" parent="barcodescaner.menu_2"
+              action="barcodescaner.action_server_landing"/>
+          
 
   </data>
 </odoo>

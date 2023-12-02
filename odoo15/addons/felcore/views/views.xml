@@ -1,0 +1,93 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="felcore.list">
+      <field name="name">felcore list</field>
+      <field name="model">felcore.felcore</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="felcore.action_window">
+      <field name="name">felcore window</field>
+      <field name="res_model">felcore.felcore</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+
+    <record model="ir.actions.server" id="felcore.action_server">
+      <field name="name">felcore server</field>
+      <field name="model_id" ref="model_felcore_felcore"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+
+    <record model="ir.actions.server" id="felcore.action_server_qweb">
+      <field name="name">felcore server</field>
+      <field name="model_id" ref="model_felcore_felcore"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_url",
+          "url": "/felcore",
+          "target": "self",
+        }
+      </field>
+    </record>
+    
+    <record model="ir.actions.server" id="felcore.action_server_pwa">
+      <field name="name">felcore pwa</field>
+      <field name="model_id" ref="model_felcore_felcore"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_url",
+          "url": "/felcore/pwa",
+          "target": "self",
+        }
+      </field>
+    </record>
+    
+
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="felcore" id="felcore.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="window" id="felcore.menu_1" parent="felcore.menu_root"/>
+    <menuitem name="Action Server" id="felcore.menu_2" parent="felcore.menu_root"/>
+
+    <!-- actions -->
+
+    <menuitem name="Action Window" id="felcore.menu_1_list" parent="felcore.menu_1"
+              action="felcore.action_window"/>
+
+    <menuitem name="Action Server" id="felcore" parent="felcore.menu_2"
+              action="felcore.action_server"/>
+    <menuitem name="QWEB Mobile" id="felcore1" parent="felcore.menu_2"
+              action="felcore.action_server_qweb"/>          
+    <menuitem name="PWA Mobile" id="felcore2" parent="felcore.menu_2"
+              action="felcore.action_server_pwa"/>          
+
+  </data>
+</odoo>

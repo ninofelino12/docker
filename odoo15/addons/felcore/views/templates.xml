@@ -1,0 +1,75 @@
+<odoo>
+    <data>
+      <template id="web">
+        <link type="image/x-icon" rel="shortcut icon" t-att-href="x_icon or '/web/static/img/favicon.ico'"/>
+        <t t-call="web.basic_layout">
+          <h1>hello</h1>
+          <button type="button" class="btn btn-primary">Primary</button>
+        </t>
+        <nav class="navbar navbar-light bg-light justify-content-between">
+          <a class="navbar-brand">Navbar</a>
+          <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </nav>
+      </template>
+
+      <template id="camera">
+        
+        
+      </template>
+
+      <template id="pwa">
+       
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <title>Mobile HTML with Tailwind CSS</title>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-500 p-4 fixed w-full bottom-0">
+    <div class="container mx-auto">
+      <div class="flex justify-between items-center">
+        <span class="text-white font-bold text-lg">Navbar</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container mx-auto mt-16">
+    <p>Main Content Goes Here</p>
+  </div>
+
+</body>
+</html>
+
+      </template>
+
+
+
+        <template id="listing">
+          <ul>
+            <li t-foreach="objects" t-as="object">
+              <a t-attf-href="#{ root }/objects/#{ object.id }">
+                <t t-esc="object.display_name"/>
+              </a>
+            </li>
+          </ul>
+        </template>
+        <template id="object">
+          <h1><t t-esc="object.display_name"/></h1>
+          <dl>
+            <t t-foreach="object._fields" t-as="field">
+              <dt><t t-esc="field"/></dt>
+              <dd><t t-esc="object[field]"/></dd>
+            </t>
+          </dl>
+        </template>
+
+    </data>
+</odoo>
