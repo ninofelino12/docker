@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <template id="my_module_template" name="My Module Template">
+            <t>
+                <div id="my_module_content">
+                    <h2>Daftar Partner</h2>
+                    <ul id="partner_list"></ul>
+                    <input type="text" id="partner_name" placeholder="Nama Partner"/>
+                    <button id="add_partner">Tambah Partner</button>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

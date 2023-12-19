@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="partner_qweb.assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/felweb/static/src/js/partner_qweb.js"></script>
+            </xpath>
+        </template>
+
+        <record id="view_partner_qweb" model="ir.ui.view">
+            <field name="name">partner.qweb</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <div class="oe_chatter">
+                    <div class="oe_chatter_top">
+                        <div class="oe_chatter_status">
+                            <div class="oe_chatter_status_selection">
+                                <!-- Your QWeb template code goes here -->
+                                <table class="oe_chatter oe_chatter_top">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="docs" t-as="partner">
+                                            <td><t t-esc="partner.name"/></td>
+                                            <td><t t-esc="partner.email"/></td>
+                                            <td><t t-esc="partner.phone"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <record id="action_partner_qweb" model="ir.actions.act_window">
+            <field name="name">Partners QWeb</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="view_id" ref="felweb.view_partner_qweb"/>
+        </record>
+    </data>
+</odoo>

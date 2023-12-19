@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "felcore",
+    'name': "felweb",
 
     'summary': """
-        core system untuk pengembangan Odoo meliputi static file
-        template html 
-        """,    
+        Short (1 phrase/line) summary of the module's purpose, used as
+        subtitle on modules listing or apps.openerp.com""",
+
     'description': """
         Long description of module's purpose
     """,
 
-    'author': "ninofelino12@github.io",
+    'author': "My Company",
     'website': "http://www.yourcompany.com",
 
     # Categories can be used to filter modules in modules listing
@@ -20,23 +20,20 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','web'],
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'views/page.xml',
-        'views/partner.xml',
-        'views/my_module_template.xml',
-        'views/assets.xml',
+        'views/partner_qweb_view.xml',
+    ],
+    'qweb': [
+        'static/src/xml/partner_qweb_template.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
-    'qweb': ['static/src/xml/my_module_template.xml'],
-    'auto_install': False,
-    'installable': True,
 }

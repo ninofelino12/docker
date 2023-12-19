@@ -4,6 +4,7 @@
 from odoo import models, fields, api
 import csv
 
+
 class felcore(models.Model):
     _name = 'felcore.felcore'
     _description = 'felcore.felcore'
@@ -28,3 +29,4 @@ class felcore(models.Model):
                  'field2': record.value,
              # Add more fields as needed
             })
+print(dir(felcore))

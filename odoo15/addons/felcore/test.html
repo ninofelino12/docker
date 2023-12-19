@@ -1,26 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- templates/partner_template.xml -->
+
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <title>Mobile HTML with Tailwind CSS</title>
+    <title>Alpine.js Res.Partner Example</title>
+    <!-- Include Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
 </head>
-<body class="bg-gray-100">
+<body x-data="{ partners: null }" x-init="loadPartners">
 
-  <!-- Navbar -->
-  <nav class="bg-blue-500 p-4 fixed w-full bottom-0">
-    <div class="container mx-auto">
-      <div class="flex justify-between items-center">
-        <span class="text-white font-bold text-lg">Navbar</span>
-      </div>
+    <div x-show="partners">
+        <h2>Daftar Partner:</h2>
+        <ul>
+            <li x-for="partner in partners" x-text="partner.name"></li>
+        </ul>
     </div>
-  </nav>
 
-  <!-- Content -->
-  <div class="container mx-auto mt-16">
-    <p>Main Content Goes Here</p>
-  </div>
+    <div x-show="!partners" class="text-gray-600">
+        Loading...
+    </div>
+
+    <script>
+        Alpine.data('example', () => ({
+            partners: null,
+
+            async loadPartners() {
+                try {
+                    const response = await fetch('http://localhost:8015/felcore/partner');
+                    const data = await response.json();
+                    this.partners = data;
+                } catch (error) {
+                    console.error('Error fetching partners:', error);
+                }
+            },
+        }));
+    </script>
 
 </body>
 </html>

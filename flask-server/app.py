@@ -1,8 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request,jsonify
 from flask import render_template
 from lib.OdooClient import OdooClient
 #import odoo_connect
 import xmlrpc.client
+import odoorpc
+import json
 
 app = Flask(__name__)
 
@@ -21,97 +23,47 @@ menu="""
 
 """
 url = 'http://203.194.112.105:80'
-db = 'demo-01'
+db = 'DEMO'
 username = 'admin'  
 password = 'odooadmin'
 odoo_client=OdooClient(url,db, username, password)
 models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
+odoo = odoorpc.ODOO('localhost', port=8015)
 
 
-def nav(menu_items):
-    navclass="navbar navbar-dark bg-info navbar-expand d-md-none d-lg-none d-xl-none fixed-bottom"    
-    hasil=f'<nav class="{navclass}"><ul class="navbar-nav nav-justified w-100">'
-    for item in menu_items:
-        hasil=hasil+f"<li class=\"nav-item\"><a class=\"nav-link\" href=\"{item['url']}\" /><span><img src=\"static/src/img/{item['svg']}\"/></span></a></li>"
-    hasil=hasil+"</ul></nav>"
-    return hasil
-@app.route('/hello')
-def hello():
-    return render_template('index.html',menu=menu)
-@app.route('/')
-def menu():
-    menu_items = [
-        {"name": "Home", "url": '//iot/home',"svg":"home.svg"},
-        {"name": "Left", "url": '//iot/left',"svg":"left.svg"},
-        {"name": "Right", "url": '//iot/right',"svg":"right.svg"},
-        {"name": "enter", "url": '//iot/right',"svg":"enter.svg"}]
-    return render_template('bootstrap.html',hasil=nav(menu_items))
-        # To access the values, you can iterate through the list
-   
-@app.route('/barcode')
-def barcode():
-    return render_template('barcode.html',menu=menu)
-@app.route('/qrcode')
-def qrcode():
-    return render_template('qrcode.html',menu=menu)
-@app.route('/iphone')
-def iphone():
-    return render_template('iphonecamera.html',menu=menu)
-@app.route('/viphone')
-def viphone():
-    return render_template('video-iphone.html',menu=menu)
+# Login
+odoo.login('felino', 'ninofelino12@gmail.com', 'felino')
 
-@app.route('/camera')
-def camera():
-    return render_template('camera.html',menu=menu)
+
+
     
-
-@app.route('/odoo')
-def od():
+@app.route('/api', methods = ['GET'])
+def api():
     name = request.args.get('model', 'Guest')
     if name=='product':
        tabel=odoo_client.product()
     else:   
   # Contoh penggunaan untuk mencari beberapa catatan dari model tertentu
-        records = odoo_client.search_records('res.partner',domain=[('is_company', '=', False)],limit=100)
-        tabel=f'hello,{name}'
-        for record in records:
-            tabel=tabel+'<tr><td>'+record['name']+"</td></tr>"
+        records = odoo_client.search_records('res.partner',domain=[('is_company', '=', False)],limit=2)
+        
+    return jsonify(records)
 
-    omenu="""    
-     <a href="/" class="text-white py-2">Home</a>
-      <a href="/odoo?model=product" class="text-white py-2">Product</a>
-      <a href="/odoo?model=partner" class="text-white py-2">Partner</a>
-      <a href="/odoo?model=kanban" class="text-white py-2">Kanban</a>
-      <a href="/odoo?model=odoojs" class="text-white py-2">OdooJs</a>
-      <a href="/docker" class="text-white py-2">Hosting</a>
-    """  
-    return render_template('base.html', logo="/Odoo",title='Home Page'+name,menu=omenu,content='<table>'+tabel+"</table?>")
 
-@app.route('/odoo/product')
+@app.route('/')
 def odpro():
-    omenu="""    
-     <a href="/" class="text-white py-2">Home</a>
-      <a href="/odoo" class="text-white py-2">Product</a>
-      <a href="/iot" class="text-white py-2">Customer</a>
-      <a href="/docker" class="text-white py-2">Hosting</a>
-    """  
-    tabel=odoo_client.product()
-    return render_template('base.html', logo="/Odoo",title='Home Page',menu=omenu,content='<table>'+tabel+"</table?>")
+    products=''
+    odoo = odoorpc.ODOO('localhost', port=8015)
+    odoo.login('felino', 'ninofelino12@gmail.com', 'felino')
+    partners = odoo.env['res.partner'].search_read([], ['name', 'email'])
+    
+    user = odoo.env.user    
+    user_data = odoo.execute('res.partner', 'read', [user.id])
+    print(partners)
+    response = jsonify(partners)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
-@app.route('/serial')
-def serial():
-    return render_template('serial.html', title='Home Page',user="felino")
-@app.route('/docker')
-def docker():
-    return render_template('docker.html', title='Home Page',user="felino")
-@app.route('/iot')
-def iot():
-    return render_template('iot.html', title='Home Page',user="felino")
-@app.route('/hosting')
-def hostinger():
-    return render_template('hosting.html', title='Home Page',user="felino")
 
 
 

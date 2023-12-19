@@ -1,0 +1,18 @@
+
+[
+  {
+    "email": "ninofelino12@gmail.com",
+    "id": 3,
+    "name": "Brian Jones"
+  },
+  {
+    "email": "ninofelino12@gmail.com",
+    "id": 1,
+    "name": "My Company"
+  },
+  {
+    "email": false,
+    "id": 7,
+    "name": "linux"
+  }
+]
