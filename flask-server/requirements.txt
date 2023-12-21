@@ -1,4 +1,4 @@
 Flask
-odoo-connect
-pypi-xmlrpc
-gspread
+OdooRPC==0.10.1
+Flask-RESTful
+openai

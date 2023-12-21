@@ -5,51 +5,101 @@ from lib.OdooClient import OdooClient
 import xmlrpc.client
 import odoorpc
 import json
+import os
+from dotenv import load_dotenv
+from flask_restful import Api
+from flask_restful import Resource
+import openai
 
 app = Flask(__name__)
-
-menu="""
-      <a href="/" class="text-white py-2">Home</a>
-      <a href="/odoo" class="text-white py-2">Odoo</a>
-      <a href="/iot" class="text-white py-2">Iot</a>
-      <a href="/barcode" class="text-white py-2">Barcode</a>
-      <a href="/camera" class="text-white py-2">camera</a>
-      <a href="/iphone" class="text-white py-2">Iphone camera</a>
-      <a href="/viphone" class="text-white py-2">Iphone video</a>
-      <a href="/docker" class="text-white py-2">Hosting</a>
-      <a href="/qrcode" class="text-white py-2">qrcode</a>
-
-
-
-"""
+api = Api(app)
+connecting=False
 url = 'http://203.194.112.105:80'
 db = 'DEMO'
 username = 'admin'  
 password = 'odooadmin'
-odoo_client=OdooClient(url,db, username, password)
-models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
+
 odoo = odoorpc.ODOO('localhost', port=8015)
-
-
-# Login
-odoo.login('felino', 'ninofelino12@gmail.com', 'felino')
-
-
-
+def connect():
     
-@app.route('/api', methods = ['GET'])
-def api():
-    name = request.args.get('model', 'Guest')
-    if name=='product':
-       tabel=odoo_client.product()
-    else:   
-  # Contoh penggunaan untuk mencari beberapa catatan dari model tertentu
-        records = odoo_client.search_records('res.partner',domain=[('is_company', '=', False)],limit=2)
-        
-    return jsonify(records)
+    port=os.getenv('ODOO_PORT');
+    url=os.getenv('ODOO_HOST')
+    print(url)
+    
+    odoo.login('felinosample', 'ninofelino12@gmail.com', 'felino')
+    return "connect"
 
+connect()
+
+openai.api_key = "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"
+# def opeidef :
+#     prompt = "What is the meaning of life?"
+#     model = "text-davinci-002"
+#     response = openai.Completion.create(engine=model, prompt=prompt, max_tokens=50)
+#     answer = response.choices[0].text.strip()
+#print(answer)
+
+class ItemResource(Resource):
+    def get(self, item_id):
+        
+        if item_id==0:
+            partners = odoo.env['res.partner'].search_read([], ['name', 'email'])
+        else:
+            partners = odoo.env['res.partner'].search_read([('id','=',item_id)], ['name', 'email'])
+        # user = odoo.env.user    
+        # user_data = odoo.execute('res.partner', 'read', [user.id])
+        response = jsonify(partners)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+        
+
+    def post(self, item_id):
+        # Logika untuk menambahkan item baru
+        pass
+
+    def put(self, item_id):
+        # Logika untuk memperbarui item berdasarkan ID
+        pass
+
+    def delete(self, item_id):
+        # Logika untuk menghapus item berdasarkan ID
+        pass
+
+class Product(Resource):
+    def get(self, item_id):
+        response = jsonify(odoo.env['product.product'].search_read([], ['name','barcode','description']))
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+        
+
+    def post(self, item_id):
+        # Logika untuk menambahkan item baru
+        pass
+
+    def put(self, item_id):
+        # Logika untuk memperbarui item berdasarkan ID
+        pass
+
+    def delete(self, item_id):
+        # Logika untuk menghapus item berdasarkan ID
+        pass
+
+api.add_resource(ItemResource, '/items/<int:item_id>')
+api.add_resource(Product, '/product/<int:item_id>')
 
 @app.route('/')
+def index():
+    return render_template('index.html', title='Home Page')
+
+@app.route('/product')
+def products():
+    return render_template('product.html', title='Home Page')
+
+@app.route('/camera')
+def camera():
+    return render_template('camera.html', title='camera')
+
+@app.route('/api')
 def odpro():
     products=''
     odoo = odoorpc.ODOO('localhost', port=8015)
@@ -62,8 +112,6 @@ def odpro():
     response = jsonify(partners)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
-
-
 
 
 

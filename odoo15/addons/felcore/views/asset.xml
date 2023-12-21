@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>.
-<odoo>    
-<template id="assets_backend" name="add_javascript assets" inherit_id="web.assets_backend">        
-<xpath expr="." position="inside">            
-<script type="text/javascript" src="/felcore/static/src/js/hello_world.js"></script>        
-</xpath>    
-</template>
-</odoo>       

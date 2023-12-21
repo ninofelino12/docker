@@ -6,7 +6,7 @@ import json
 
 class Felcore(http.Controller):
 
-    @http.route('/felcore', auth='public', website=True)
+    @http.route('/public_page',type='http', auth='public', website=True)
     def get_partners(self):
         # uid = request.session.authenticate('felino','ninofelino12@gmail.com','felino')
         # partners = request.env['res.partner'].sudo().search([])

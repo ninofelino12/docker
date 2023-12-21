@@ -27,16 +27,14 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'views/page.xml',
-        'views/partner.xml',
-        'views/my_module_template.xml',
-        'views/assets.xml',
+       
+    
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
-    'qweb': ['static/src/xml/my_module_template.xml'],
+    #'qweb': ['static/src/xml/my_module_template.xml'],
     'auto_install': False,
     'installable': True,
 }

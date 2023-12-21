@@ -40,16 +40,47 @@
 </nav>
  <!-- {{content|safe}}
   -->
-  <div class="container rounded-lg px-3 p-4 mb-4 bg-indigo-500" x-data="{pets: [], loadedYet: false}" x-init="pets = await (await fetch('http://127.0.0.1:4000/items/0')).json(); loadedYet = true">
-    <i class="material-icons">favorite</i>
-    <i class="material-icons">home</i>
-    
-  <template x-for="(pet, index) in pets">
-    <div class="mt-4 p-4 bg-gray-800 rounded-lg">
-     <ul class="mb-4 bg-indigo-100" x-text="pet.name"></ul>
-     <ul class="mt-4 text-white" x-text="pet.email"></ul>
-    </div>
-  </template>
+  <script>
+    const toggleWebcam = document.getElementById('toggleWebcam');
+  const video = document.createElement('video');
+  const constraints = {
+    video: true
+  };
+
+  toggleWebcam.addEventListener('change', function() {
+    if (this.checked) {
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(stream) {
+          video.srcObject = stream;
+          video.play();
+        })
+        .catch(function(error) {
+          console.error('Error accessing media devices.', error);
+        });
+    } else {
+      video.pause();
+      video.srcObject = null;
+    }
+  });
+  </script>
+  
+ 
+ 
+  <div class="container rounded-lg px-3 p-4 mx-4 mt-4 mb-4 bg-gray-200" x-data="{products: [], loadedYet: false}"
+    x-init="products = await (await fetch('/product/0')).json(); loadedYet = true">
+    <table class="w-full">
+      <tbody>
+        <template x-for="(product, index) in products">
+          <tr>
+            <td x-text="product.id"></td>
+            <td x-text="product.name"></td>
+            <td x-text="product.description"></td>
+            <td x-text="product.barcode"></td>
+            
+          </tr>
+        </template>
+      </tbody>
+    </table>
   </div>
 
 
