@@ -1,0 +1,14 @@
+<script src="https://unpkg.com/alpinejs" defer></script>
+
+<div class="all-pets" x-data="{pets: [], loadedYet: false}" x-init="{pets} = await (await fetch('https://learnwebcode.github.io/json-example/pets-data.json')).json(); loadedYet = true">
+  
+  <template x-for="(pet, index) in pets">
+    <div class="pet-card">
+      <div class="pet-image">
+        <img :src="pet.photo" />
+        <img src="http://127.0.0.1:4000/img" />
+        </div>
+      
+    </div>
+  </template>
+</div>

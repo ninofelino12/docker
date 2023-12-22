@@ -6,6 +6,7 @@
   <title>Load JSON with Console Log</title>
   <script src="https://unpkg.com/alpinejs" defer></script> 
   <!-- <script src="alpine.js" defer></script> -->
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <script>
@@ -17,6 +18,11 @@
                   { label: 'Contact', url: '#' }
                ]
   </script>
+  <style type="text/tailwindcss">
+    * {
+      border: 1px solid red;
+    }
+  </style>
 </head>
 <body>
 
@@ -65,24 +71,32 @@
   </script>
   
  
+
+
+
+
+
  
-  <div class="container rounded-lg px-3 p-4 mx-4 mt-4 mb-4 bg-gray-200" x-data="{products: [], loadedYet: false}"
+  <div  x-data="{products: [], loadedYet: false}"
     x-init="products = await (await fetch('/product/0')).json(); loadedYet = true">
-    <table class="w-full">
-      <tbody>
-        <template x-for="(product, index) in products">
-          <tr>
-            <td x-text="product.id"></td>
-            <td x-text="product.name"></td>
-            <td x-text="product.description"></td>
-            <td x-text="product.barcode"></td>
+    <div class="flex justify-end p-8 bg-gray-200 coulum=3">
+      <template x-for="(product, index) in products">
+         
+          
+          <div class="max-w-sm bg-white shadow-md rounded-md overflow-hidden">
             
-          </tr>
+              <img :src="product.url" />
+              <h1 x-text="product.name"></h1>
+              <p x-text="product.description"></p>
+          </div>  
+              
+          
+            
         </template>
-      </tbody>
-    </table>
+      
+    </div>
+        
   </div>
-
-
+ 
 </body>
 </html>

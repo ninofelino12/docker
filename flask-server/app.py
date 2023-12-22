@@ -1,4 +1,4 @@
-from flask import Flask, request,jsonify
+from flask import Flask, request,jsonify,send_file
 from flask import render_template
 from lib.OdooClient import OdooClient
 #import odoo_connect
@@ -9,8 +9,10 @@ import os
 from dotenv import load_dotenv
 from flask_restful import Api
 from flask_restful import Resource
+import base64
 import openai
-
+import pickle
+from io import BytesIO
 app = Flask(__name__)
 api = Api(app)
 connecting=False
@@ -67,7 +69,10 @@ class ItemResource(Resource):
 
 class Product(Resource):
     def get(self, item_id):
-        response = jsonify(odoo.env['product.product'].search_read([], ['name','barcode','description']))
+        items =odoo.env['product.product'].search_read([], ['name','barcode','description','image_128'])
+        for item in items:
+            item['url']="/img/"+str(item['id'])
+        response = jsonify(items)
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
         
@@ -84,12 +89,51 @@ class Product(Resource):
         # Logika untuk menghapus item berdasarkan ID
         pass
 
+
+class Img(Resource):
+    def get(self, item_id):
+        Product = odoo.env['product.product']
+        product = Product.browse(item_id) # ganti dengan ID product
+        image_1920 = product.image_1920
+        print(type(image_1920))
+        decoded_data = base64.b64decode(image_1920)        
+        return send_file(BytesIO(decoded_data),mimetype='image/png')
+        
+
+    def post(self, item_id):
+        # Logika untuk menambahkan item baru
+        pass
+
+    def put(self, item_id):
+        # Logika untuk memperbarui item berdasarkan ID
+        pass
+
+    def delete(self, item_id):
+        # Logika untuk menghapus item berdasarkan ID
+        pass
+
+
 api.add_resource(ItemResource, '/items/<int:item_id>')
 api.add_resource(Product, '/product/<int:item_id>')
+api.add_resource(Img, '/img/<int:item_id>')
 
+@app.route('/img')
+def indeximg():
+    Product = odoo.env['product.product']
+    product = Product.browse(17) # ganti dengan ID product
+    image_1920 = product.image_1920
+    print(type(image_1920))
+    decoded_data = base64.b64decode(image_1920)
+    # with open('img.png', 'wb') as f:
+    #     f.write(decoded_data)
+    return send_file(BytesIO(decoded_data),mimetype='image/png')
 @app.route('/')
 def index():
     return render_template('index.html', title='Home Page')
+
+@app.route('/js')
+def indexjs():
+    return render_template('odooxml.html', title='Home Page')    
 
 @app.route('/product')
 def products():
@@ -111,6 +155,29 @@ def odpro():
     print(partners)
     response = jsonify(partners)
     response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/product_image/<int:product_id>')
+def product_image(product_id):
+    # Mengambil data gambar dari product.product
+    # product = odoo.env['product.product'].browse(product_id)
+    product = odoo.env['product.product'].browse(4)
+    image_data = product.image_128
+    print(image_data)
+
+    product_id = 1
+    gambar = odoo.env['product.template'].read(product_id, ['image_128'])
+    with open('product_image.png', 'wb') as f:
+        f.write(product['image_128'])
+
+    # Mengubah data gambar menjadi base64
+    #image_base64 = base64.b64encode(image_data).decode('utf-8')
+
+    # Mengirimkan response dengan header gambar
+    # response = Response()
+    response = "image_data"
+    #response.headers['Content-Type'] = 'image/png'
+    # response.data = base64.b64decode(image_base64)
     return response
 
 
