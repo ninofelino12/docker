@@ -55,18 +55,7 @@ class ItemResource(Resource):
         return response
         
 
-    def post(self, item_id):
-        # Logika untuk menambahkan item baru
-        pass
-
-    def put(self, item_id):
-        # Logika untuk memperbarui item berdasarkan ID
-        pass
-
-    def delete(self, item_id):
-        # Logika untuk menghapus item berdasarkan ID
-        pass
-
+    
 class Product(Resource):
     def get(self, item_id):
         items =odoo.env['product.product'].search_read([], ['name','barcode','description','image_128'])
@@ -77,17 +66,7 @@ class Product(Resource):
         return response
         
 
-    def post(self, item_id):
-        # Logika untuk menambahkan item baru
-        pass
-
-    def put(self, item_id):
-        # Logika untuk memperbarui item berdasarkan ID
-        pass
-
-    def delete(self, item_id):
-        # Logika untuk menghapus item berdasarkan ID
-        pass
+    
 
 
 class Img(Resource):

@@ -4,40 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Load JSON with Console Log</title>
-  <script src="https://unpkg.com/alpinejs" defer></script> 
-  <!-- <script src="alpine.js" defer></script> -->
+  <!-- <script src="https://unpkg.com/alpinejs" defer></script>  -->
+  <!-- <script src="alpine.js" defer></script>  -->
+  <script src="{{ url_for('static', filename='alpine.js') }}"></script>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <script>
+  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+ <script>
     var menuItems= [
-                  { label: 'Home', url: '#' },
-                  { label: 'About', url: '#' },
-                  { label: 'Product', url: 'product' },
-                  { label: 'Services', url: '#' },
-                  { label: 'Contact', url: '#' }
+                  { label: 'Home', url: '#' ,img:'static/img/home.svg'},
+                  { label: 'About', url: '#' ,img:'static/img/info.svg'},
+                  { label: 'Product', url: 'product',img:'static/img/product.svg' },
+                  { label: 'Services', url: '#',img:'static/img/home.svg' },
+                  { label: 'Contact', url: '#' ,img:'static/img/home.svg'}
                ]
   </script>
   <style type="text/tailwindcss">
-    * {
+    *a {
       border: 1px solid red;
     }
   </style>
 </head>
 <body>
-
-  <nav class="bg-gray-800 p-4">
+ 
+  <nav class="bg-gray-400 p-4">
     <i class="material-icons">favorite</i>
     <div class="container mx-auto flex justify-between items-center">
         <a href="#" class="text-white text-lg font-bold">Logo</a>
         <div class="space-x-4" x-data="{ menuItems }">
           <template x-for="(menu, index) in menuItems">
-            
-            <a x-bind:href="menu.url" class="text-white"  x-text="menu.label">
-              
-            
-          </a>
+            <div class="inline-block">
+               <img class="w-4 text-red-500 mx-auto" :src="menu.img"/>
+               <a x-bind:href="menu.url" class="text-white"  x-text="menu.label">
+            </a>
+            <span>
+             
+            </span>
+            </div>
            
+            
            
           </template>
           
@@ -79,15 +85,19 @@
  
   <div  x-data="{products: [], loadedYet: false}"
     x-init="products = await (await fetch('/product/0')).json(); loadedYet = true">
-    <div class="flex justify-end p-8 bg-gray-200 coulum=3">
+    <div class="p-5 max-w-s bg-gray-500">
       <template x-for="(product, index) in products">
          
           
-          <div class="max-w-sm bg-white shadow-md rounded-md overflow-hidden">
-            
-              <img :src="product.url" />
-              <h1 x-text="product.name"></h1>
+          
+        
+          <div class="p-10 my-2 max-w-sm mx-auto bg-white rounded-xl shadow-lg items-center space-x-4">   
+              <img class="h-22 w-22" :src="product.url" />
+              <div class="p-4 rounded-md bg-gray-100">
+                <h1 x-text="product.name"></h1>
               <p x-text="product.description"></p>
+              </div>
+              
           </div>  
               
           
@@ -97,6 +107,26 @@
     </div>
         
   </div>
+  <footer class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white">
+    <div class="container mx-auto p-4 text-center">
+        
+         
+    
+    <template x-for="(menu, index) in menuItems">
+      <div class="inline-block">
+         <img class="w-4 text-red-500 mx-auto" :src="menu.img"/>
+         <a x-bind:href="menu.url" class="text-white"  x-text="menu.label">
+      </a>
+      <span>
+       
+      </span>
+      </div>
+     
+      
+     
+    </template>
+  </footer>
+
  
 </body>
 </html>
