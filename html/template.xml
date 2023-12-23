@@ -1,0 +1,10 @@
+<template x-for="(product, index) in products">
+    <tr x-init="url='http://localhost:8015/gateway/image/'+product.id">
+      <td x-text="product.name"></td>
+      <td x-text="product.id"></td>
+      <td x-text="url">rrr</td>
+      <td><img class="w-5 h-5" :src="url"/></td> 
+      
+    </tr>
+
+  </template>

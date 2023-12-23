@@ -1,0 +1,17 @@
+<!-- template.html -->
+
+<div class="bg-slate-300 text-white text-lg font-bold p-4">
+    <p>This is content loaded from a separate file.</p>
+    
+</div>
+
+<div x-for="(product, index) in products">
+    <tr x-init="url='http://localhost:8015/gateway/image/'+product.id">
+      <td x-text="product.name"></td>
+      <td x-text="product.id"></td>
+      <td x-text="url">rrr</td>
+      <td><img class="w-5 h-5" :src="url"/></td> 
+      
+    </tr>
+
+</div>

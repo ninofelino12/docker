@@ -1,0 +1,45 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine.js Load Template</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+</head>
+<body>
+
+<nav class="bg-slate-600 text-white text-lg font-bold p-4" >
+    <a class="btn btn-danger">Navigator</a>
+    
+
+</nav>
+<button class="btn btn-danger">sssaa</button>
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Click me
+</button>
+<div x-data="{ templateContent: '' }" x-init="loadTemplate">
+
+   
+
+    <script>
+        function loadTemplate() {
+            // Load the template content from the external file
+            fetch('basic.xml')
+                .then(response => response.text())
+                .then(data => {
+                    // Set the template content in x-data
+                    this.templateContent = data;
+                })
+                .catch(error => {
+                    console.error('Error loading template:', error);
+                });
+        }
+    </script>
+
+</div>
+
+</body>
+</html>
