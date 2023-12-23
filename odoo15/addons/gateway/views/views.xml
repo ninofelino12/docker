@@ -1,0 +1,13 @@
+<odoo>
+  <data>
+    <template id="felino" name="felino">
+      <t>
+          <div>
+              <h1>Hello, World!</h1>
+              <p>This is my Odoo template.</p>
+          </div>
+      </t>
+  </template>
+   
+  </data>
+</odoo>

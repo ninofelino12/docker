@@ -1,40 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tailwind CSS Card with Image</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<body class="bg-gray-100">
 
-<body class="bg-gray-700">
-    <nav class="bg-blue-500 p-4">
-        <div class="container mx-auto flex justify-between items-center">
-          <a href="#" class="text-white font-bold">Website Saya</a>
-          
-          <button class="text-white lg:hidden">
-            <!-- Ikon hamburger -->
-          </button>  
-          
-          <div class="hidden lg:flex space-x-4">
-            <a href="#" class="text-white">Beranda</a>
-            <a href="#" class="text-white">Tentang</a>
-            <a href="#" class="text-white">Kontak</a>
-          </div>
-        </div>
-      </nav>
-      <footer class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white">
-        <div class="container mx-auto p-4 text-center">
-            
-            <a href="#" class="text-white">
-                
-            Beranda</a>
-            <a href="#" class="text-white">Tentang</a>
-            <a href="#" class="text-white">Kontak</a>
-        </div>
-      </footer>
+<div class="flex flex-wrap justify-around p-8">
+  <div class="max-w-sm bg-white p-6 rounded-md shadow-md m-4">
+    <h2 class="text-xl font-semibold mb-4">Card 1</h2>
+    <p>Content for Card 1 goes here.</p>
+  </div>
+
+  <div class="max-w-sm bg-white p-6 rounded-md shadow-md m-4">
+    <h2 class="text-xl font-semibold mb-4">Card 2</h2>
+    <p>Content for Card 2 goes here.</p>
+  </div>
+
+  <div class="max-w-sm bg-white p-6 rounded-md shadow-md m-4">
+    <h2 class="text-xl font-semibold mb-4">Card 3</h2>
+    <p>Content for Card 3 goes here.</p>
+  </div>
+  
+  <!-- Add more cards as needed -->
+
+</div>
 
 </body>
-
 </html>

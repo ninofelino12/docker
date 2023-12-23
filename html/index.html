@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link href="/dist/output.css" rel="stylesheet">  -->
+  <!-- <script src="//unpkg.com/alpinejs" defer></script> -->
+  <script src="https://unpkg.com/alpinejs"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <h1 class="p-2 m-auto bg-slate-600 text-center text-4xl font-bold ">
+    
+     Odoo Gateway</h1>
+     application/json
+     <div class="bg-gray-200 p-2">
+       <a href="http://localhost:8015/gateway/partner">API</a>
+     </div>
+     response.headers.add('Access-Control-Allow-Origin', '*')
+    
+    1
+
+    
+    
+    2
+     <div x-data="{products: [], loadedYet: false}" x-init="products = await (await fetch('http://localhost:8015/gateway/product')).json(); loadedYet = true">
+    
+    1
+
+    
+    
+    <!-- <td><img src="http://localhost:8015/gateway/image/13"/>  </td> -->
+      <template x-for="(product, index) in products">
+      <tr x-init="url='http://localhost:8015/gateway/image/'+product.id">
+        <td x-text="product.name"></td>
+        <td x-text="product.id"></td>
+        <td x-text="url">rrr</td>
+        <td><img class="w-5 h-5" :src="url"/></td> 
+        
+      </tr>
+
+    </template>
+    
+   </div>
+    
+  
+</body>
+</html>

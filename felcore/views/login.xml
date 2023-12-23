@@ -1,0 +1,18 @@
+<odoo>
+    <record id="view_login_form" model="ir.ui.view">
+        <field name="name">login.form</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <form string="Login">
+                <group>
+                    <field name="login"/>
+                    <field name="password"/>
+                    <field name="database" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Login" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

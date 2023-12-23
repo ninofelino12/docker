@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+      <template id="felino" name="felino">
+        <t>
+          
+            <div>
+                <h1 class="text-3xl font-bold underline">Hello, World!</h1>
+                <p>This is my Odoo template.</p>
+                <li><a href="gateway/welcome">WELCOME</a> </li>
+                <li> <a href="gateway/partner">Partner</a> </li>
+               
+
+            </div>
+        </t>
+    </template>
+      
+
+        
+
+    </data>
+</odoo>

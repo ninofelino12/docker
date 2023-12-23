@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Load JSON with Console Log</title>
+  <title>Odoo Product</title>
   <!-- <script src="https://unpkg.com/alpinejs" defer></script>  -->
   <!-- <script src="alpine.js" defer></script>  -->
   <script src="{{ url_for('static', filename='alpine.js') }}"></script>
@@ -17,10 +17,17 @@
                   { label: 'About', url: '#' ,img:'static/img/info.svg'},
                   { label: 'Product', url: 'product',img:'static/img/product.svg' },
                   { label: 'Services', url: '#',img:'static/img/home.svg' },
-                  { label: 'Contact', url: '#' ,img:'static/img/home.svg'}
+                  // { label: 'Contact', url: '#' ,img:'static/img/home.svg'}
                ]
   </script>
   <style type="text/tailwindcss">
+
+    body {
+      margin: 0;
+      overflow: hidden; /* Menyembunyikan scrollbar */
+    }
+  
+
     *a {
       border: 1px solid red;
     }
@@ -29,94 +36,56 @@
 <body>
  
   <nav class="bg-gray-400 p-4">
-    <i class="material-icons">favorite</i>
-    <div class="container mx-auto flex justify-between items-center">
-        <a href="#" class="text-white text-lg font-bold">Logo</a>
-        <div class="space-x-4" x-data="{ menuItems }">
-          <template x-for="(menu, index) in menuItems">
-            <div class="inline-block">
-               <img class="w-4 text-red-500 mx-auto" :src="menu.img"/>
-               <a x-bind:href="menu.url" class="text-white"  x-text="menu.label">
+ 
+    <div class="container justify-between items-center">
+      <!-- <a href="#" class="text-white text-lg font-bold">Logo</a> -->
+      <div class="space-x-4" x-data="{ menuItems }">
+        <template x-for="(menu, index) in menuItems">
+          <div class="inline-block">
+            <img class="w-3 text-red-500 mx-auto rounded-md" :src="menu.img" />
+            <a x-bind:href="menu.url" class="text-white text-sm" x-text="menu.label">
             </a>
             <span>
-             
+  
             </span>
-            </div>
-           
-            
-           
-          </template>
-          
-        </div>
+          </div>
+        </template>
+      </div>
     </div>
-</nav>
- <!-- {{content|safe}}
-  -->
-  <script>
-    const toggleWebcam = document.getElementById('toggleWebcam');
-  const video = document.createElement('video');
-  const constraints = {
-    video: true
-  };
+  </nav>
 
-  toggleWebcam.addEventListener('change', function() {
-    if (this.checked) {
-      navigator.mediaDevices.getUserMedia(constraints)
-        .then(function(stream) {
-          video.srcObject = stream;
-          video.play();
-        })
-        .catch(function(error) {
-          console.error('Error accessing media devices.', error);
-        });
-    } else {
-      video.pause();
-      video.srcObject = null;
-    }
-  });
-  </script>
   
  
-
-
-
-
-
- 
-  <div  x-data="{products: [], loadedYet: false}"
+  <div class="" x-data="{products: [], loadedYet: false}"
     x-init="products = await (await fetch('/product/0')).json(); loadedYet = true">
-    <div class="p-5 max-w-s bg-gray-500">
+    <div class="flex flex-wrap justify-around p-8"">
+
       <template x-for="(product, index) in products">
-         
-          
-          
-        
-          <div class="p-10 my-2 max-w-sm mx-auto bg-white rounded-xl shadow-lg items-center space-x-4">   
-              <img class="h-22 w-22" :src="product.url" />
-              <div class="p-4 rounded-md bg-gray-100">
-                <h1 x-text="product.name"></h1>
-              <p x-text="product.description"></p>
-              </div>
-              
-          </div>  
-              
-          
+        <div class="flex flex-wrap justify-around p-4">
+
+          <div class="max-w-sm bg-gray-200 p-6 rounded-md shadow-md m-4">
+            <img class="w-64" :src="product.url" /> 
             
-        </template>
-      
+            <h2 class="text-xl font-semibold mb-4" x-text="product.name"></h2>
+            <p x-text="product.description"></p>
+           
+          </div>
+
+      </template>
     </div>
-        
   </div>
+
   <footer class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white">
-    <div class="container mx-auto p-4 text-center">
+    <div class="container mx-auto p-4 text-center ">
         
          
     
     <template x-for="(menu, index) in menuItems">
       <div class="inline-block">
-         <img class="w-4 text-red-500 mx-auto" :src="menu.img"/>
+         <img class="w-4 text-red-500 mx-auto" :src="menu.img"/> 
          <a x-bind:href="menu.url" class="text-white"  x-text="menu.label">
-      </a>
+          <h1>L</h1>
+         </a>
       <span>
        
       </span>
