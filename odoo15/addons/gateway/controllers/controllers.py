@@ -21,9 +21,9 @@ class Gateway(http.Controller):
                 'email': partner.email,
                 # Add more fields as needed
             })
-        json_data = json.dumps(partner_data)
+        response = json.dumps(partner_data)
       
-        return json_data
+        return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
     
     @http.route('/gateway/product',type='http', auth='none',website=True)
     def product(self, **kw):
@@ -53,14 +53,16 @@ class Gateway(http.Controller):
         return request.make_response(image_data, [('Content-Type', 'image/png')])
     
     @http.route('/gateway/png',type='http', auth='none',website=True)
-    def fpng(self, **kw):
-        Product = request.env['product.product'].sudo().browse(15)
-        product = Product.browse(2) # ganti dengan ID product
+    def fpng(self, **params):
+        png_id = int(params.get('id'))
+        category_id = params.get('category_id')
+        product = request.env['res.partner'].sudo().browse(png_id)
         image_1920 = product.image_1920
-        print(type(image_1920))
-        decoded_data = base64.b64decode(image_1920)        
-        # return 'send_file(BytesIO(decoded_data),mimetype='image/png')'
-        return "png"
+        image_data = base64.b64decode(product.image_1920)
+        return request.make_response(image_data, [('Content-Type', 'image/png')])
+        
+        
+
     @http.route('/gateway/model',type='http', auth='none',website=True)
     def fmodel(self, **params):
         product_id = params.get('product_id')

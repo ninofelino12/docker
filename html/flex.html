@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+
+    <div class="flex bg-indigo-500">
+        <div class="flex-none w-14 h-14">
+          01
+        </div>
+        <div class="flex-initial w-64 ...">
+          02
+        </div>
+        <div class="flex-initial w-32 ...">
+          03
+        </div>
+      </div>
+
+<div x-data="{ cards: [
+    { title: 'Card 1', content: 'Content for Card 1',url:'http://localhost:8015/gateway/image/15' },
+    { title: 'Card 2', content: 'Content for Card 2',url:'http://localhost:8015/gateway/image/14' },
+    { title: 'Card 3', content: 'Content for Card 3' ,url:'http://localhost:8015/gateway/image/19'}
+] }">
+
+<div class="bg-indigo-300 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 p-4">
+<template x-for="(card, index) in cards" :key="index">
+<div class="bg-white p-4 rounded shadow w-100">
+    <h2 class="text-xl font-bold mb-2" x-text="card.title"></h2>
+    <img :src="card.url" alt="gbr">
+    <p x-text="card.content"></p>
+</div>
+</template>
+</div>
+
+</div>
+</body>
+
+</html>

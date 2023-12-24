@@ -32,6 +32,12 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'qweb': [
+        'static/src/xml/template.xml',
+    ],
+    'css': [
+        'static/src/css/tailwin.css',
+    ],
     'auto_install': False,
     'installable': True,
     'application': True,

@@ -4,8 +4,15 @@
         <t>
           
             <div>
-                <h1 class="text-3xl font-bold underline">Hello, World!</h1>
-                <p>This is my Odoo template.</p>
+                <link rel="stylesheet" type="text/css" href="/gateway/static/src/css/tailwin.css"/>
+                <script src="https://cdn.tailwindcss.com"></script>
+                <h1 class="p-2 m-auto bg-indigo-700 text-slate-300 text-center text-4xl font-bold ">
+                    Odoo Gateway
+            </h1>
+            <div class="bg-indigo-400 p-3">
+                <h1>API</h1>
+            </div>
+                
                 <li><a href="gateway/welcome">WELCOME</a> </li>
                 <li> <a href="gateway/partner">Partner</a> </li>
                
