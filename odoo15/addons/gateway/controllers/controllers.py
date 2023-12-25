@@ -88,17 +88,24 @@ class Gateway(http.Controller):
     def fmodel(self, **params):
         product_id = params.get('product_id')
         category_id = params.get('category_id')
-        model='ir.model'
-        if model=='partner':
-           model='res.partner' 
-        partners = request.env[model].sudo().search([])
-        partner_data = []
-        for partner in partners:
-            partner_data.append({
-                'name': partner.name,
-                
-            })
+        model = params.get('model')
+        #return model
+        list_of_dict=[{'model':'res.partner'},
+                      {'model':'product.product'}]
         
+        #model='ir.model'
+        try:
+            partners = request.env[model].sudo().search([])
+            partner_data = []
+            for partner in partners:
+                partner_data.append({
+                    'name': partner.name,
+                    'id':partner.id                
+                 })
+            response=json.dumps(partner_data)    
+            return request.make_response(response, [('dcode', model),('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])    
+        except Exception as e:
+            return f"Error: {e}"
 
         return json.dumps(partner_data)    
     @http.route('/gateway/api',type='http', auth='none',website=True)
