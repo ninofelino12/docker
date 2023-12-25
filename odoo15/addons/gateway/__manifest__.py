@@ -27,6 +27,7 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'views/partner.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
@@ -37,6 +38,7 @@
     ],
     'css': [
         'static/src/css/tailwin.css',
+        'static/src/js/cdn.min.js',
     ],
     'auto_install': False,
     'installable': True,

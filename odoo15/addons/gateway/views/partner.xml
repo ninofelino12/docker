@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        
+        <template id="fpartner" name="felino">
+            <t>
+                <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+                <script src="/gateway/static/src/css/tailwin.css"></script>
+                <script src="/gateway/static/src/js/cdn.min.js"></script>
+                <h1 class="bg-indigo-300">Partner</h1>
+                <div class="container">
+                    <h1 t-esc="data_to_insert"/>
+                    <h2>insert template</h2>
+                </div>
+                <div class="bg-slate-600 h-10">
+                    <div class="grid grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-6    gap-1 rounded-md"
+                        x-data="{products: [], loadedYet: false}"
+                        x-init="products = await (await fetch('http://localhost:8015/gateway/partner')).json(); loadedYet = true">
+                        <!-- <td><img src="http://localhost:8015/gateway/image/13"/>  </td> -->
+                        
+            
+                    </div>
+                </div>
+            
+            </t>
+        </template>        
+
+
+    </data>
+</odoo>

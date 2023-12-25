@@ -1,28 +1,61 @@
 <odoo>
     <data>
-      <template id="felino" name="felino">
-        <t>
-          
-            <div>
-                <link rel="stylesheet" type="text/css" href="/gateway/static/src/css/tailwin.css"/>
+        <template id="felino" name="felino">
+            <t>
+
+                <div>
+                <link rel="stylesheet" type="text/css" href="/gateway/static/src/css/tailwin.css" />
                 <script src="https://cdn.tailwindcss.com"></script>
                 <h1 class="p-2 m-auto bg-indigo-700 text-slate-300 text-center text-4xl font-bold ">
                     Odoo Gateway
-            </h1>
-            <div class="bg-indigo-400 p-3">
-                <h1>API</h1>
-            </div>
-                
-                <li><a href="gateway/welcome">WELCOME</a> </li>
-                <li> <a href="gateway/partner">Partner</a> </li>
-               
+                </h1>
 
-            </div>
-        </t>
-    </template>
-      
+                <div class="bg-indigo-400 p-3">
+                    <h1>API</h1>
+                </div>
 
-        
+                <div class="bg-stone-400 p-4">
+                    <a class="bg-red-600 rounded-lg text-white p-3"
+                        href="https://tailwindcss.com/docs/font-family">tailwindcss</a>
+                    <a class="bg-indigo-700 rounded-lg p-3"
+                        href="https://tailwindcss.com/docs/font-family">alpine js</a>
+
+
+                </div>
+                <div class="bg-indigo-200 p-5">
+                    <h2>End Point</h2>
+                    <ul>/partner</ul>
+                    <ul>/product</ul>
+                </div>
+                <div class="bg-indigo-200 p-5">
+
+                    <li>
+                        <a href="gateway/welcome">WELCOME</a>
+                    </li>
+                    <li>
+                        <a href="gateway/partner">Partner</a>
+                    </li>
+                    <li>
+                        <a href="gateway/partner">Partner image</a>
+                    </li>
+                    <li>
+                        <a href="gateway/partner">Product</a>
+                    </li>
+                    <li>
+                        <a href="gateway/partner">Product Images</a>
+                    </li>
+
+
+                </div>
+                </div>
+            </t>
+        </template>
+        <template id="partner" name="felino">
+            <t>
+                <h1>Partner</h1>
+            </t>
+        </template>        
+
 
     </data>
 </odoo>

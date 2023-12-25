@@ -7,6 +7,12 @@
   <!-- <script src="//unpkg.com/alpinejs" defer></script> -->
   <script src="https://unpkg.com/alpinejs"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Tambahan style untuk efek transisi */
+    .transition-transform {
+        @apply transition-transform ease-in-out duration-300;
+    }
+</style>
 </head>
 <body>
     <h1 class="p-2 m-auto bg-slate-600 text-center text-4xl font-bold ">
@@ -23,7 +29,11 @@
                     x-init="url='http://localhost:8015/gateway/png?id='+product.id">
                     <div x-text="product.name"></div>
                     <td x-text="product.id"></td>
-                    <div><img class="w-15 h-15 rounded-md transition-colors" :src="url" /></div>
+                   
+                    <div class="relative overflow-hidden transition-transform hover:scale-110">
+                       
+                        <img :src="url" alt="Kitten" class="w-40 h-40 object-cover rounded-md">
+                    </div>
                 </div>
 
             </template>

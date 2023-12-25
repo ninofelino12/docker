@@ -10,6 +10,11 @@ class Gateway(http.Controller):
     def index(self, **kw):
         return request.render('gateway.felino')
     
+    @http.route('/gateway/page', auth='none')
+    def indexpage(self, **kwargs):
+        database_name = http.request.env.cr.dbname
+        return request.render('gateway.fpartner',{'data_to_insert':'Database: '+database_name})
+    
     @http.route('/gateway/partner',type='http', auth='none',website=True)
     def partner(self, **kw):
         partners = request.env['res.partner'].sudo().search([])
@@ -60,6 +65,22 @@ class Gateway(http.Controller):
         image_1920 = product.image_1920
         image_data = base64.b64decode(product.image_1920)
         return request.make_response(image_data, [('Content-Type', 'image/png')])
+    
+    @http.route('/gateway/felino',type='http', auth='none',website=True)
+    def felino(self, **params):
+        png_id = int(params.get('id'))
+        category_id = params.get('category_id')
+        jenis = params.get('jenis')
+        if jenis == 'png':
+            if png_id is None:
+                return "none"
+            else:
+                product = request.env['res.partner'].sudo().browse(png_id)
+                image_1920 = product.image_1920
+                image_data = base64.b64decode(product.image_1920)
+                return request.make_response(image_data, [('Content-Type', 'image/png')])
+        else:
+            return "loading html files"
         
         
 
