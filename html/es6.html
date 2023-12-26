@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>JSON to Table</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<h1 class="bg-indigo-400 text-center text-slate-300 p-4">Partner List</h1>
+<div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden">
+    <div class="p-6">
+      <label for="search" class="block text-gray-700 font-bold mb-2">Search:</label>
+      <div class="relative">
+        <input type="text" id="search" name="search" class="border rounded-full w-full py-2 px-4 leading-tight focus:outline-none focus:border-blue-500">
+        <button class="absolute right-0 top-0 mt-3 mr-4">
+          <!-- Add your search icon or button icon here -->
+          <!-- For example, you can use an SVG or an icon library -->
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+<table id="jsonTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  // URL dari API atau file JSON
+  const apiUrl = 'http://localhost:8015/';
+
+//   Menggunakan fetch untuk mengambil data JSON
+  fetch(apiUrl+'gateway/model?model=product.product')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Data JSON yang berhasil diambil
+      console.log(data);
+
+      // Memasukkan data ke dalam tabel
+    //   let data = await (await fetch(apiUrl+'gateway/model?model=product.product')).json();
+      const tableBody = document.querySelector('#jsonTable tbody');
+      data.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${item.id}</td>
+            <td>${item.id}</td>
+            <td class="bg-indigo-400">${item.name}
+            <img class="round-lg h-10" src='${apiUrl}gateway/image/${item.id}'>
+            </td>`;
+        tableBody.appendChild(row);
+        
+
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error.message);
+    });
+</script>
+
+</body>
+</html>

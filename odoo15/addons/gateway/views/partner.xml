@@ -2,14 +2,34 @@
     <data>
         
         <template id="fpartner" name="felino">
-            <t>
+        
+             <t t-call="web.layout">
                 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
                 <script src="/gateway/static/src/css/tailwin.css"></script>
                 <script src="/gateway/static/src/js/cdn.min.js"></script>
-                <h1 class="bg-indigo-300">Partner</h1>
+                <h1 class="oe_structure_header">Partner</h1>
+                <nav data-command-category="navbar" class="o_main_navbar"><div class="o-dropdown dropdown o-dropdown--no-caret o_navbar_apps_menu"><button class="dropdown-toggle  " title="Home Menu" data-hotkey="h" aria-expanded="false"><i class="fa fa-th-large"></i></button></div><a href="#menu_id=84&amp;action=116" role="menuitem" tabindex="0" class="dropdown-item o_menu_brand" data-section="84" data-menu-xmlid="mail.menu_root_discuss">Discuss</a><div role="menu" class="o_menu_systray">
+                    <div class="o_RtcActivityNotice dropdown">
+                        <div class="o_RtcInvitations"></div></div>
+                        <div class="o_MessagingMenu dropdown"><a href="#" title="Conversations" role="button" aria-expanded="false" aria-haspopup="true" class="o_MessagingMenu_toggler dropdown-toggle o-no-caret o-dropdown--narrow"><i role="img" aria-label="Messages" class="o_MessagingMenu_icon fa fa-comments"></i><span class="o_MessagingMenu_counter badge badge-pill">5</span></a></div><div class="o_mail_systray_item dropdown o_no_notification">
+                    <a class="dropdown-toggle o-no-caret o-dropdown--narrow" data-toggle="dropdown" data-display="static" aria-expanded="false" title="Activities" href="#" role="button">
+                        <i class="fa fa-clock-o" role="img" aria-label="Activities"></i> <span class="o_notification_counter badge badge-pill">0</span>
+                    </a>
+                    <div class="o_mail_systray_dropdown dropdown-menu dropdown-menu-right" role="menu">
+                        <div class="o_mail_systray_dropdown_items">
+                
+                
+                    <div class="dropdown-item-text text-center o_no_activity d-flex justify-content-center">
+                        <span>Congratulations, you're done with your activities.</span>
+                    </div>
+                
+                
+            </div>
+                    </div>
+                </div><div class="o-dropdown dropdown o-dropdown--no-caret o_switch_company_menu"><button class="dropdown-toggle  " aria-expanded="false"><span class="oe_topbar_name">My Company (San Francisco)</span></button></div><div class="o-dropdown dropdown o-dropdown--no-caret o_user_menu"><button class="dropdown-toggle  " aria-expanded="false"><img src="http://localhost:8015/web/image?model=res.users&amp;field=avatar_128&amp;id=2" alt="User" class="rounded-circle o_user_avatar"> <span class="oe_topbar_name text-truncate">Mitchell Admin</span></button></div></div></nav>
                 <div class="container">
                     <h1 t-esc="data_to_insert"/>
-                    <h2>insert template</h2>
+                    <h2 class="oe_structure_header" >insert template</h2>
                 </div>
                 <div class="bg-slate-600 h-10">
                     <div class="grid grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-6    gap-1 rounded-md"
