@@ -2,10 +2,13 @@ import json
 import base64
 from odoo import http
 from odoo.http import request
+import ast
 
 
 
 class Gateway(http.Controller):
+    
+    
     @http.route('/gateway', auth='none')
     def index(self, **kw):
         return request.render('gateway.felino')
@@ -15,20 +18,80 @@ class Gateway(http.Controller):
         database_name = http.request.env.cr.dbname
         return request.render('gateway.fpartner',{'data_to_insert':'Database: '+database_name})
     
-    @http.route('/gateway/partner',type='http', auth='none',website=True)
+    
+    @http.route('/gateway/api', type='http', auth='none', website=True)
+    def felpartner(self, **kw):
+        # Extract parameters from the request
+        id = int(kw.get('id', 0))
+        ftype = kw.get('type','html')
+        model = kw.get('model', 'res.partner')  # Set default model if not provided
+
+        # Define common items for all types
+        #common_items = kw.get('items',['id', 'name'])
+        items_str = kw.get('items', '[]')
+        try:
+            common_items = ast.literal_eval(items_str)
+        except (ValueError, SyntaxError):
+            common_items = ['id','name']
+
+        if not isinstance(common_items, list):
+            common_items = ['name','id']
+
+        if ftype == 'img':
+            # Image type handling
+            if id:
+                partner = request.env[model].sudo().browse(id)
+                image_data = base64.b64decode(partner.image_1920)
+                return request.make_response(image_data, [('Content-Type', 'image/png')])
+            else:
+                return "no id"
+        else:
+            # Other types (assuming 'htmlx')
+            partners = request.env[model].sudo().search([])
+
+            # Build partner_data using a list comprehension
+            partner_data = [
+                {item: partner[item] for item in common_items}
+                for partner in partners
+            ]
+
+            # Convert partner_data to JSON
+            response_data = json.dumps(partner_data)
+
+            # Return JSON response with appropriate headers
+            return request.make_response(
+                response_data, [('Content-Type', 'application/json'), ('Access-Control-Allow-Origin', '*')]
+            )
+    
+    @http.route('/gateway/fapi',type='http', auth='none',website=True)
     def partner(self, **kw):
-        partners = request.env['res.partner'].sudo().search([])
-        partner_data = []
-        for partner in partners:
-            partner_data.append({
-                'id': partner.id,
-                'name': partner.name,
-                'email': partner.email,
-                # Add more fields as needed
-            })
-        response = json.dumps(partner_data)
-      
-        return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
+        id = int(kw.get('id', 0))
+        ftype=kw.get('type')
+        model=kw.get('model') 
+        if not model:
+            model='res.partner'
+
+        items=['id','name','function','phone']
+        partners = request.env[model].sudo().search([])
+        #id=17
+        jenis='htmlx'
+        if ftype=='img':  
+            if id:
+                product = request.env[model].sudo().browse(id)
+                image_data = base64.b64decode(product.image_1920)
+                return request.make_response(image_data, [('Content-Type', 'image/png')])
+            else:
+                return "no id"  
+        else: 
+            partner_data = [
+            {item: partner[item] for item in items}
+            for partner in partners
+             ]
+            response = json.dumps(partner_data)
+            return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
+        
+        
+       
     
     @http.route('/gateway/product',type='http', auth='none',website=True)
     def product(self, **kw):
@@ -85,8 +148,8 @@ class Gateway(http.Controller):
         
 
     @http.route('/gateway/model',type='http', auth='none',website=True)
-    def fmodel(self, **params):
-        product_id = params.get('product_id')
+    def femodel(self, **params):
+        p_id = params.get('id')
         category_id = params.get('category_id')
         model = params.get('model')
         #return model
@@ -108,9 +171,11 @@ class Gateway(http.Controller):
             return f"Error: {e}"
 
         return json.dumps(partner_data)    
-    @http.route('/gateway/api',type='http', auth='none',website=True)
+    @http.route('/gateway/api/params',type='http', auth='none',website=True)
     def api(self, **kw):
         return request.redirect_query('/web', query=request.params)
-        
+
+      
+            
 
    

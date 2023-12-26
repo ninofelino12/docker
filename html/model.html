@@ -18,24 +18,86 @@
     <h1 class="font-inter p-2 m-auto bg-slate-600 text-center text-4xl font-bold ">
 
         Partner</h1>
-<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
-    <div class="bg-slate-600 ">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2" id="card-container"></div>
 
-        <div class="rounded-md"
+       
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+    // Fetch JSON data
+    fetch('http://localhost:8015/gateway/api?model=res.partner&items=["name","email","id"]')
+                    .then(response => response.json())
+                    .then(data => { createCards(data); })
+                    .catch(error => console.error('Error fetching JSON:', error));
+            });
+
+        function createCards(data) {
+            const cardContainer = document.getElementById('card-container');
+
+            // Clear existing cards
+            cardContainer.innerHTML = '';
+
+            // Iterate through each item in the JSON data
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                // Add content to the card (adjust properties based on your JSON structure)
+                card.innerHTML = `
+            <div class="bg-indigo-300 p-4 rounded-lg w-100">
+            <h2>${item.name}</h2>
+            <p>ID: ${item.id}</p>
+            <p>${item.email}</p>
+            <button class="btn">Click me</button>
+            </div>    
+          
+
+            
+        `;
+
+                // Append the card to the container
+                cardContainer.appendChild(card);
+            });
+}
+function populateTable(data) {
+    const tableBody = document.querySelector('#data-table tbody');
+
+    // Clear existing table rows
+    tableBody.innerHTML = '';
+
+    // Iterate through each item in the JSON data
+    data.forEach(item => {
+        const row = document.createElement('li');
+
+        // Add cells for each column in the JSON data
+        Object.values(item).forEach(value => {
+            const cell = document.createElement('h2');
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+
+        // Append the row to the table body
+        tableBody.appendChild(row);
+    });
+}
+
+        </script>
+
+
+
+
+<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+    <div class="bg-slate-100 ">
+
+        <div 
             x-data="{products: [], loadedYet: false}"
-            x-init="products = await (await fetch('http://localhost:8015/gateway/model?model=res.partner')).json(); loadedYet = true">
+            x-init="products = await (await fetch(`http://localhost:8015/gateway/api?model=res.partner&items=['email','name','id']`)).json(); loadedYet = true">
             
             <template x-for="(product, index) in products">
-                <div class="bg-indigo-700 p-4 rounded-lg m-2"
-                    x-init="url='http://localhost:8015/gateway/png?id='+product.id">
-                    <div x-text="product.name"></div>
-                    <td x-text="product.id"></td>
-                   
-                    <div class="relative overflow-hidden transition-transform hover:scale-110">
-                       
-                        <img :src="url" alt="Kitten" class="w-10 h-10 object-cover rounded-md">
-                    </div>
-                </div>
+                <li x-text="product.name"></li> 
+                <li x-text="index"></li> 
+                <span class="bg-indigo-400" x-text="product.email"></span>
+                    
 
             </template>
 
@@ -46,11 +108,11 @@
     <div class="bg-slate-600 ">
         <div class="grid grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-6    gap-1 rounded-md"
             x-data="{products: [], loadedYet: false}"
-            x-init="products = await (await fetch('http://localhost:8015/gateway/model?model=product.product')).json(); loadedYet = true">
+            x-init="products = await (await fetch(`http://localhost:8015/gateway/api?model=product.product&items=['name','id']`)).json(); loadedYet = true">
             
             <template x-for="(product, index) in products">
                 <div class="bg-indigo-200 p-4 rounded-lg m-2"
-                    x-init="url='http://localhost:8015/gateway/png?id='+product.id">
+                    x-init="url='http://localhost:8015/gateway/api?type=img&model=product.product&id='+product.id">
                     <div x-text="product.name"></div>
                     <td x-text="product.id"></td>
                    
