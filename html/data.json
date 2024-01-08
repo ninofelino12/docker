@@ -1,0 +1,15 @@
+// your-data-file.json
+[
+    {
+      "id": 1,
+      "title": "Card 1",
+      "description": "Description for Card 1"
+    },
+    {
+      "id": 2,
+      "title": "Card 2",
+      "description": "Description for Card 2"
+    },
+    // Add more cards as needed
+  ]
+  

@@ -7,6 +7,7 @@
   <!-- <script src="//unpkg.com/alpinejs" defer></script> -->
   <script src="https://unpkg.com/alpinejs"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="static/src/js/felino.js"></script>
   <style>
     /* Tambahan style untuk efek transisi */
     .transition-transform {
@@ -18,68 +19,21 @@
     <h1 class="font-inter p-2 m-auto bg-slate-600 text-center text-4xl font-bold ">
 
         Partner</h1>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2" id="card-container"></div>
+<a href="https://vscode.dev/github/ninofelino12/docker">CODE</a>
+        <div class="grid lg:grid-flow-col-2 m-2 p-4">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2" id="card-container"></div>
+            <div class="bg-indigo-300 grid grid-cols-2 lg:grid-cols-4 gap-2" id="container">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum perspiciatis velit obcaecati, molestiae corrupti
+                id! Tempore officia praesentium temporibus exercitationem minima pariatur dolorem aperiam! Odit possimus
+                officiis nulla reiciendis sit.
+            </div>
+        </div>
+        
 
        
     
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-    // Fetch JSON data
-    fetch('http://localhost:8015/gateway/api?model=res.partner&items=["name","email","id"]')
-                    .then(response => response.json())
-                    .then(data => { createCards(data); })
-                    .catch(error => console.error('Error fetching JSON:', error));
-            });
-
-        function createCards(data) {
-            const cardContainer = document.getElementById('card-container');
-
-            // Clear existing cards
-            cardContainer.innerHTML = '';
-
-            // Iterate through each item in the JSON data
-            data.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-
-                // Add content to the card (adjust properties based on your JSON structure)
-                card.innerHTML = `
-            <div class="bg-indigo-300 p-4 rounded-lg w-100">
-            <h2>${item.name}</h2>
-            <p>ID: ${item.id}</p>
-            <p>${item.email}</p>
-            <button class="btn">Click me</button>
-            </div>    
-          
-
-            
-        `;
-
-                // Append the card to the container
-                cardContainer.appendChild(card);
-            });
-}
-function populateTable(data) {
-    const tableBody = document.querySelector('#data-table tbody');
-
-    // Clear existing table rows
-    tableBody.innerHTML = '';
-
-    // Iterate through each item in the JSON data
-    data.forEach(item => {
-        const row = document.createElement('li');
-
-        // Add cells for each column in the JSON data
-        Object.values(item).forEach(value => {
-            const cell = document.createElement('h2');
-            cell.textContent = value;
-            row.appendChild(cell);
-        });
-
-        // Append the row to the table body
-        tableBody.appendChild(row);
-    });
-}
+   
 
         </script>
 

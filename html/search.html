@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link href="/dist/output.css" rel="stylesheet">  -->
+  <!-- <script src="//unpkg.com/alpinejs" defer></script> -->
+  <script src="https://unpkg.com/alpinejs"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="static/src/js/felino.js"></script>
+  <style>
+    /* Tambahan style untuk efek transisi */
+    .transition-transform {
+        @apply transition-transform ease-in-out duration-300;
+    }
+</style>
+</head>
+<body>
+    <h1 class="font-inter p-2 m-auto bg-slate-600 text-center text-4xl font-bold ">Partner</h1>
+    <input type="text" id="searchInput" placeholder="Type to search...">
+    <ul id="resultList"></ul>
+    <script>
+import Bard from 'bard-ai';
+
+const myBard = new Bard();
+
+const response = await myBard.ask('Apa arti hidup?');
+
+console.log(response);
+
+    </script>
+
+</body>
+
+</html>

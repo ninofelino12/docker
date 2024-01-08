@@ -1,80 +1,46 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gauge dengan Tailwind CSS</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Tailwind CSS -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-<!-- Alpine.js -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
 </head>
-<body>
-    <div :style="'width:' + progress + '%'"
-     class="transition-all shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"></div>
+<body data-rsssl=1>
 
-    <div x-data="{ progress: 0 }">
-        <div class="relative pt-1">
-          <div class="flex mb-2 items-center justify-between">
-            <div>
-              <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">
-                Task in Progress
-              </span>
-            </div>
-            <div class="text-right">
-              <span x-text="progress + '%'"
-                    class="text-xs font-semibold inline-block text-teal-600">
-              </span>
-            </div>
-          </div>
-          <div class="flex mb-2 items-center justify-between">
-            <div class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">
-              0%
-            </div>
-            <div class="text-right">
-              <span class="text-xs font-semibold inline-block text-teal-600">
-                100%
-              </span>
-            </div>
-          </div>
-          <div class="flex items-center justify-between">
-            <div class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">
-              <span x-text="progress + '%'"></span>
-            </div>
-            <div class="text-right">
-              <span class="text-xs font-semibold inline-block text-teal-600">
-                100%
-              </span>
-            </div>
-          </div>
-          <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200">
-            <div :style="'width:' + progress + '%'"
-                 class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"></div>
-          </div>
-          <div class="text-center">
-            <button @click="progress = Math.min(100, progress + 10)"
-                    class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
-              Increase Progress
-            </button>
-          </div>
-        </div>
-      </div>
-      
-
-
-
-
-    <div class="flex items-center justify-center h-screen">
-        <div class="relative w-40 h-40 rounded-full border-4 border-gray-300">
-            <div class="absolute inset-0 bg-gradient-to-br from-green-500 to-blue-500 rounded-full"></div>
-            <div class="absolute inset-0 bg-white flex items-center justify-center rounded-full">
-                <span class="text-xl font-bold text-gray-800">70%</span>
-            </div>
-        </div>
-    </div>
-
+<div id="output"></div>
+<script>
+const options = {
+enableHighAccuracy: true, 
+// Get high accuracy reading, if available (default false)
+timeout: 5000, 
+// Time to return a position successfully before error (default infinity)
+maximumAge: 2000, 
+// Milliseconds for which it is acceptable to use cached position (default 0)
+};
+navigator.geolocation.watchPosition(success, error, options);
+// Fires success function immediately and when user position changes
+function success(pos) {
+const lat = pos.coords.latitude;
+const lng = pos.coords.longitude;
+const accuracy = pos.coords.accuracy; // Accuracy in metres
+document.getElementById('output').innerText = `
+User coordinates: 
+Latitude ${lat}.
+Longitude ${lng}.
+Estimation accurate within ${Math.round(accuracy)} metres.`;
+}
+function error(err) {
+if (err.code === 1) {
+alert("Please allow geolocation access");
+// Runs if user refuses access
+} else {
+alert("Cannot get current location");
+// Runs if there was a technical problem.
+}
+}
+</script>
+  
 </body>
 </html>

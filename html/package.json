@@ -12,6 +12,7 @@
     "tailwindcss": "^3.4.0"
   },
   "dependencies": {
-    "alpinejs": "^3.13.3"
+    "alpinejs": "^3.13.3",
+    "bard-ai": "^2.0.3"
   }
 }

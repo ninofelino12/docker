@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link href="/dist/output.css" rel="stylesheet">  -->
+  <!-- <script src="//unpkg.com/alpinejs" defer></script> -->
+  <script src="https://unpkg.com/alpinejs"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="static/src/js/felino.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+  <style>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    /* Tambahan style untuk efek transisi */
+    .transition-transform {
+        @apply transition-transform ease-in-out duration-300;
+    }
+</style>
+</head>
+<body>
+  
+        <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+<!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+<div class="p-4 mb-3">
+    <div class="relat mb-4 flex w-full flex-wrap items-stretch">
+      <input
+        type="search"
+        class="relative m-0 -mr-0.5 block min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+        placeholder="Search"
+        aria-label="Search"
+        aria-describedby="button-addon3" />
+  
+      <!--Search button-->
+      <button
+        class="relative z-[2] rounded-r border-2 border-primary px-6 py-2 text-xs font-medium uppercase text-primary transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
+        type="button"
+        id="button-addon3"
+        data-te-ripple-init>
+        Search
+      </button>
+    </div>
+  </div>
+
+        <div class="grid lg:grid-flow-col-2 m-2 p-4">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2" id="card-container"></div>
+            <div class="bg-indigo-300 grid grid-cols-2 lg:grid-cols-4 gap-2" id="container">
+                
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Fetch JSON data
+                
+                fetch('http://localhost:8015/gateway/api?model=res.partner&items=["name","email","id"]')
+                                .then(response => response.json())
+                                .then(data => { createCards(data); })
+                                .then(data =>{
+                                    localStorage.setItem('Data', data.stringify(data));
+                                })
+                                .catch(error => console.error('Error fetching JSON:', error));
+                        });
+            
+                    function createCards(data) {
+                        const cardContainer = document.getElementById('card-container');
+            
+                        // Clear existing cards
+                        cardContainer.innerHTML = '';
+                        const domain= window.location.hostname;
+                        const domainport= window.location.host; 
+                        var currentDomainWithProtocol = window.location.origin;
+            
+            
+                        // Iterate through each item in the JSON data
+                        localStorage.setItem('data', 'data');
+                        data.forEach(item => {
+                            const card = document.createElement('div');
+                            card.className = 'card';
+                                
+                            // Add content to the card (adjust properties based on your JSON structure)
+                            card.innerHTML = `
+                            <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-1 rounded-lg w-50 min-w-50 max-w-50">
+                <img class="rounded-t-lg" src="http://${domain}:8015/gateway/api?type=img&model=res.partner&id=${item.id}" alt="Profile Image">
+                <div class="p-5">
+                    <a href="#" class="block mb-2 text-2xl font-bold tracking-tight text-white dark:text-gray-900">
+                        ${item.name}
+                    </a>
+                    <p class="mb-3 text-sm text-white dark:text-gray-400">
+                        ${item.email}
+                    </p>
+                </div>
+            </div>
+            `
+                      
+            
+                        
+                    ;
+            
+                            // Append the card to the container
+                            cardContainer.appendChild(card);
+                        });
+                        
+        </script>
+<script>
+    var map = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map)
+    </script>
+
+       
+    
+       
+</body>
+
+</html>
