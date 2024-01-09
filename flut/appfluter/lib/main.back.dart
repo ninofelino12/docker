@@ -1,9 +1,7 @@
 import 'package:appfluter/photo.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-String myUrl = 'http://localhost:8015/gateway/product';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -20,12 +18,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Future<List<Photo>> fetchPhotos2(http.Client client, String example) async {
-  // final response = await client.get(Uri.parse(myUrl));
-  final response = await client.get(Uri.parse(example));
-  return compute(parsePhotos, response.body);
-}
-
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -36,23 +28,20 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text(title, style: const TextStyle(color: Colors.white)),
+        title: Text(title, style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-              icon: const Icon(Icons.search),
+              icon: Icon(Icons.search),
               onPressed: () {
-                myUrl = 'http://localhost:8r015/gateway/product//';
-                // setState(() {});
-                print(myUrl);
                 // Add search code here
               }),
           IconButton(
-              icon: const Icon(Icons.add),
+              icon: Icon(Icons.add),
               onPressed: () {
                 // Add widget code here
               }),
           IconButton(
-            icon: const Icon(Icons.camera),
+            icon: Icon(Icons.camera),
             onPressed: () {
               // Add camera button code here
             },
@@ -60,7 +49,7 @@ class MyHomePage extends StatelessWidget {
         ],
       ),
       body: FutureBuilder<List<Photo>>(
-        future: fetchPhotos2(http.Client(), myUrl),
+        future: fetchPhotos(http.Client()),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(
@@ -98,18 +87,26 @@ class PhotosList extends StatelessWidget {
           children: [
             Column(
               children: [
-                Text(photos[index].title),
-                Text(photos[index].name),
-                Text(myUrl),
-                Text(photos[index].url)
+                Text(photos[index].title,
+                    style: const TextStyle(backgroundColor: Colors.red)),
+                Text(photos[index].name,
+                    style: TextStyle(backgroundColor: Colors.red)),
+                Text(photos[index].url,
+                    style: TextStyle(backgroundColor: Colors.red))
               ],
             ),
-            // Image.network(photos[index].thumbnailUrl), // Added image widget
-            Image.network('http://localhost:8015/gateway/png?id=' +
-                photos[index].id.toString())
           ],
         );
       },
+    );
+  }
+}
+
+class coli extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('This is a stateless widget'),
     );
   }
 }

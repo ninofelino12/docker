@@ -42,7 +42,7 @@ class MyHomePage extends StatelessWidget {
               icon: const Icon(Icons.search),
               onPressed: () {
                 myUrl = 'http://localhost:8r015/gateway/product//';
-                // setState(() {});
+
                 print(myUrl);
                 // Add search code here
               }),

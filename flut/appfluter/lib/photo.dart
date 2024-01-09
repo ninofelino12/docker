@@ -1,4 +1,13 @@
 import 'dart:convert';
+import 'dart:async';
+import 'package:appfluter/main.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show compute;
+
+Future<List<Photo>> fetchPhotos(http.Client client) async {
+  final response = await client.get(Uri.parse(myUrl));
+  return compute(parsePhotos, response.body);
+}
 
 class Photo {
   final int albumId;
