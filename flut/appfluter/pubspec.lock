@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -152,6 +160,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  odoo_rpc:
+    dependency: "direct main"
+    description:
+      name: odoo_rpc
+      sha256: "16cdaa4775e80215ab9d3ffa163eed9106cccc2d8a4527a0937686604360d788"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.2"
   path:
     dependency: transitive
     description:

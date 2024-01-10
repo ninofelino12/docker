@@ -1,28 +1,27 @@
-import 'package:appfluter/photo.dart';
-import 'package:appfluter/widget/CustomAppBar.dart';
-import 'package:appfluter/widget/CustomGridWidget.dart';
+import 'package:appfluter/json.dart';
 import 'package:appfluter/widget/ResponsiveAppBar.dart';
 import 'package:appfluter/widget/ResponsiveGridWidget.dart';
-import 'package:appfluter/widget/search.dart';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:appfluter/widget/model.dart';
 
-String myUrl = 'http://localhost:8015/gateway/product';
 void main() => runApp(Appb());
+
+void ambildata() {
+  loadJsonFromUrl(url).then((value) => {jsondata = value, print(value)});
+}
 
 class Appb extends StatelessWidget {
   const Appb({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> items = ["Item 1", "Item 2", "Item 3", "Item 4"];
-
+    loadJsonFromUrl(url).then((value) => {jsondata = value, print(value)});
+    print(jsondata);
+    final items = ["Item 1", "It 2", "It 3", "It 4"];
     return MaterialApp(
         home: Scaffold(
-      // body: MyBody(),
-      // body: CustomGridWidget(items: items),
+      // body: MyBody(),CustomGridWidget(items: items),
       body: ResponsiveGridWidget(items: items),
       // appBar: CustomAppBar(title: 'Custom Bar'),
       appBar: ResponsiveAppBar(),
