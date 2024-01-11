@@ -68,6 +68,7 @@ class _MyAppState extends State<MyApp> {
                     title: Text(_filteredData[index]['name']),
                     subtitle: Text(_filteredData[index]['name']),
                     leading: Image.network(
+                        width: 100.0,
                         'http://localhost:8015/gateway/image/${_filteredData[index]['id']}'),
                   );
                 },
