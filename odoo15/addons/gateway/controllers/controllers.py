@@ -28,7 +28,7 @@ class Gateway(http.Controller):
 
         # Define common items for all types
         #common_items = kw.get('items',['id', 'name'])
-        items_str = kw.get('items', '[]')
+        items_str = kw.get('items', '[id,name]')
         try:
             common_items = ast.literal_eval(items_str)
         except (ValueError, SyntaxError):
