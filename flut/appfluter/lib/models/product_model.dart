@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:http/http.dart' as http;
 
 class Product {
@@ -32,9 +33,14 @@ class Product {
     this.url = '${this.baseurl}?model=${model}';
   }
 
-  list() {
+  list(int? index) {
     var hasil = jsonDecode(this.response);
-    print("list");
+    print(index == null ? {hasil.toString()} : {hasil[index]});
+    print('list module');
+    // ;
+    print(hasil.length);
+    print(hasil[1]);
+    return hasil;
   }
 
   getcolumn(List<String> field) {
@@ -47,7 +53,7 @@ class Product {
       for (var index = 0; index < field.length; index++) {
         hasil = '${hasil}' + item[field[index]].toString();
       }
-      print(hasil);
+      // print(hasil);
     }
   }
 
@@ -75,23 +81,14 @@ class Product {
 //         ftype = kw.get('type','html')
 //         model = kw.get('model', 'res.partner')
 void main() {
-  // dynamic decodedData;
-  // dynamic item;
-
   var product1 = Product();
-  //product1.url = url;
-  String nama = "nama";
-  String alamat = "alamat";
-  print('$nama$alamat');
 
   product1.setmodel('res.partner');
-  print(product1.url);
 
   product1.loadJsonFromUrl().then((value) => {
         // print(product1.response),
         product1.getcolumn(['id', 'name']),
-        //       //  product1.getcolumn(['name', 'id']),
-        //       print('eof')
+        product1.list(2),
       });
   ;
 }

@@ -1,25 +1,14 @@
-AppBar(
-        backgroundColor: Colors.blue,
-        title: Text(title, style: const TextStyle(color: Colors.white)),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                myUrl = 'http://localhost:8r015/gateway/product//';
-                // setState(() {});
-                print(myUrl);
-                // Add search code here
-              }),
-          IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                // Add widget code here
-              }),
-          IconButton(
-            icon: const Icon(Icons.camera),
-            onPressed: () {
-              // Add camera button code here
-            },
-          )
-        ],
-      ),
+import 'package:appfluter/models/product_model.dart';
+
+void main() {
+  var product1 = Product();
+
+  product1.setmodel('res.partner');
+
+  product1.loadJsonFromUrl().then((value) => {
+        // print(product1.response),
+        product1.getcolumn(['id', 'name']),
+        product1.list(2),
+      });
+  ;
+}
