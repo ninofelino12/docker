@@ -21,6 +21,7 @@ class Myodoo {
   String? _password;
   String model = 'product.product';
   String field = 'id,name';
+  String search = '';
 
   /// /web/dataset/
   /// /mail/channel/messages
@@ -29,7 +30,7 @@ class Myodoo {
 
   String product() {
     //return '${this.baseURL}/gateway/product';
-    return '${this.baseURL}/gateway/dataset/${this.model}';
+    return '${this.baseURL}/gateway/dataset/${this.model}?search=${this.search}';
   }
 
   String productImage(int id) {
@@ -60,7 +61,7 @@ class _MyAppState extends State<MyApp> {
   List<dynamic> _data = [];
 
   final client = Myodoo('http://localhost:8015');
-  String _searchTerm = "http://localhost:8015";
+  String _searchTerm = "ped";
   final TextEditingController nameController =
       TextEditingController(text: 'John Doe');
 
@@ -92,12 +93,34 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter App",
+      title: "Odoo Product",
       home: Scaffold(
         appBar: AppBar(
           title: TextField(
-            controller: nameController,
-          ),
+              controller: TextEditingController(text: _searchTerm),
+              onChanged: (value) {
+                _searchTerm = value;
+              }
+              // Handle the value changed event
+
+              ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.help),
+              onPressed: () {
+                // Perform some action
+                client.search = _searchTerm;
+                _fetchData();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // Perform some action
+              },
+              alignment: Alignment.centerLeft,
+            ),
+          ],
         ),
         body: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

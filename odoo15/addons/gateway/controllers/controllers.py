@@ -92,17 +92,22 @@ class Gateway(http.Controller):
         
     @http.route('/gateway/dataset/<string:model>',type='http', auth='none',website=True)
     @http.route('/gateway/dataset',type='http', auth='none',website=True, methods=['GET'])
-    def dataset(self,fields='id,name',model='product.product', **kw):
+    def dataset(self,fields='id,name',model='product.product',search='' ,**kw):
         # if not(model):
         #     model='product.product'
-        partners = request.env[model].sudo().search([])
+        partners = request.env[model].sudo().search([('name','ilike',f'{search}%')])
         fields = fields.split(',')
         partner_data = []
         record=[]
-     
-        response = json.dumps(partners.read(['name']))
+        products_starting_with_la = request.env['product.product'].sudo().search([('name', 'ilike', f'{search}%')])
+        product_data = [{'name': product.name, 'id': product.id} for product in products_starting_with_la]
+        print(product_data);
+        #response = json.dumps(partners.read(['name']))
+        response = json.dumps(partners.read(fields))
         # response.headers.add('Access-Control-Allow-Origin', '*')    
-        return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])    
+        #return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
+        return request.make_response(json.dumps(product_data), [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
+        #return request.make_response(contenttype='application/json', content=json.dumps(product_data))    
        
     
     @http.route('/gateway/product',type='http', auth='none',website=True)
