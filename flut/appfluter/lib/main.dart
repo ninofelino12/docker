@@ -19,7 +19,8 @@ class Myodoo {
   String? _db;
   String? _username;
   String? _password;
-  String? model;
+  String model = 'product.product';
+  String field = 'id,name';
 
   /// /web/dataset/
   /// /mail/channel/messages
@@ -27,11 +28,12 @@ class Myodoo {
   Myodoo(this.baseURL);
 
   String product() {
-    return '${this.baseURL}/gateway/dataset/product.product';
+    //return '${this.baseURL}/gateway/product';
+    return '${this.baseURL}/gateway/dataset/${this.model}';
   }
 
-  String productImage() {
-    return '${this.baseURL}/gateway/web/image?model=product.product&id=';
+  String productImage(int id) {
+    return '${this.baseURL}/gateway/web/image?model=${this.model}&id=${id.toString()}';
     // http://localhost:8015/gateway/my/image
   }
 
@@ -108,8 +110,7 @@ class _MyAppState extends State<MyApp> {
                 title: Text(_data[index]["name"]),
                 subtitle: Text(_data[index]["name"]),
                 leading: Image.network(
-                    width: 100.0,
-                    '${client.productImage()}${_data[index]['id']}'),
+                    width: 100.0, client.productImage(_data[index]['id'])),
               ),
             );
           },

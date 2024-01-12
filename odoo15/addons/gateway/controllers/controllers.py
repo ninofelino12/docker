@@ -92,30 +92,15 @@ class Gateway(http.Controller):
         
     @http.route('/gateway/dataset/<string:model>',type='http', auth='none',website=True)
     @http.route('/gateway/dataset',type='http', auth='none',website=True, methods=['GET'])
-    def dataset(self,model,fields='id,name', **kw):
-        if not(model):
-            model='product.product'
+    def dataset(self,fields='id,name',model='product.product', **kw):
+        # if not(model):
+        #     model='product.product'
         partners = request.env[model].sudo().search([])
         fields = fields.split(',')
         partner_data = []
-        
-        for partner in partners:
-            for field in fields:
-                field:partner[field]
-                partner_data.append({field:partner[field]})
-                print(field)
-            
-            # partner_data.append({
-            #      'id': partner.id,
-            #      'name': partner.name,
-                # 'detail':partner.description,
-                # 'defaultcode':partner.default_code,
-
-                # 'dd':partner.detailed_type
-                
-            })
-        #response=str(partners)   
-        response = json.dumps(partner_data)
+        record=[]
+     
+        response = json.dumps(partners.read(['name']))
         # response.headers.add('Access-Control-Allow-Origin', '*')    
         return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])    
        
