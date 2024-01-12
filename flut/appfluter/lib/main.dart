@@ -2,81 +2,151 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-void main() => runApp(MyApp());
+import 'package:odoo_rpc/odoo_rpc.dart';
+
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
+class Myodoo {
+  String? baseURL;
+  String? _url;
+  String? _db;
+  String? _username;
+  String? _password;
+  String? model;
+
+  /// /web/dataset/
+  /// /mail/channel/messages
+  ////web/image?model=product.te
+  Myodoo(this.baseURL);
+
+  String product() {
+    return '${this.baseURL}/gateway/dataset/product.product';
+  }
+
+  String productImage() {
+    return '${this.baseURL}/gateway/web/image?model=product.product&id=';
+    // http://localhost:8015/gateway/my/image
+  }
+
+  String alamat() {
+    return '${this.baseURL}/gateway/image/';
+  }
+
+  Future<void> connect() async {
+    // TODO: Implement Odoo RPC connection logic
+  }
+
+  Future<List<dynamic>> searchProduct(String query) async {
+    // TODO: Implement Odoo RPC search product logic
+    return [];
+  }
+
+  Future<List<dynamic>> getProductImage(int productId) async {
+    // TODO: Implement Odoo RPC get product image logic
+    return [];
+  }
+}
+
 class _MyAppState extends State<MyApp> {
-  List<dynamic> data = [];
-  List<dynamic> _filteredData = [];
-  final TextEditingController _searchController = TextEditingController();
+  List<dynamic> _data = [];
+
+  final client = Myodoo('http://localhost:8015');
+  String _searchTerm = "http://localhost:8015";
+  final TextEditingController nameController =
+      TextEditingController(text: 'John Doe');
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    _fetchData();
+    client.model = 'product.product';
   }
 
-  Future<void> fetchData() async {
-    final response =
-        await http.get(Uri.parse('http://localhost:8015/gateway/product'));
-
+  _fetchData() async {
+    final response = await http.get(Uri.parse("${client.product()}"));
     if (response.statusCode == 200) {
       setState(() {
-        data = jsonDecode(response.body);
-        _filteredData = data; // Initially show all data
+        _data = jsonDecode(response.body);
       });
-    } else {
-      // Handle error
     }
   }
 
-  void _searchData() {
-    final searchTerm = _searchController.text.toLowerCase();
-    _filteredData = data.where((item) {
-      final title = item['name'].toString().toLowerCase();
-      return title.contains(searchTerm);
-    }).toList();
-    setState(() {});
+  _search() {
+    setState(() {
+      _data = _data
+          .where((post) =>
+              post["title"].toLowerCase().contains(_searchTerm.toLowerCase()))
+          .toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Flutter App",
       home: Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          children: [
-            TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search',
-                suffixIcon: IconButton(
-                  onPressed: _searchData,
-                  icon: Icon(Icons.search),
-                ),
+        appBar: AppBar(
+          title: TextField(
+            controller: nameController,
+          ),
+        ),
+        body: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          itemCount: _data.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                title: Text(_data[index]["name"]),
+                subtitle: Text(_data[index]["name"]),
+                leading: Image.network(
+                    width: 100.0,
+                    '${client.productImage()}${_data[index]['id']}'),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _filteredData.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_filteredData[index]['name']),
-                    subtitle: Text(_filteredData[index]['name']),
-                    leading: Image.network(
-                        width: 100.0,
-                        'http://localhost:8015/gateway/image/${_filteredData[index]['id']}'),
-                  );
-                },
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
+    );
+  }
+}
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Size get preferredSize => Size.fromHeight(70); // Specify the desired height
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text('_searchTerm'
+          // Add TextField properties here
+          ),
+      actions: [
+        PopupMenuButton(
+          icon: Icon(Icons.more_vert), // Icon for the menu button
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 1,
+              child: Text('Option 1'),
+            ),
+            PopupMenuItem(
+              value: 2,
+              child: Text('Option 2'),
+            ),
+          ],
+          onSelected: (value) {
+            // Handle menu item selection
+          },
+        ),
+      ],
     );
   }
 }

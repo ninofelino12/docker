@@ -90,7 +90,34 @@ class Gateway(http.Controller):
             response = json.dumps(partner_data)
             return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
         
+    @http.route('/gateway/dataset/<string:model>',type='http', auth='none',website=True)
+    @http.route('/gateway/dataset',type='http', auth='none',website=True, methods=['GET'])
+    def dataset(self,model,fields='id,name', **kw):
+        if not(model):
+            model='product.product'
+        partners = request.env[model].sudo().search([])
+        fields = fields.split(',')
+        partner_data = []
         
+        for partner in partners:
+            for field in fields:
+                field:partner[field]
+                partner_data.append({field:partner[field]})
+                print(field)
+            
+            # partner_data.append({
+            #      'id': partner.id,
+            #      'name': partner.name,
+                # 'detail':partner.description,
+                # 'defaultcode':partner.default_code,
+
+                # 'dd':partner.detailed_type
+                
+            })
+        #response=str(partners)   
+        response = json.dumps(partner_data)
+        # response.headers.add('Access-Control-Allow-Origin', '*')    
+        return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])    
        
     
     @http.route('/gateway/product',type='http', auth='none',website=True)
@@ -174,7 +201,28 @@ class Gateway(http.Controller):
     @http.route('/gateway/api/params',type='http', auth='none',website=True)
     def api(self, **kw):
         return request.redirect_query('/web', query=request.params)
+    
+    @http.route('/gateway/web/image', type='http', auth='none', website=True)
+    def redirect_to_product_image(self ,model='product.product',id=16,field='id,name',**kwargs):
+        # Check if model and id are provided in the URL parameters
+        #model="product.product"
+        #id=16
+        field = field.split(',')
+            # Retrieve the record from the specified model
+        record = request.env[model].sudo().browse(int(id))
+        print('model.....') 
+            # Check if the record exists and has the specified image field
+        
+        image_data = base64.b64decode(record['image_1920'])
 
+                # Set the appropriate response headers for an image
+        response = request.make_response(image_data)
+        response.headers['Content-Type'] = 'image/png'  # Adjust the content type as needed
+
+        return response
+
+        # If the provided model or id is invalid, you can redirect to a default image or handle it as needed
+        #return request.redirect('/web/image?model=product.template&field=image_128&id=35')  # Provide a default image URL
       
             
 
