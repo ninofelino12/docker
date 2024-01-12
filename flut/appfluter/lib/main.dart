@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class Myodoo {
-  String? baseURL;
+  String baseURL;
   String? _url;
   String? _db;
   String? _username;
@@ -26,14 +26,16 @@ class Myodoo {
   /// /web/dataset/
   /// /mail/channel/messages
   ////web/image?model=product.te
+  /////return '${this.baseURL}/gateway/product';
   Myodoo(this.baseURL);
 
-  String product() {
-    //return '${this.baseURL}/gateway/product';
-    return '${this.baseURL}/gateway/dataset/${this.model}?search=${this.search}';
-  }
+  String product() => '$baseURL/gateway/dataset/$model?search=$search';
 
-  String productImage(int id) {
+  String productImage(int id) =>
+      '$baseURL/gateway/web/image?model=$model&id=${id.toString()}';
+  // http://localhost:8015/gateway/my/image
+
+  String productImageb(int id) {
     return '${this.baseURL}/gateway/web/image?model=${this.model}&id=${id.toString()}';
     // http://localhost:8015/gateway/my/image
   }
@@ -92,85 +94,53 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Odoo Product",
-      home: Scaffold(
-        appBar: AppBar(
-          title: TextField(
-              controller: TextEditingController(text: _searchTerm),
-              onChanged: (value) {
-                _searchTerm = value;
-              }
-              // Handle the value changed event
-
-              ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.help),
-              onPressed: () {
-                // Perform some action
-                client.search = _searchTerm;
-                _fetchData();
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                // Perform some action
-              },
-              alignment: Alignment.centerLeft,
-            ),
-          ],
-        ),
-        body: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+    var appBar2 = AppBar(
+      title: TextField(
+          controller: TextEditingController(text: _searchTerm),
+          onChanged: (value) {
+            _searchTerm = value;
+          }
+          // Handle the value changed event
           ),
-          itemCount: _data.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                title: Text(_data[index]["name"]),
-                subtitle: Text(_data[index]["name"]),
-                leading: Image.network(
-                    width: 100.0, client.productImage(_data[index]['id'])),
-              ),
-            );
+      actions: [
+        IconButton(
+          icon: Icon(Icons.help),
+          onPressed: () {
+            // Perform some action
+            client.search = _searchTerm;
+            _fetchData();
           },
+        ),
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            // Perform some action
+          },
+          alignment: Alignment.centerLeft,
+        ),
+      ],
+    );
+    var gridView = GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemCount: _data.length,
+      itemBuilder: (context, index) => Card(
+        child: ListTile(
+          title: Text(_data[index]["name"]),
+          subtitle: Text(_data[index]["name"]),
+          leading: Image.network(
+              width: 100.0, client.productImage(_data[index]['id'])),
         ),
       ),
     );
-  }
-}
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  @override
-  Size get preferredSize => Size.fromHeight(70); // Specify the desired height
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: Text('_searchTerm'
-          // Add TextField properties here
-          ),
-      actions: [
-        PopupMenuButton(
-          icon: Icon(Icons.more_vert), // Icon for the menu button
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              value: 1,
-              child: Text('Option 1'),
-            ),
-            PopupMenuItem(
-              value: 2,
-              child: Text('Option 2'),
-            ),
-          ],
-          onSelected: (value) {
-            // Handle menu item selection
-          },
-        ),
-      ],
+    return MaterialApp(
+      title: "Odoo Product",
+      home: Scaffold(
+        appBar: appBar2,
+        body: gridView,
+      ),
     );
   }
 }
