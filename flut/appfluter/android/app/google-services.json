@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "856774459322",
+    "project_id": "odoodb-afb24",
+    "storage_bucket": "odoodb-afb24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856774459322:android:d390f9199d44e03ff5e783",
+        "android_client_info": {
+          "package_name": "com.example.appfluter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBARDg5zparzMVMmn5wmXKf-M9ZR36Ejms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Felinio</title>
+  <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header class="bg-gray-900">
+    <nav class="container mx-auto flex justify-between items-center py-6">
+      <a href="/" class="text-white text-2xl font-bold">
+        <img src="https://i.imgur.com/85s4aXd.jpg" class="w-20" alt="Logo Felinio">
+        Felinio
+      </a>
+      <ul class="flex space-x-2">
+        <li>
+          <a href="/about" class="text-white">About</a>
+        </li>
+        <li>
+          <a href="/products" class="text-white">Products</a>
+        </li>
+        <li>
+          <a href="/contact" class="text-white">Contact</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main class="container mx-auto px-4 py-8">
+    <section class="flex flex-col items-center">
+      <h1 class="text-4xl font-bold mb-4">Felinio</h1>
+      <p class="text-lg">
+        Felinio adalah perusahaan yang menyediakan produk-produk untuk kucing. Kami berkomitmen untuk memberikan produk-produk berkualitas tinggi yang aman dan nyaman untuk kucing Anda.
+      </p>
+      <a href="/products" class="btn btn-primary">Lihat Produk</a>
+    </section>
+  </main>
+  <footer class="bg-gray-900 text-white text-center py-4">
+    &copy; 2024 Felinio
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs@3.x/dist/alpine.min.js"></script>
+  <script>
+    // Mendapatkan data produk dari Firebase
+    import firebase from 'firebase';
+    const firebaseConfig = {
+      apiKey: 'YOUR_API_KEY',
+      authDomain: 'YOUR_AUTH_DOMAIN',
+      projectId: 'YOUR_PROJECT_ID',
+      storageBucket: 'YOUR_STORAGE_BUCKET',
+      messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+      appId: 'YOUR_APP_ID',
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Mendapatkan daftar produk
+    const productsRef = firebase.database().ref('products');
+    productsRef.on('value', (snapshot) => {
+      const products = snapshot.val();
+      // Menampilkan gambar kucing di header
+      const headerImage = document.querySelector('.header img');
+      headerImage.src = products[0].imageUrl;
+    });
+  </script>
+  <script>
+    const url = "https://felinohosting-default-rtdb.firebaseio.com/";
+
+fetch(url)
+  .then((response) => response.json())
+  .then((data) => console.log(data));
+  </script>
+</body>
+</html>

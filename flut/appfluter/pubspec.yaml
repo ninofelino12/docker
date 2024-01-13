@@ -14,6 +14,8 @@ dependencies:
   odoo_rpc: ^0.5.2
   odoo: ^0.0.2
   xml_rpc: ^0.5.0
+  firebase_core: ^2.24.2
+  firebase_database: ^10.4.0
   
 
 dev_dependencies:

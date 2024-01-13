@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'firebase_options.dart';
 
-import 'package:odoo_rpc/odoo_rpc.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
   runApp(MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -92,8 +98,41 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  bool showAdditionalContent = true;
   @override
   Widget build(BuildContext context) {
+    var listView = ListView.builder(
+      itemCount: _data.length,
+      itemBuilder: (context, index) {
+        var image = Image.network(
+            width: 100.0,
+            'http://localhost:8015/gateway/image/${_data[index]['id']}');
+
+        return ListTile(
+          title: Text(_data[index]['name']),
+          subtitle: Text(_data[index]['name']),
+          leading: image,
+        );
+      },
+    );
+
+    var gridView = GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemCount: _data.length,
+      itemBuilder: (context, index) {
+        var image2 = Image.network(
+            width: 100.0, client.productImage(_data[index]['id']));
+        return Card(
+          child: ListTile(
+            title: Text(_data[index]["name"]),
+            subtitle: Text(_data[index]["name"]),
+            leading: image2,
+          ),
+        );
+      },
+    );
     var appBar2 = AppBar(
       title: TextField(
           controller: TextEditingController(text: _searchTerm),
@@ -114,32 +153,38 @@ class _MyAppState extends State<MyApp> {
         IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
+            setState(() {
+              // Mengubah kondisi saat tombol ditekan
+              showAdditionalContent = !showAdditionalContent;
+            });
+            print(showAdditionalContent);
             // Perform some action
           },
           alignment: Alignment.centerLeft,
         ),
+        IconButton(
+          icon: Icon(Icons.swap_horiz),
+          onPressed: () {
+            // Saat IconButton ditekan, ganti body dengan halaman kedua
+            setState(() {});
+          },
+        ),
       ],
     );
-    var gridView = GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
-      itemCount: _data.length,
-      itemBuilder: (context, index) => Card(
-        child: ListTile(
-          title: Text(_data[index]["name"]),
-          subtitle: Text(_data[index]["name"]),
-          leading: Image.network(
-              width: 100.0, client.productImage(_data[index]['id'])),
-        ),
-      ),
+
+    Widget additionalContentWidget = Text(
+      'Konten Tambahan',
+      style: TextStyle(fontSize: 16),
     );
+    Widget bodyWidget() {
+      return showAdditionalContent ? gridView : listView;
+    }
 
     return MaterialApp(
       title: "Odoo Product",
       home: Scaffold(
         appBar: appBar2,
-        body: gridView,
+        body: bodyWidget(),
       ),
     );
   }
