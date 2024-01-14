@@ -20,9 +20,10 @@
         measurementId: "G-7ZPYTEPKSF"
       };
       // Initialize Firebase
+      alert('q');
       firebase.initializeApp(firebaseConfig);
       const myData = {
-        name: "Alice",
+        name: "Nino",
         age: 30,
         city: "New York"
       };   
@@ -51,3 +52,5 @@
       document.getElementById('username').addEventListener("input",function(){
         document.getElementById("username").style.borderColor="#ccc";
       });
+
+    console.log('start');

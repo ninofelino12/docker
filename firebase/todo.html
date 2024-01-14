@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo App with Firebase</title>
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+  <script src='https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js'>
+const firebaseConfig = {
+        apiKey: "AIzaSyBl1LnJymXg5K6bGQrg4KyoApYvbYGHO4s",
+        authDomain: "odoodata-1a010.firebaseapp.com",
+        databaseURL: "https://odoodata-1a010-default-rtdb.firebaseio.com",
+        projectId: "odoodata-1a010",
+        storageBucket: "odoodata-1a010.appspot.com",
+        messagingSenderId: "256621005958",
+        appId: "1:256621005958:web:b37c55d587b411d36b5507",
+        measurementId: "G-7ZPYTEPKSF"
+      };
+      // Initialize Firebase
+      
+      firebase.initializeApp(firebaseConfig);
+      
+    // Initialize Firebase with your configuration (replace with your details)
+   
+   // const database = firebase.database();
+
+    // Get a reference to the todo list
+    const todoListRef = firebase.database.ref('email');
+
+    // Retrieve todos from Firebase and display them in the list
+    todoListRef.on('value', (snapshot) => {
+      const todoList = document.getElementById('todo-list');
+      todoList.innerHTML = ''; // Clear previous todos
+      snapshot.forEach((childSnapshot) => {
+        const todo = childSnapshot.val();
+        const todoItem = document.createElement('li');
+        todoItem.textContent = todo.text;
+        todoList.appendChild(todoItem);
+      });
+    });
+
+    // Add a todo
+    const addBtn = document.getElementById('add-btn');
+    addBtn.addEventListener('click', () => {
+      const todoText = document.getElementById('todo-input').value.trim();
+      if (todoText) {
+        todoListRef.push({ text: todoText });
+        document.getElementById('todo-input').value = '';
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1>Todo App</h1>
+  <input type="text" id="todo-input" placeholder="Enter a todo">
+  <button id="add-btn">Add Todo</button>
+  <ul id="todo-list"></ul>
+</body>
+</html>
