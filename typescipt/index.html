@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tampilkan Data dari Arch</title>
+  <style>
+ form {
+  /* Styles for the entire form */
+  font-family: sans-serif;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.sheet {
+  /* Styles for the sheet container */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.group {
+  /* Styles for the group of fields */
+  margin-bottom: 20px;
+  width: 30%; /* Adjust based on desired layout */
+}
+
+
+
+input[type="text"],
+input[number] {
+  /* Styles for text and number input fields */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[readonly] {
+  /* Styles for readonly fields */
+  background-color: #eee;
+}
+
+  </style>
+</head>
+<body>
+
+<style>
+  field {
+  /* Styles for field labels */
+  display: block;
+  margin: 15px;
+  padding: 13px;
+  background-color: aqua;
+}
+</style>
+  <div id="hasil">hasil</div>
+ 
+   
+    
+   </p> 
+  <script>
+    function fetchArchData() {
+      // Lakukan HTTP GET request
+      return fetch("http://localhost:8015/gateway/arch")
+        .then(response => response.text())
+        .then(xmlString => {
+
+          // Parse data XML
+         
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(xmlString, "text/xml");
+          const fields = doc.querySelectorAll("field");
+          const fieldArray = Array.from(fields);
+          
+          document.getElementById('hasil').innerHTML=xmlString;
+          const divs = document.querySelectorAll('field');
+          divs.forEach(div => div.textContent += ' Teks tambahan');
+
+                    // Tampilkan data
+      
+          const nodes = doc.getElementsByTagName("arch");
+          for (let i = 0; i < nodes.length; i++) {
+            const node = nodes[i];
+            console.log(node);
+            // Tampilkan nama arch
+            const name = node.getAttribute("name");
+            const nameElement = document.createElement("p");
+            nameElement.textContent = name;
+            document.body.appendChild(nameElement);
+
+            // Tampilkan versi arch
+            const version = node.getAttribute("version");
+            const versionElement = document.createElement("p");
+            versionElement.textContent = version;
+            document.body.appendChild(versionElement);
+
+
+            
+          }
+        });
+    }
+
+    // Jalankan fungsi fetchArchData()
+    fetchArchData();
+  </script>
+
+</body>
+</html>

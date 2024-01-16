@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Form Transformation</title>
+  <style>
+    form {
+      background-color: blue;
+
+    }
+
+    group {
+      display: inline;
+      background-color: aqua;
+    }
+
+    field::before {
+      content: '<h1>BBB</h1>';
+    }
+
+    #hasil {
+      margin: 10px;
+      background-color: blueviolet;
+      display: block;
+      display: grid;
+      grid-template-columns: 1fr;
+      /* Satu kolom untuk menyusun elemen ke bawah */
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div id="hasil">hasil</div>
+
+
+  <script>
+
+
+    console.log('ll');
+    var xml = `
+    <?xml version="1.0"?>
+    <form string="Decimal Precision">
+                    <sheet>
+                        <group col="4">
+                            <field name="id" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="nama"/>
+                            <field name="alamat"/>
+                           
+                        </group>
+                    </sheet>
+    </form>
+            
+    `;
+  
+  function buat(){  
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xml.substring(xml.indexOf('>') + 1), 'text/xml'); // Skip the declaration
+    const fields = xmlDoc.querySelectorAll('field');
+    const element = document.getElementById("hasil");
+    //element.textContent='hassssssssssssssssil';
+    fields.forEach(field => {
+      const label = document.createElement('label');
+      label.textContent = field.getAttribute('name');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = field.name;
+      input.for = 'nama';
+      element.appendChild(input);
+      element.appendChild(label);
+    });
+    const button = document.createElement('button');
+    button.textContent = 'Submit';
+    document.body.appendChild(button);
+  };
+
+
+  const buates6 = () => {
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xml.substring(xml.indexOf('>') + 1), 'text/xml');
+  const fields = xmlDoc.querySelectorAll('field');
+  const element = document.getElementById('hasil');
+
+  fields.forEach(field => {
+    const label = document.createElement('label');
+    label.textContent = field.getAttribute('name');
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = field.name;
+    input.id = 'nama'; // Set the ID for proper label association
+    console.log(buat);  
+    element.appendChild(input);
+    element.appendChild(label);
+  });
+
+  const button = document.createElement('button');
+  button.textContent = 'Submit';
+  document.body.appendChild(button);
+};
+
+const getXml = async () => {
+  const response = await fetch('http://localhost:8015/gateway/arch').then(
+    buates6()
+  );
+
+  
+};
+
+const xmlDoc =getXml();
+console.log(xmlDoc);
+buates6();
+
+
+  </script>
+
+
+<script>
+
+</script>
+
+</body>
+
+</html>

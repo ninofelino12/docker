@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>NodeList Example</title>
+</head>
+<body>
+  <ul id="myList">
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ul>
+  <button onclick="modifyList()">Modify List</button>
+  <div id="output"></div>
+  <script>
+    // Get a NodeList of all list items
+    const listItems = document.querySelectorAll("#myList li");
+
+    function modifyList() {
+      // Convert NodeList to array for easier manipulation
+      const listArray = Array.from(listItems);
+
+      // Reverse the order of items
+      listArray.reverse();
+
+      // Update list with reversed items
+      const outputElement = document.getElementById("output");
+      outputElement.innerHTML = listArray.map(item => item.textContent).join("<br>");
+    }
+  </script>
+</body>
+</html>

@@ -5,12 +5,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'firebase_options.dart';
 
+var FirebaseOptions = FirebaseOptions(
+  apiKey: 'AIzaSyBARDg5zparzMVMmn5wmXKf-M9ZR36Ejms',
+  appId: '1:856774459322:android:d390f9199d44e03ff5e783',
+  messagingSenderId: '856774459322',
+  projectId: 'odoodb-afb24',
+  storageBucket: 'odoodb-afb24.appspot.com',
+);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(MyApp());
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: FirebaseOptions,
   );
 }
 

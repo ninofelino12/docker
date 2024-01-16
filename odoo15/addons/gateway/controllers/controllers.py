@@ -7,7 +7,38 @@ import ast
 
 
 class Gateway(http.Controller):
-    
+    @http.route('/gateway/list', methods=['GET'])
+    def get_list(self):
+        picking_ids = http.request.env['stock.picking'].search([])
+        pickings = picking_ids.read(['name', 'picking_type_id', 'location_id', 'location_dest_id'])
+
+        arch_html = http.request.env['ir.ui.view'].sudo().browse(2)
+        # .render('picking.list', {'pickings': pickings})
+
+        return arch_html
+  
+    @http.route('/gateway/arch', type='http', auth='none',methods=['GET'])
+    def get_view_arch(self):
+        view_id = 2
+        model = 'product.product'
+
+        view = http.request.env['ir.ui.view'].sudo().browse(view_id)
+        arch_base = view.arch_base
+        
+        response_data= json.dumps(arch_base)
+        response_data=  view.arch_base  
+        return request.make_response(
+                response_data, [('Content-Type', 'application/xml'), ('Access-Control-Allow-Origin', '*')]
+            )
+
+    @http.route('/gateway/my_view', type='http', auth='none')
+    def my_view(self, **kwargs):
+        superuser_env = http.request.env(user=SUPERUSER_ID)
+        superuser_id = http.request.env['res.users'].SUPERUSER_ID
+        print(superusrid)
+        view = superuser_env['ir.ui.view'].get_view('my.view')
+        # view = http.request.env[].sudo().get_view('my.view')
+        return view.render()
     
     @http.route('/gateway', auth='none')
     def index(self, **kw):

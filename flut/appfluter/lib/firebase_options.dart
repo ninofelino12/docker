@@ -55,6 +55,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '856774459322',
     projectId: 'odoodb-afb24',
     authDomain: 'odoodb-afb24.firebaseapp.com',
+    databaseURL: 'https://odoodb-afb24-default-rtdb.firebaseio.com',
     storageBucket: 'odoodb-afb24.appspot.com',
     measurementId: 'G-T97HT0CNVW',
   );
@@ -64,6 +65,7 @@ class DefaultFirebaseOptions {
     appId: '1:856774459322:android:d390f9199d44e03ff5e783',
     messagingSenderId: '856774459322',
     projectId: 'odoodb-afb24',
+    databaseURL: 'https://odoodb-afb24-default-rtdb.firebaseio.com',
     storageBucket: 'odoodb-afb24.appspot.com',
   );
 }

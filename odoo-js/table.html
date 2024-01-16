@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabel dari XML dan JSON</title>
+    <style>
+        sheet {
+            background-color: blue;
+            display: inline;
+
+        }
+
+        #isi {
+            background-color: blueviolet;
+        }
+
+        group {
+            background-color: rgb(255, 0, 111);
+            display: inline;
+
+        }
+
+        field::before {
+            display:flexbox;
+            
+            background-color: rgb(255, 0, 195);
+            display: inline;
+           
+            content: '*';
+            display: block;
+            margin: 4px;
+            padding: 3px;
+
+        }
+
+        kotak {
+  width: 100px;
+  height: 100px;
+  background-color: rgb(0, 255, 51);
+}
+    </style>
+</head>
+
+<body>
+    <kotak/>
+
+
+    <coba>sss</coba>
+    <nino></nino>
+    <div id="isi"></div>
+
+    <script>
+
+        const odoo = `
+<?xml version="1.0"?>
+<form string="Decimal Precision">
+                    <sheet>
+                        <group col="4">
+                            
+                            <field name="name" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            
+                            <field name="digits"/>
+                            
+                            <field name="alamat"/>
+                        </group>
+                    </sheet>
+                </form>
+`
+
+        const xml = `
+<table>
+  <thead>
+    <tr>
+      <th name="nama">Nama</th>
+      <th name="usia">Usia</th>
+    </tr>
+  </thead>
+//   <tbody>
+//     <tr>
+//       <td>John Doe</td>
+//       <td>25</td>
+//     </tr>
+//     <tr>
+//       <td>Jane Doe</td>
+//       <td>27</td>
+//     </tr>
+//   </tbody>
+</table>
+`;
+
+        const json = [
+            {
+                "nama": "Alice Smith",
+                "usia": 30
+            },
+            {
+                "nama": "Bob Johnson",
+                "usia": 35
+            }
+        ];
+
+
+
+        
+        const createTable = (odoo, json) => {
+            const table = document.createElement("table");
+
+            // Mengisi header tabel
+            //   const header = xml.querySelector("thead");
+            //   for (const headerCell of header.querySelectorAll("th")) {
+            //     const th = document.createElement("th");
+            //     th.textContent = headerCell.textContent;
+            //     table.appendChild(th);
+            //   }
+
+            // Mengisi isi tabel
+            for (const item of json) {
+                const row = document.createElement("tr");
+                for (const key of Object.keys(item)) {
+                    const cell = document.createElement("td");
+                    cell.textContent = item[key];
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
+            }
+
+            return table;
+        };
+        document.getElementById('isi').innerHTML = odoo;
+        const table = createTable(odoo, json);
+        document.body.appendChild(table);
+
+        
+        
+
+        
+
+        const fields1 = document.querySelectorAll('field');
+
+        for (const field of fields1) {
+            
+           
+            
+        }
+
+
+
+
+
+        const parser = new DOMParser();
+const xmlDoc = parser.parseFromString(odoo, 'text/xml');
+
+// Buat form
+const formElement = document.createElement('form');
+
+// Buat input untuk setiap field
+const fields = xmlDoc.querySelectorAll('field');
+fields.forEach(field => {
+  const inputElement = document.createElement('input');
+  inputElement.type = 'text';
+  inputElement.name = field.getAttribute('name');
+  if (field.hasAttribute('readonly')) {
+    inputElement.readOnly = true;
+  }
+  formElement.appendChild(inputElement);
+});
+
+// Tambahkan form ke halaman
+document.body.appendChild(formElement);
+
+
+    </script>
+
+</body>
+
+</html>

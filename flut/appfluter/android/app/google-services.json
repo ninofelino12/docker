@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "856774459322",
+    "firebase_url": "https://odoodb-afb24-default-rtdb.firebaseio.com",
     "project_id": "odoodb-afb24",
     "storage_bucket": "odoodb-afb24.appspot.com"
   },
