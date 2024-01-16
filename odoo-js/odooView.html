@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table from ir.ui.view with Search</title>
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <input type="text" id="searchBar" placeholder="Search...">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Model</th>
+                <th>Arch</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <script>
+                // Ambil data JSON dari server Odoo
+                fetch('http://localhost:8015/gateway/dataset/ir.ui.view')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Render tabel awal
+                        renderTable(data);
+
+                        // Fungsi pencarian
+                        const searchBar = document.getElementById('searchBar');
+                        searchBar.addEventListener('input', () => {
+                            const searchTerm = searchBar.value.toLowerCase();
+                            const filteredData = data.filter(view => {
+                                return view.id.toString().toLowerCase().includes(searchTerm) ||
+                                    view.model.toLowerCase().includes(searchTerm) ||
+                                    view.arch.toLowerCase().includes(searchTerm);
+                            });
+                            renderTable(filteredData);
+                        });
+                    });
+
+                function renderTable(data) {
+                    const tbody = document.getElementById('tableBody');
+                    tbody.innerHTML = ''; // Bersihkan tabel sebelumnya
+                    data.forEach(view => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td class="px-6 py-4 text-center text-sm font-medium">${view.id}</td>
+                            <td class="px-6 py-4 text-sm font-medium">${view.name}</td>
+                            <td class="px-6 py-4 text-center text-sm font-medium">${view.arch}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            </script>
+            <script>
+                fetch('http://localhost:8015/gateway/dataset/ir.ui.view')
+                    .then(response => response.json())
+                    .then(data => {
+                        const combobox = document.getElementById('model');
+                        data.forEach(view => {
+                            const option = document.createElement('option');
+                            option.value = view.id;
+                            option.text = view.name;
+                            combobox.appendChild(option);
+                        });
+                    });
+            </script>
+        </tbody>
+    </table>
+</body>
+</html>

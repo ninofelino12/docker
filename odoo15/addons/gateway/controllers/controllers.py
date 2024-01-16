@@ -7,6 +7,12 @@ import ast
 
 
 class Gateway(http.Controller):
+    @http.route('/gateway/form',type='http', auth='none', methods=['GET'])
+    def my_viewform(self, **kwargs):
+        # Ambil model
+        model = http.request.env['ir.ui.view'].sudo().browse(765)
+        return request.make_response(model.arch_base,[('model','/gateway/dataset/'+model.model),('form',model.arch_base)])
+    
     @http.route('/gateway/list', methods=['GET'])
     def get_list(self):
         picking_ids = http.request.env['stock.picking'].search([])
@@ -130,7 +136,9 @@ class Gateway(http.Controller):
         fields = fields.split(',')
         partner_data = []
         record=[]
-        products_starting_with_la = request.env['product.product'].sudo().search([('name', 'ilike', f'{search}%')])
+        #products_starting_with_la = request.env['product.product'].sudo().search([('name', 'ilike', f'{search}%')])
+        products_starting_with_la = request.env[model].sudo().search([('name', 'ilike', f'{search}%')])
+
         product_data = [{'name': product.name, 'id': product.id} for product in products_starting_with_la]
         print(product_data);
         #response = json.dumps(partners.read(['name']))

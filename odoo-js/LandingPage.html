@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Ninofelino</title>
+  <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/alpinejs@3.11.0/dist/alpine.min.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="bg-gray-100 text-gray-800 shadow">
+      <div class="container mx-auto flex justify-between py-2">
+        <a href="/" class="flex items-center">
+          <img src="https://avatars.githubusercontent.com/u/53456354?v=4" alt="Logo Ninofelino" class="h-8 mr-4">
+          <span class="font-semibold">Ninofelino</span>
+        </a>
+        <button class="hamburger-menu md:hidden" @click="$refs.menu.toggle()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6">
+            <path fill="currentColor" d="M12 12L2 22l10 10L22 2z"></path>
+          </svg>
+        </button>
+        <ul class="flex items-center justify-end" ref="menu">
+          <li class="mr-4">
+            <a href="/about.html" class="text-base">Tentang</a>
+          </li>
+          <li class="mr-4">
+            <a href="/portfolio.html" class="text-base">Portfolio</a>
+          </li>
+          <li class="mr-4">
+            <a href="/contact" class="text-base">Kontak</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="my-12">
+      <h1 class="text-center font-bold text-xl">Ninofelino</h1>
+      <p class="text-center text-gray-700">
+        Seorang web developer dan desainer grafis yang berpengalaman.
+      </p>
+    </section>
+    <section class="my-12">
+      <h2 class="text-center font-bold text-lg">Tentang</h2>
+      <p class="text-center">
+        Saya adalah seorang web developer dan desainer grafis yang berpengalaman selama lebih dari 5 tahun. Saya memiliki passion untuk menciptakan produk digital yang user-friendly dan estetis.
+      </p>
+      <p class="text-center">
+        Saya memiliki keterampilan yang kuat dalam HTML, CSS, JavaScript, dan React. Saya juga memiliki pengalaman menggunakan berbagai alat desain grafis, seperti Adobe Photoshop, Illustrator, dan Figma.
+      </p>
+    </section>
+    <section class="my-12">
+      <h2 class="text-center font-bold text-lg">Portfolio</h2>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="flex justify-center">
+          <img src="/assets/portfolio/1.jpg" alt="Portfolio 1" class="w-full h-64">
+        </div>
+        <div class="flex justify-center">
+          <img src="/assets/portfolio/2.jpg" alt="Portfolio 2" class="w-full h-64">
+        </div>
+        <div class="flex justify-center">
+          <img src="/assets/portfolio/3.jpg" alt="Portfolio 3" class="w-full h-64">
+        </div>
+      </div>
+    </section>
+    <section class="my-12">
+      <h2 class="text-center font-bold text-lg">Kontak</h2>
+      <p class="text-center">
+        Anda dapat menghubungi saya melalui email di <a href="mailto:

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)http://127.0.0.1:3500/formulir.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./Formulir-hasil_files/___vscode_livepreview_injected_script"></script>
+    
+    <title>Formulir</title>
+<style>
+    label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Format input */
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Format tombol submit */
+
+button {
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+  border: none;
+}
+</style></head>
+
+<body>
+    <h1>Formulir</h1>
+   
+ 
+
+    <div id="form-container">
+    <script>
+        // Mengambil template XML dari URL
+        fetch("http://localhost:8015/gateway/arch")
+            .then(response => response.text())
+            .then(xmlText => {
+                // Parse XML menjadi objek JavaScript
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+                // Buat elemen formulir HTML
+                const form = document.createElement("form");
+
+                // Iterasi setiap elemen "field" di template XML
+                xmlDoc.querySelectorAll("field").forEach(field => {
+                    const input = document.createElement("input");
+                    input.type = field.getAttribute("type") || "text";
+                    input.name = field.getAttribute("name");
+                    input.placeholder = field.getAttribute("label");
+                    const label = document.createElement("label");
+                    label.htmlFor=input.name;
+                    label.textContent=input.name;
+                    input.value=input.name;
+                    input.placeholder='sssssss';
+                    // input.parentNode.insertBefore(label, input);
+                    form.appendChild(label);
+                    form.appendChild(input);
+                });
+
+                // Tambahkan tombol submit
+                const submitButton = document.createElement("button");
+                submitButton.type = "submit";
+                submitButton.textContent = "Kirim";
+                form.appendChild(submitButton);
+
+                // Tampilkan formulir di halaman HTML
+                document.getElementById("form-container").appendChild(form);
+            })
+            .catch(error => console.error("Error:", error));
+    </script>
+
+
+</body></html>

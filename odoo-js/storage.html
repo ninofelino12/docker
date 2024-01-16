@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data from JSON</title>
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Model</th>
+                <th>Arch</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script>
+        // Ambil data JSON dari server Odoo
+        const db = window.indexedDB.open('felino', 1);
+        fetch('http://localhost:8015/gateway/dataset/ir.ui.view')
+            .then(response => response.json())
+            .then(data => {
+                // Simpan data ke IndexedDB
+                renderTable(data);
+                
+                
+               
+            } 
+            ); 
+            
+            db.onupgradeneeded=(event)=>{
+                    const myItem = event.target.result;
+                    const itemstore = myItem.createObjectStore("bikes", { data});
+                }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = ''; // Bersihkan tabel sebelumnya
+            data.forEach(view => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${view.id}</td>
+                    <td>${view.name}</td>
+                   
+                `;
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>

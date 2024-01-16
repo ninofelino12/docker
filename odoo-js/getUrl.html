@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form with Link Generation</title>
+</head>
+<body>
+    <form id="myForm">
+        <label for="url">URL:</label><br>
+        <input type="text" id="url" name="url" required><br><br>
+        
+        <label for="id">ID:</label><br>
+        <input type="text" id="id" name="id" required><br><br>
+        <label for="model">Model:</label><br>
+        <select id="model" name="model"></select><br><br>
+        <button type="button" onclick="generateLink()">Generate Link</button>
+    </form>
+    <p id="linkResult"></p>
+    <div id="hasil">HH</div>
+
+    <script>
+        function generateLink() {
+            const url = document.getElementById("url").value;
+            const model = document.getElementById("model").value;
+            const id = document.getElementById("id").value;
+            const link = 'http://localhost:8015/gateway/dataset/'+ model + id;
+            document.getElementById("linkResult").textContent = "<h1>Generated link:</h1> " + link;
+            document.getElementById("hasil").innerHTML=`
+            <a href="${link}">
+                ${link}</a>
+            `;
+        }
+    </script>
+    <script>
+        fetch('http://localhost:8015/gateway/dataset/ir.ui.view')
+            .then(response => response.json())
+            .then(data => {
+                const combobox = document.getElementById('model');
+                data.forEach(view => {
+                    const option = document.createElement('option');
+                    option.value = view.name;
+                    option.text = view.name;
+                    combobox.appendChild(option);
+                });
+            });
+    </script>
+</body>
+</html>

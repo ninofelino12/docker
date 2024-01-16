@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Combobox from JSON</title>
+</head>
+<body>
+    <form id="myForm">
+        <label for="model">Model:</label><br>
+        <select id="model" name="model"></select><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        fetch('http://localhost:8015/gateway/dataset/ir.ui.view')
+            .then(response => response.json())
+            .then(data => {
+                const combobox = document.getElementById('model');
+                data.forEach(view => {
+                    const option = document.createElement('option');
+                    option.value = view.id;
+                    option.text = view.name;
+                    combobox.appendChild(option);
+                });
+            });
+    </script>
+</body>
+</html>
