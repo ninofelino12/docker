@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page</title>
+     <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+             
+     <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+     <link rel="stylesheet" href="style.css">
+     <script src="/odoo.js"></script>
+</head>
+<body>
+
+    <button class="mdc-icon-button" aria-haspopup="true" aria-controls="menu-1">
+        <i class="material-icons">more_vert</i>
+      </button>
+      
+      <div id="menu-1" class="mdc-menu mdc-menu-surface" >
+        <ul class="mdc-list">
+          <li class="mdc-list-item" role="button">Option 1</li>
+          <li class="mdc-list-item" role="button">Option 2</li>
+          <li class="mdc-list-item" role="button">Option 3</li>
+        </ul>
+      </div>
+
+
+
+  <header class="mdc-top-app-bar mdc-top-app-bar--fixed">
+    <div class="mdc-top-app-bar__title">My Landing Page</div>
+  </header>
+  <main class="mdc-layout-content">
+    <section class="features-section">
+   <table id="odoo"></table>
+   </section>
+   <script>
+    halaman = new Odoo();
+    //halaman.card('card1');
+    halaman.model='product.product'
+    halaman.getData();
+
+   </script>
+  </main>
+</body>
+
+</html>

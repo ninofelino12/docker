@@ -1,31 +1,48 @@
 import odoorpc
+import json
 
-# Prepare the connection to the server
-odoo = odoorpc.ODOO('localhost', port=8015)
 
-# Check available databases
-print(odoo.db.list())
 
-# Login
-odoo.login('felino', 'ninofelino12@gmail.com', 'felino')
+class Odoofelino:
+    server='203.194.112.105'
+    userid=0
+    db=[]
+    myresponse=''
+    model='res.users'
+    odoo = odoorpc.ODOO(server, port=80)
+    user=''
+    field=fields='id,name'.split(',') 
+    def login(self):
+        server='203.194.112.105'
+        odoo=self.odoo
+        self.odoo.login('DEMO', 'admin', 'odooadmin')
+        self.user = self.odoo.env.user
+       
 
-# Current user
-user = odoo.env.user
-print(user.name)            # name of the user connected
-print(user.company_id.name) # the name of its company
+    def get(self):
+        
+        Order = self.odoo.env[self.model]
+        order_ids = Order.search([])
+        partner_data = []
+        for order in Order.browse(order_ids):
+            template={'name':order.name,'id':order.id}
+            partner_data.append(template)
+        self.myresponse=json.dumps(partner_data)    
+        
+        print(self.myresponse)
+           
+        
+    def db(self):
+        self.database=self.odoo.db.list()
+    def info(self):
+        print('------------------------------------') 
+        print(self.odoo.db.list())   
+        print(self.myresponse)    
+        
+odoo = Odoofelino()
+odoo.model='res.partner'
+odoo.login()
+# print(odoo.db)
+odoo.get()
 
-# Simple 'raw' query
-user_data = odoo.execute('res.users', 'read', [user.id])
-print(user_data)
-
-# Use all methods of a model
-if 'sale.order' in odoo.env:
-    Order = odoo.env['sale.order']
-    order_ids = Order.search([])
-    for order in Order.browse(order_ids):
-        print(order.name)
-        products = [line.product_id.name for line in order.order_line]
-        print(products)
-
-# Update data through a record
-user.name = "Brian Jones"
+#odoo.info()
