@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menampilkan Data JSON ke Tabel HTML</title>
+</head>
+<body>
+  <div id="debug">Debug</div>
+  <table id="product-table"></table>
+ 
+  <script>
+    const url = "http://localhost:8015/gateway/dataset/res.partner?fields=id,name,city";
+    var myDebug;  
+
+    fetch(url)
+  .then((response) => {
+    console.log("Server:", response.headers);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });  
+
+    const getData = async () => {
+      const response = await fetch(url);
+      if (response.status === 200) {
+        const body = await response.json();
+        const header = response.headers.get('Pragma').split(',');
+        myDebug=header;
+        return { body, header };
+      } else {
+        console.error("Error fetching data:", response.status);
+        return null;
+      }
+    };
+
+    getData().then((data) => {
+      const products = data.body;
+      const table = document.getElementById("product-table");
+      const debug = document.getElementById("debug");
+      debug.textContent = data.header;
+      // Buat header tabel
+      const headerRow = table.insertRow();
+      for (const property in data.header) {
+        const headerCell = headerRow.insertCell();
+        headerCell.textContent = data.header[property];
+      }
+
+      // Isi data ke dalam baris tabel
+      for (const product of products) {
+        const row = table.insertRow();
+        for (const property in product) {
+          const cell = row.insertCell();
+          cell.textContent = product[property];
+        }
+      }
+    }).catch((error) => {
+      console.error("Error parsing data:", error);
+    });
+  </script>
+</body>
+</html>

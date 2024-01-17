@@ -50,11 +50,7 @@ class Gateway(http.Controller):
     def index(self, **kw):
         return request.render('gateway.felino')
     
-    @http.route('/gateway/page', auth='none')
-    def indexpage(self, **kwargs):
-        database_name = http.request.env.cr.dbname
-        return request.render('gateway.fpartner',{'data_to_insert':'Database: '+database_name})
-    
+   
     
     @http.route('/gateway/api', type='http', auth='none', website=True)
     def felpartner(self, **kw):
@@ -139,16 +135,53 @@ class Gateway(http.Controller):
         #products_starting_with_la = request.env['product.product'].sudo().search([('name', 'ilike', f'{search}%')])
         products_starting_with_la = request.env[model].sudo().search([('name', 'ilike', f'{search}%')])
 
-        product_data = [{'name': product.name, 'id': product.id} for product in products_starting_with_la]
-        print(product_data);
-        #response = json.dumps(partners.read(['name']))
+        #product_data = [{'name': product.name, 'id': product.id} for product in products_starting_with_la]
+        product_data = [fields for product in products_starting_with_la]
+        
         response = json.dumps(partners.read(fields))
-        # response.headers.add('Access-Control-Allow-Origin', '*')    
-        #return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
-        return request.make_response(json.dumps(product_data), [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
-        #return request.make_response(contenttype='application/json', content=json.dumps(product_data))    
        
-    
+        return request.make_response(json.dumps(product_data), [('Content-Type', 'application/json'),
+                                                                ('Access-Control-Allow-Origin', '*'),
+                                                                ('Pragma',fields),('search',search)])
+          
+    #----------------------------------------  
+    @http.route('/gateway/modelfel',type='http', auth='none',website=True, methods=['GET'])
+    def get_partner_fel(self, **kwargs):
+        #saring=[('id', '=', kwargs['id'])]
+        server_name = request.httprequest.environ.get('SERVER_NAME')
+        id = kwargs.get('id', [])
+        if not id:
+           saring=[]
+        else:
+            saring=[('id', '=', kwargs['id'])] 
+
+        fields = kwargs.get('field','id,name').split(',')
+       
+        model = kwargs.get('model','product.product')
+               
+
+        # Mengambil field-field yang ditentukan.
+        #fields = kwargs['field'].split(',')
+        partners = request.env[model].sudo().search(saring)
+        data = []
+        for partner in partners:
+            data_partner = {}
+            for field in fields:
+                data_partner[field] = getattr(partner, field)
+            if model == 'product.product':
+               data_partner['img']=f"/gateway/image/{partner['id']}"     
+            data.append(data_partner)
+
+       
+        return request.make_response(json.dumps(data), 
+                                     [('Content-Type', 'application/json')
+                                     ,('Access-Control-Allow-Origin', '*')
+                                     ,('Pragma',fields),('search','search'),('odoo',server_name)
+                                     ])
+     #----------------------------------------  
+
+
+
     @http.route('/gateway/product',type='http', auth='none',website=True)
     def product(self, **kw):
         model='product.product'
@@ -203,30 +236,7 @@ class Gateway(http.Controller):
         
         
 
-    @http.route('/gateway/model',type='http', auth='none',website=True)
-    def femodel(self, **params):
-        p_id = params.get('id')
-        category_id = params.get('category_id')
-        model = params.get('model')
-        #return model
-        list_of_dict=[{'model':'res.partner'},
-                      {'model':'product.product'}]
-        
-        #model='ir.model'
-        try:
-            partners = request.env[model].sudo().search([])
-            partner_data = []
-            for partner in partners:
-                partner_data.append({
-                    'name': partner.name,
-                    'id':partner.id                
-                 })
-            response=json.dumps(partner_data)    
-            return request.make_response(response, [('dcode', model),('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])    
-        except Exception as e:
-            return f"Error: {e}"
-
-        return json.dumps(partner_data)    
+      
     @http.route('/gateway/api/params',type='http', auth='none',website=True)
     def api(self, **kw):
         return request.redirect_query('/web', query=request.params)
