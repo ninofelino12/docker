@@ -1,61 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>Menampilkan Data JSON ke Tabel HTML</title>
+  <title>Product Table</title>
+
+   <!-- Compiled and minified CSS -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+   <!-- Compiled and minified JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+           
 </head>
+
 <body>
-  <div id="debug">Debug</div>
-  <table id="product-table"></table>
+  <style>
+    img {
+      width: 80px;
+      height: 70px;
+    }
+  </style>
  
+  <div class="card-panel black lighten-2">This is a card panel with a teal lighten-2 class</div>
+            
+
+  <div class="card-panel teal lighten-2" id="judul">Daftar Product</div>
+
+  <table id=hasil>
+  
+    <div id="hasisl"></div>
+    <div>
+  </table>
+
+
+
+
+
   <script>
-    const url = "http://localhost:8015/gateway/dataset/res.partner?fields=id,name,city";
-    var myDebug;  
 
-    fetch(url)
-  .then((response) => {
-    console.log("Server:", response.headers);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });  
 
-    const getData = async () => {
-      const response = await fetch(url);
-      if (response.status === 200) {
-        const body = await response.json();
-        const header = response.headers.get('Pragma').split(',');
-        myDebug=header;
-        return { body, header };
-      } else {
-        console.error("Error fetching data:", response.status);
-        return null;
-      }
-    };
-
-    getData().then((data) => {
-      const products = data.body;
-      const table = document.getElementById("product-table");
-      const debug = document.getElementById("debug");
-      debug.textContent = data.header;
-      // Buat header tabel
-      const headerRow = table.insertRow();
-      for (const property in data.header) {
-        const headerCell = headerRow.insertCell();
-        headerCell.textContent = data.header[property];
-      }
-
-      // Isi data ke dalam baris tabel
-      for (const product of products) {
-        const row = table.insertRow();
-        for (const property in product) {
-          const cell = row.insertCell();
-          cell.textContent = product[property];
-        }
-      }
-    }).catch((error) => {
-      console.error("Error parsing data:", error);
-    });
   </script>
+  <script>
+    const odoo = "http://localhost:8015"
+    fetch('http://localhost:8015/gateway/modelfel?field=id,name')
+      .then(response => {
+        document.getElementById('judul').innerHTML =
+          response.headers.get('Pragma');
+          const array = ['id', 'name'].slice();
+          
+          var headerTable="";
+          for (let i = 0; i < array.length; i++) {
+            headerTable=headerTable+array[i]
+}
+document.getElementById('judul').innerHTML =headerTable     
+
+      }
+      )
+;
+
+
+    fetch('http://localhost:8015/gateway/modelfel?field=id,name')
+
+
+      .then(response => response.json())
+
+
+
+      .then(jsonData => {
+        var hasil;
+        jsonData.forEach(product => {
+
+          hasil += `
+                <tr>
+                <td>${product.name}</td>
+                <td>${product.id}</td>
+                <td><img  height="10%"  src="${odoo}${product.img}" alt="Product Image"></td>
+                </tr>
+              `
+
+        });
+        document.getElementById('hasil').innerHTML = hasil;
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
+
+  </div>
 </body>
+
 </html>

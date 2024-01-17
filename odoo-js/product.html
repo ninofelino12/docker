@@ -7,12 +7,7 @@
 <body>
     <h1>Tabel Produk</h1>
     <p>request.render('gateway.fpartner',{'data_to_insert':'Database: '+database_name})
-    database_name = http.request.env.cr.dbname
-    return request.render('gateway.felino')
-    # response.headers.add('Access-Control-Allow-Origin', '*')    
-    #return request.make_response(response, [('Content-Type', 'application/json'),('Access-Control-Allow-Origin', '*')])
-    #return request.make_response(contenttype='application/json', content=json.dumps(product_data))  </p>
-    
+   
 
     <table border="1">
         <thead>
@@ -29,19 +24,18 @@
 
     <script>
         // Mengambil data dari file JSON
-        fetch("http://localhost:8015/gateway/dataset/product.product")
+        fetch("http://localhost:8015/gateway/modelfel?field=id,name")
             .then(response => response.json())
             .then(data => {
                 // Mengisi tabel dengan data
                 console.log(data.header);
-                alert(data.header);
+                alert(data);
                 for (const product of data) {
                     const row = document.createElement("tr");
                     row.innerHTML = `
                         <td>${product.id}</td>
                         <td>${product.name}</td>
-                        <td>${product.price}</td>
-                        <td>${product.stock}</td>
+                       
                     `;
                     document.querySelector("tbody").appendChild(row);
                 }
