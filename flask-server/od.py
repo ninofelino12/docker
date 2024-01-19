@@ -1,9 +1,19 @@
-import odoorpc
+from odoorpc import ODOO
 import json
+from flask import Flask
+from werkzeug.routing import Map, Rule
+from werkzeug.wrappers import Request, Response
+
+# Definisikan aturan rute
+map = Map([
+    Rule('/', endpoint='home'),
+    Rule('/about', endpoint='about'),
+    Rule('/users/<username>', endpoint='user_profile'),
+])
 
 
 
-class Odoofelino:
+class Odoofelino(ODOO):
     #server='203.194.112.105'
     userid=0
     db=[]
@@ -15,15 +25,19 @@ class Odoofelino:
     # user=''
     field=fields='id,name'.split(',') 
     def __init__(self,model='res.partner', server='203.194.112.105', port=80, database='DEMO',user='odooadmin'):
-        self.odoo = odoorpc.ODOO(server, port=port)
-        self.login()
-        
-    def login(self):
+        #self.odoo = odoorpc.ODOO(server, port=port)
+        self.odoo = ODOO(server, port=port)
+        #super().__init__()
+        #self.login()
+        pass
+    def logine(self):
         # server='203.194.112.105'
         # odoo=self.odoo
+        #ODOO.login('DEMO', 'admin', 'odooadmin')
+        #ODOO.login('DEMO', 'admin', 'odooadmin')
         self.odoo.login('DEMO', 'admin', 'odooadmin')
         self.user = self.odoo.env.user
-       
+        
 
     def getold(self):
         
@@ -90,7 +104,7 @@ class Odoofelino:
         print(self.odoo.db.list(), self.myresponse)
         
 odoo = Odoofelino(model='res.partner')
-odoo.login()
+odoo.logine()
 # print(odoo.db)
 #odoo.get3()
 print(odoo.getfel(['name']))
@@ -98,3 +112,12 @@ print(odoo.getfel())
 print(odoo.myresponse)
 
 #odoo.info()
+
+# Definisikan aturan rute
+
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"

@@ -1,30 +1,12 @@
-# -*- coding: UTF-8 -*-
-##############################################################################
-#
-#    OdooRPC
-#    Copyright (C) 2014 Sébastien Alix.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Lesser General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Lesser General Public License for more details.
-#
-#    You should have received a copy of the GNU Lesser General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright 2014 Sébastien Alix
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)
 """This module contains the ``ODOO`` class which is the entry point to manage
 an `Odoo` server.
 """
-from odoorpc import rpc, error, tools
-from odoorpc.env import Environment
-from odoorpc import session
+from odoorpc import error, rpc, session, tools
 from odoorpc.db import DB
+from odoorpc.env import Environment
 from odoorpc.report import Report
 
 
@@ -46,7 +28,7 @@ class ODOO(object):
     .. doctest::
         :options: +SKIP
 
-        >>> odoo = odoorpc.ODOO('localhost', version='10.0')
+        >>> odoo = odoorpc.ODOO('localhost', version='12.0')
 
     You can also define a custom URL opener to handle HTTP requests. A use
     case is to manage a basic HTTP authentication in front of `Odoo`:
@@ -75,21 +57,30 @@ class ODOO(object):
     :raise: `urllib.error.URLError` (connection error)
     """
 
-    def __init__(self, host='localhost', protocol='jsonrpc',
-                 port=8069, timeout=120, version=None, opener=None):
+    def __init__(
+        self,
+        host='localhost',
+        protocol='jsonrpc',
+        port=8069,
+        timeout=120,
+        version=None,
+        opener=None,
+    ):
         if protocol not in ['jsonrpc', 'jsonrpc+ssl']:
-            txt = ("The protocol '{0}' is not supported by the ODOO class. "
-                   "Please choose a protocol among these ones: {1}")
+            txt = (
+                "The protocol '{0}' is not supported by the ODOO class. "
+                "Please choose a protocol among these ones: {1}"
+            )
             txt = txt.format(protocol, ['jsonrpc', 'jsonrpc+ssl'])
             raise ValueError(txt)
         try:
             port = int(port)
-        except ValueError:
+        except (ValueError, TypeError):
             raise ValueError("The port must be an integer")
         try:
             if timeout is not None:
                 timeout = float(timeout)
-        except ValueError:
+        except (ValueError, TypeError):
             raise ValueError("The timeout must be a float")
         self._host = host
         self._port = port
@@ -102,15 +93,15 @@ class ODOO(object):
         # Instanciate the server connector
         try:
             self._connector = rpc.PROTOCOLS[protocol](
-                self._host, self._port, timeout, version, opener=opener)
+                self._host, self._port, timeout, version, opener=opener
+            )
         except rpc.error.ConnectorError as exc:
             raise error.InternalError(exc.message)
         # Dictionary of configuration options
         self._config = tools.Config(
             self,
-            {'auto_commit': True,
-             'auto_context': True,
-             'timeout': timeout})
+            {'auto_commit': True, 'auto_context': True, 'timeout': timeout},
+        )
 
     @property
     def config(self):
@@ -167,7 +158,7 @@ class ODOO(object):
             :options: +SKIP
 
             >>> odoo.version
-            '10.0'
+            '12.0'
         """
         return self._connector.version
 
@@ -185,12 +176,12 @@ class ODOO(object):
         """
         return self._report
 
-    host = property(lambda self: self._host,
-                    doc="Hostname of IP address of the the server.")
-    port = property(lambda self: self._port,
-                    doc="The port used.")
-    protocol = property(lambda self: self._protocol,
-                        doc="The protocol used.")
+    host = property(
+        lambda self: self._host,
+        doc="Hostname of IP address of the the server.",
+    )
+    port = property(lambda self: self._port, doc="The port used.")
+    protocol = property(lambda self: self._protocol, doc="The protocol used.")
 
     @property
     def env(self):
@@ -205,7 +196,6 @@ class ODOO(object):
         """
         self._check_logged_user()
         return self._env
-
 
     def json(self, url, params):
         """Low level method to execute JSON queries.
@@ -244,22 +234,25 @@ class ODOO(object):
             ...     {'db': DB, 'login': USER, 'password': PWD})
             >>> data['result']['db'] == DB
             True
-            >>> data['result']['uid'] == 1
+            >>> data['result']['uid'] in [1, 2]
             True
             >>> data['result']['username'] == USER
             True
 
         And a call to the ``read`` method of the ``res.users`` model:
 
-        >>> data = odoo.json(
-        ...     '/web/dataset/call',
-        ...     {'model': 'res.users', 'method': 'read',
-        ...      'args': [[1], ['name']]})
-        >>> from pprint import pprint
-        >>> pprint(data)
-        {'id': ...,
-         'jsonrpc': '2.0',
-         'result': [{'id': 1, 'name': 'Administrator'}]}
+        .. doctest::
+            :options: +SKIP
+
+            >>> data = odoo.json(
+            ...     '/web/dataset/call',
+            ...     {'model': 'res.users', 'method': 'read',
+            ...      'args': [[2], ['name']]})
+            >>> from pprint import pprint
+            >>> pprint(data)
+            {'id': ...,
+             'jsonrpc': '2.0',
+             'result': [{'id': 2, 'name': 'Mitchell Admin'}]}
 
         *Python 2:*
 
@@ -278,8 +271,8 @@ class ODOO(object):
         data = self._connector.proxy_json(url, params)
         if data.get('error'):
             raise error.RPCError(
-                data['error']['data']['message'],
-                data['error'])
+                data['error']['data']['message'], data['error']
+            )
         return data
 
     def http(self, url, data=None, headers=None):
@@ -296,7 +289,7 @@ class ODOO(object):
         URL parameters (with :func:`urllib.urlencode` function for simple
         parameters, or multipart/form-data structure to handle file upload).
 
-        E.g., the HTTP raw query to get the company logo on `Odoo 10.0`:
+        E.g., the HTTP raw query to get the company logo on `Odoo 12.0`:
 
         .. doctest::
 
@@ -347,12 +340,37 @@ class ODOO(object):
         :raise: `urllib.error.URLError` (connection error)
         """
         # Get the user's ID and generate the corresponding user record
-        data = self.json(
-            '/web/session/authenticate',
-            {'db': db, 'login': login, 'password': password})
-        uid = data['result']['uid']
+        if tools.v(self.version)[0] >= 10:
+            data = self.json(
+                "/jsonrpc",
+                params={
+                    "service": "common",
+                    "method": "login",
+                    "args": [db, login, password],
+                },
+            )
+            uid = data["result"]
+        else:
+            # Needed to get 'report' service working on Odoo < 10.0
+            data = self.json(
+                "/web/session/authenticate",
+                {"db": db, "login": login, "password": password},
+            )
+            uid = data["result"]["uid"]
         if uid:
-            context = data['result']['user_context']
+            if tools.v(self.version)[0] >= 10:
+                args_to_send = [db, uid, password, "res.users", "context_get"]
+                context = self.json(
+                    "/jsonrpc",
+                    {
+                        "service": "object",
+                        "method": "execute",
+                        "args": args_to_send,
+                    },
+                )["result"]
+                context["uid"] = uid
+            else:
+                context = data["result"]["user_context"]
             self._env = Environment(self, db, uid, context=context)
             self._login = login
             self._password = password
@@ -379,11 +397,29 @@ class ODOO(object):
         """
         if not self._env:
             return False
-        self.json('/web/session/destroy', {})
+        if tools.v(self.version)[0] < 10:
+            self.json('/web/session/destroy', {})
         self._env = None
         self._login = None
         self._password = None
         return True
+
+    def close(self):
+        """Same than :attr:`odoorpc.ODOO.logout` method.
+
+        Here for the compatibility with `contextlib.closing`:
+
+        .. doctest::
+            :options: +SKIP
+
+            >>> import contextlib
+            >>> odoo.login('db_name', 'admin', 'admin')
+            >>> with contextlib.closing(odoo):
+            ...     print(odoo.env.user.name)
+            ...
+            Mitchell Admin
+        """
+        return self.logout()
 
     # ------------------------- #
     # -- Raw XML-RPC methods -- #
@@ -424,14 +460,18 @@ class ODOO(object):
         """
         self._check_logged_user()
         # Execute the query
-        args_to_send = [self.env.db, self.env.uid, self._password,
-                        model, method]
+        args_to_send = [
+            self.env.db,
+            self.env.uid,
+            self._password,
+            model,
+            method,
+        ]
         args_to_send.extend(args)
         data = self.json(
             '/jsonrpc',
-            {'service': 'object',
-             'method': 'execute',
-             'args': args_to_send})
+            {'service': 'object', 'method': 'execute', 'args': args_to_send},
+        )
         return data.get('result')
 
     def execute_kw(self, model, method, args=None, kwargs=None):
@@ -473,14 +513,22 @@ class ODOO(object):
         # Execute the query
         args = args or []
         kwargs = kwargs or {}
-        args_to_send = [self.env.db, self.env.uid, self._password,
-                        model, method]
+        args_to_send = [
+            self.env.db,
+            self.env.uid,
+            self._password,
+            model,
+            method,
+        ]
         args_to_send.extend([args, kwargs])
         data = self.json(
             '/jsonrpc',
-            {'service': 'object',
-             'method': 'execute_kw',
-             'args': args_to_send})
+            {
+                'service': 'object',
+                'method': 'execute_kw',
+                'args': args_to_send,
+            },
+        )
         return data.get('result')
 
     def exec_workflow(self, model, record_id, signal):
@@ -499,15 +547,28 @@ class ODOO(object):
         :raise: :class:`odoorpc.error.InternalError` (if not logged)
         :raise: `urllib.error.URLError` (connection error)
         """
+        if tools.v(self.version)[0] >= 11:
+            raise DeprecationWarning(
+                u"Workflows have been removed in Odoo >= 11.0"
+            )
         self._check_logged_user()
         # Execute the workflow query
-        args_to_send = [self.env.db, self.env.uid, self._password,
-                        model, signal, record_id]
+        args_to_send = [
+            self.env.db,
+            self.env.uid,
+            self._password,
+            model,
+            signal,
+            record_id,
+        ]
         data = self.json(
             '/jsonrpc',
-            {'service': 'object',
-             'method': 'exec_workflow',
-             'args': args_to_send})
+            {
+                'service': 'object',
+                'method': 'exec_workflow',
+                'args': args_to_send,
+            },
+        )
         return data.get('result')
 
     # ---------------------- #
@@ -578,8 +639,8 @@ class ODOO(object):
         data = session.get(name, rc_file)
         if data.get('type') != cls.__name__:
             raise error.InternalError(
-                "'{0}' session is not of type '{1}'".format(
-                    name, cls.__name__))
+                "'{}' session is not of type '{}'".format(name, cls.__name__)
+            )
         odoo = cls(
             host=data['host'],
             protocol=data['protocol'],
@@ -587,7 +648,8 @@ class ODOO(object):
             timeout=data['timeout'],
         )
         odoo.login(
-            db=data['database'], login=data['user'], password=data['passwd'])
+            db=data['database'], login=data['user'], password=data['passwd']
+        )
         return odoo
 
     @classmethod
@@ -615,9 +677,12 @@ class ODOO(object):
         :raise: `FileNotFoundError`
         """
         sessions = session.get_all(rc_file)
-        return [name for name in sessions
-                if sessions[name].get('type') == cls.__name__]
-        #return session.list(rc_file)
+        return [
+            name
+            for name in sessions
+            if sessions[name].get('type') == cls.__name__
+        ]
+        # return session.list(rc_file)
 
     @classmethod
     def remove(cls, name, rc_file='~/.odoorpcrc'):
@@ -644,8 +709,6 @@ class ODOO(object):
         data = session.get(name, rc_file)
         if data.get('type') != cls.__name__:
             raise error.InternalError(
-                "'{0}' session is not of type '{1}'".format(
-                    name, cls.__name__))
+                "'{}' session is not of type '{}'".format(name, cls.__name__)
+            )
         return session.remove(name, rc_file)
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

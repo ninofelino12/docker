@@ -1,0 +1,66 @@
+/* Basic navigation styling */
+nav {
+  background-color: #9350c0; /* Light blue background */
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Arrange links horizontally */
+  justify-content: space-between; /* Distribute links evenly */
+}
+
+nav li {
+  margin-right: 1rem; /* Spacing between links */
+}
+
+nav a {
+  text-decoration: none;
+  color: #333; /* Dark gray text */
+  display: flex; /* Align icons and text within links */
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background-color: #f5f5f5; /* Light gray hover effect */
+}
+
+/* SVG icon styling */
+nav img {
+  height: 1.5rem; /* Adjust icon size as needed */
+  margin-right: 0.5rem; /* Spacing between icons and text */
+}
+
+/* Responsive adjustments (optional) */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column; /* Stack links vertically on smaller screens */
+    align-items: center; /* Center links vertically */
+  }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0; /* Remove default table margins */
+}
+
+th, td {
+  padding: 10px 16px;
+  text-align: left;
+  border: none; /* Remove cell borders */
+}
+
+th {
+  font-weight: 500; /* Bold header text */
+  color: #3c4043; /* Darker header text */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Lighter background for even rows */
+}

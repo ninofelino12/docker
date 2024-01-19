@@ -1,23 +1,6 @@
-# -*- coding: UTF-8 -*-
-##############################################################################
-#
-#    OdooRPC
-#    Copyright (C) 2014 Sébastien Alix.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Lesser General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Lesser General Public License for more details.
-#
-#    You should have received a copy of the GNU Lesser General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright 2014 Sébastien Alix
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)
 """Provide the :class:`Model` class which allow to access dynamically to all
 methods proposed by a data model.
 """
@@ -30,7 +13,8 @@ from odoorpc import error
 
 # Python 2
 if sys.version_info[0] < 3:
-    NORMALIZED_TYPES = (int, long, str, unicode)
+    # noqa: F821
+    NORMALIZED_TYPES = (int, long, str, unicode)  # noqa: F821
 # Python >= 3
 else:
     NORMALIZED_TYPES = (int, str, bytes)
@@ -53,26 +37,28 @@ class IncrementalRecords(object):
     Afterwards, field descriptors can adapt their behaviour when an instance of
     this class is set.
     """
+
     def __init__(self, tuples):
         self.tuples = tuples
 
 
 class MetaModel(type):
     """Define class methods for the :class:`Model` class."""
+
     _env = None
 
     def __getattr__(cls, method):
         """Provide a dynamic access to a RPC method."""
         if method.startswith('_'):
             return super(MetaModel, cls).__getattr__(method)
+
         def rpc_method(*args, **kwargs):
             """Return the result of the RPC request."""
-            if cls._odoo.config['auto_context'] \
-                    and 'context' not in kwargs:
-                kwargs['context'] = cls._odoo.env.context
-            result = cls._odoo.execute_kw(
-                cls._name, method, args, kwargs)
+            if cls._odoo.config['auto_context'] and 'context' not in kwargs:
+                kwargs['context'] = cls.env.context
+            result = cls._odoo.execute_kw(cls._name, method, args, kwargs)
             return result
+
         return rpc_method
 
     def __repr__(cls):
@@ -120,25 +106,58 @@ class Model(BaseModel):
     Use this data model proxy to call any method:
 
     .. doctest::
+        :options: +SKIP
 
-        >>> User.name_get([1])  # Use any methods from the model class
-        [[1, 'Administrator']]
+        >>> User.name_get([2])  # Use any methods from the model class
+        [[1, 'Mitchell Admin']]
+
+    .. doctest::
+        :hide:
+
+        >>> from odoorpc.tools import v
+        >>> uid = 1
+        >>> if v(VERSION) >= v('12.0'):
+        ...     uid = 2
+        >>> data = User.name_get([uid])
+        >>> 'Admin' in data[0][1]
+        True
 
     Get a recordset:
 
     .. doctest::
+        :options: +SKIP
 
-        >>> user = User.browse(1)
+        >>> user = User.browse(2)
         >>> user.name
-        'Administrator'
+        'Mitchell Admin'
+
+    .. doctest::
+        :hide:
+
+        >>> from odoorpc.tools import v
+        >>> uid = 1
+        >>> if v(VERSION) >= v('12.0'):
+        ...     uid = 2
+        >>> user = User.browse(uid)
+        >>> 'Admin' in user.name
+        True
 
     And call any method from it, it will be automatically applied on the
     current record:
 
     .. doctest::
+        :options: +SKIP
 
         >>> user.name_get()     # No IDs in parameter, the method is applied on the current recordset
-        [[1, 'Administrator']]
+        [[1, 'Mitchell Admin']]
+
+
+    .. doctest::
+        :hide:
+
+        >>> data = user.name_get()
+        >>> 'Admin' in data[0][1]
+        True
 
     .. warning::
 
@@ -148,21 +167,24 @@ class Model(BaseModel):
         (see the :ref:`tutorial <tuto-execute-queries>`).
 
     """
+
     __metaclass__ = MetaModel
     _odoo = None
     _name = None
-    _columns = {}   # {field: field object}
+    _columns = {}  # {field: field object}
 
     def __init__(self):
         super(Model, self).__init__()
         self._env_local = None
         self._from_record = None
         self._ids = []
-        self._values = {}   # {field: {ID: value}}
+        self._values = {}  # {field: {ID: value}}
         self._values_to_write = {}  # {field: {ID: value}}
         for field in self._columns:
             self._values[field] = {}
             self._values_to_write[field] = {}
+        self.with_context = self._with_context
+        self.with_env = self._with_env
 
     @property
     def env(self):
@@ -221,9 +243,19 @@ class Model(BaseModel):
             Recordset('res.partner', [1])
 
         .. doctest::
+            :options: +SKIP
 
             >>> [partner.name for partner in odoo.env['res.partner'].browse([1, 3])]
-            ['YourCompany', 'Administrator']
+            ['YourCompany', 'Mitchell Admin']
+
+        .. doctest::
+            :hide:
+
+            >>> names = [partner.name for partner in odoo.env['res.partner'].browse([1, 3])]
+            >>> 'YourCompany' in names[0]
+            True
+            >>> 'Admin' in names[1]
+            True
 
         A list of data types returned by such record fields are
         available :ref:`here <fields>`.
@@ -234,28 +266,35 @@ class Model(BaseModel):
         """
         return cls._browse(cls.env, ids)
 
-    def with_context(self, *args, **kwargs):
-        """Return an instance equivalent to `self` attached to an environment
-        based on `self.env` with another context. The context is taken from
-        `self.env` or from the positional argument if given, and modified by
-        `kwargs`.
+    @classmethod
+    def with_context(cls, *args, **kwargs):
+        """Return a model (or recordset) equivalent to the current model
+        (or recordset) attached to an environment with another context.
+        The context is taken from the current environment or from the
+        positional arguments `args` if given, and modified by `kwargs`.
 
         Thus, the following two examples are equivalent:
 
         .. doctest::
 
             >>> Product = odoo.env['product.product']
-            >>> product = Product.browse(1)
-            >>> product.with_context(lang='fr_FR')
-            Recordset('product.product', [1])
+            >>> Product.with_context(lang='fr_FR')
+            Model('product.product')
 
         .. doctest::
 
-            >>> context = product.env.context
-            >>> product.with_context(context, lang='fr_FR')
-            Recordset('product.product', [1])
+            >>> context = Product.env.context
+            >>> Product.with_context(context, lang='fr_FR')
+            Model('product.product')
 
-        This method is very convenient to update translations:
+        This method is very convenient for example to search records
+        whatever their active status are (active/inactive):
+
+        .. doctest::
+
+            >>> all_product_ids = Product.with_context(active_test=False).search([])
+
+        Or to update translations of a recordset:
 
         .. doctest::
 
@@ -268,11 +307,25 @@ class Model(BaseModel):
             'fr_FR'
             >>> product_fr.name = "Mon produit" # Update the french translation
         """
+        context = dict(args[0] if args else cls.env.context, **kwargs)
+        return cls.with_env(cls.env(context=context))
+
+    def _with_context(self, *args, **kwargs):
+        """As the `with_context` class method but for recordset."""
         context = dict(args[0] if args else self.env.context, **kwargs)
         return self.with_env(self.env(context=context))
 
-    def with_env(self, env):
-        """Return an instance equivalent to `self` attached to `env`."""
+    @classmethod
+    def with_env(cls, env):
+        """Return a model (or recordset) equivalent to the current model
+        (or recordset) attached to `env`.
+        """
+        new_cls = type(cls.__name__, cls.__bases__, dict(cls.__dict__))
+        new_cls._env = env
+        return new_cls
+
+    def _with_env(self, env):
+        """As the `with_env` class method but for recordset."""
         res = self._browse(env, self._ids)
         return res
 
@@ -292,7 +345,8 @@ class Model(BaseModel):
         # Fetch values from the server
         if self.ids:
             rows = self.__class__.read(
-                self.ids, basic_fields, context=context, load='_classic_write')
+                self.ids, basic_fields, context=context, load='_classic_write'
+            )
             ids_fetched = set()
             for row in rows:
                 ids_fetched.add(row['id'])
@@ -304,14 +358,18 @@ class Model(BaseModel):
             if ids_in_error:
                 raise ValueError(
                     "There is no '{model}' record with IDs {ids}.".format(
-                        model=self._name, ids=list(ids_in_error)))
+                        model=self._name, ids=list(ids_in_error)
+                    )
+                )
         # No ID: fields filled with default values
         else:
             default_get = self.__class__.default_get(
-                list(self._columns), context=context)
+                list(self._columns), context=context
+            )
             for field_name in self._columns:
                 self._values[field_name][None] = default_get.get(
-                    field_name, False)
+                    field_name, False
+                )
 
     def __getattr__(self, method):
         """Provide a dynamic access to a RPC *instance* method (which applies
@@ -329,15 +387,15 @@ class Model(BaseModel):
         """
         if method.startswith('_'):
             return super(Model, self).__getattr__(method)
+
         def rpc_method(*args, **kwargs):
             """Return the result of the RPC request."""
             args = tuple([self.ids]) + args
-            if self._odoo.config['auto_context'] \
-                    and 'context' not in kwargs:
+            if self._odoo.config['auto_context'] and 'context' not in kwargs:
                 kwargs['context'] = self.env.context
-            result = self._odoo.execute_kw(
-                self._name, method, args, kwargs)
+            result = self._odoo.execute_kw(self._name, method, args, kwargs)
             return result
+
         return rpc_method
 
     def __getitem__(self, key):
@@ -363,7 +421,7 @@ class Model(BaseModel):
         return other.__class__ != self.__class__ or self.id != other.id
 
     def __repr__(self):
-        return "Recordset(%r, %s)" % (self._name, self.ids)
+        return "Recordset({!r}, {})".format(self._name, self.ids)
 
     def __iter__(self):
         """Return an iterator over `self`."""
@@ -390,6 +448,7 @@ class Model(BaseModel):
         if updated_values.get(parent.id):
             values = updated_values[parent.id][:]  # Copy
         from odoorpc import fields
+
         for id_ in fields.records2ids(records):
             if (3, id_) in values:
                 values.remove((3, id_))
@@ -411,11 +470,10 @@ class Model(BaseModel):
         if updated_values.get(parent.id):
             values = updated_values[parent.id][:]  # Copy
         from odoorpc import fields
+
         for id_ in fields.records2ids(records):
             if (4, id_) in values:
                 values.remove((4, id_))
             if (3, id_) not in values:
                 values.append((3, id_))
         return values
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

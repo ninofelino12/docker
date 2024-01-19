@@ -1,4 +1,3 @@
-Flask
-OdooRPC==0.10.1
-Flask-RESTful
-openai
+requirements.txt found in /home/felino/Documents/docker/flask-server instead of Pipfile! Converting...
+Warning: Your Pipfile now contains pinned versions, if your requirements.txt did. 
+We recommend updating your Pipfile to specify the "*" version, instead.

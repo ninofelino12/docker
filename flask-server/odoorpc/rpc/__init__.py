@@ -1,23 +1,6 @@
-# -*- coding: UTF-8 -*-
-##############################################################################
-#
-#    OdooRPC
-#    Copyright (C) 2014 Sébastien Alix.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Lesser General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Lesser General Public License for more details.
-#
-#    You should have received a copy of the GNU Lesser General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright 2014 Sébastien Alix
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)
 """This module provides `Connector` classes to communicate with an `Odoo`
 server with the `JSON-RPC` protocol or through simple HTTP requests.
 
@@ -25,28 +8,29 @@ Web controllers of `Odoo` expose two kinds of methods: `json` and `http`.
 These methods can be accessed from the connectors of this module.
 """
 import sys
-# Python 2
-if sys.version_info[0] < 3:
-    from urllib2 import build_opener, HTTPCookieProcessor
-    from cookielib import CookieJar
-# Python >= 3
-else:
-    from urllib.request import build_opener, HTTPCookieProcessor
-    from http.cookiejar import CookieJar
 
 from odoorpc.rpc import error, jsonrpclib
-from odoorpc.tools import v
+
+# Python 2
+if sys.version_info[0] < 3:
+    from cookielib import CookieJar
+    from urllib2 import HTTPCookieProcessor, build_opener
+# Python >= 3
+else:
+    from http.cookiejar import CookieJar
+    from urllib.request import HTTPCookieProcessor, build_opener
 
 
 class Connector(object):
     """Connector base class defining the interface used
     to interact with a server.
     """
+
     def __init__(self, host, port=8069, timeout=120, version=None):
         self.host = host
         try:
             int(port)
-        except ValueError:
+        except (ValueError, TypeError):
             txt = "The port '{0}' is invalid. An integer is required."
             txt = txt.format(port)
             raise error.ConnectorError(txt)
@@ -103,17 +87,19 @@ class ConnectorJSONRPC(Connector):
                                          'symbol': '$'}},
                     'db': 'db_name',
                     'is_admin': True,
-                    'is_superuser': True,
-                    'name': 'Administrator',
+                    'is_system': True,
+                    'name': 'Mitchell Admin',
+                    'partner_display_name': 'YourCompany, Mitchell Admin',
                     'partner_id': 3,
-                    'server_version': '10.0',
-                    'server_version_info': [10, 0, 0, 'final', 0, ''],
+                    'server_version': '12.0',
+                    'server_version_info': [12, 0, 0, 'final', 0, ''],
                     'session_id': '6dd7a34f16c1c67b38bfec413cca4962d5c01d53',
-                    'uid': 1,
+                    'show_effect': True,
+                    'uid': 2,
                     'user_companies': False,
                     'user_context': {'lang': 'en_US',
                                      'tz': 'Europe/Brussels',
-                                     'uid': 1},
+                                     'uid': 2},
                     'username': 'admin',
                     'web.base.url': 'http://localhost:8069',
                     'web_tours': []}}
@@ -130,6 +116,28 @@ class ConnectorJSONRPC(Connector):
         ...         'currencies', 'is_admin', 'is_superuser', 'name',
         ...         'partner_id', 'server_version', 'server_version_info',
         ...         'user_companies', 'web.base.url', 'web_tours',
+        ...     ])
+        >>> if v(VERSION) >= v('11.0'):
+        ...     keys.extend([
+        ...         'is_system',
+        ...     ])
+        ...     keys.remove('is_admin')
+        >>> if v(VERSION) >= v('12.0'):
+        ...     keys.extend([
+        ...         'is_admin',
+        ...         'partner_display_name',
+        ...         'show_effect',
+        ...     ])
+        ...     keys.remove('is_superuser')
+        >>> if v(VERSION) >= v('13.0'):
+        ...     keys.extend([
+        ...         'display_switch_company_menu',
+        ...         'cache_hashes',
+        ...     ])
+        ...     keys.remove('session_id')
+        >>> if v(VERSION) >= v('14.0'):
+        ...     keys.extend([
+        ...         'active_ids_limit',
         ...     ])
         >>> all([key in data['result'] for key in keys])
         True
@@ -182,16 +190,23 @@ class ConnectorJSONRPC(Connector):
         >>> 'jsonrpc' in data and 'id' in data and 'result' in data
         True
     """
-    def __init__(self, host, port=8069, timeout=120, version=None,
-                 deserialize=True, opener=None):
+
+    def __init__(
+        self,
+        host,
+        port=8069,
+        timeout=120,
+        version=None,
+        deserialize=True,
+        opener=None,
+    ):
         super(ConnectorJSONRPC, self).__init__(host, port, timeout, version)
         self.deserialize = deserialize
         # One URL opener (with cookies handling) shared between
         # JSON and HTTP requests
         if opener is None:
             cookie_jar = CookieJar()
-            opener = build_opener(
-                HTTPCookieProcessor(cookie_jar))
+            opener = build_opener(HTTPCookieProcessor(cookie_jar))
         self._opener = opener
         self._proxy_json, self._proxy_http = self._get_proxies()
 
@@ -201,14 +216,23 @@ class ConnectorJSONRPC(Connector):
         corresponding to the server version used.
         """
         proxy_json = jsonrpclib.ProxyJSON(
-            self.host, self.port, self._timeout,
-            ssl=self.ssl, deserialize=self.deserialize, opener=self._opener)
+            self.host,
+            self.port,
+            self._timeout,
+            ssl=self.ssl,
+            deserialize=self.deserialize,
+            opener=self._opener,
+        )
         proxy_http = jsonrpclib.ProxyHTTP(
-            self.host, self.port, self._timeout,
-            ssl=self.ssl, opener=self._opener)
+            self.host,
+            self.port,
+            self._timeout,
+            ssl=self.ssl,
+            opener=self._opener,
+        )
         # Detect the server version
         if self.version is None:
-            result = proxy_json.web.webclient.version_info()['result']
+            result = proxy_json('/web/webclient/version_info')['result']
             if 'server_version' in result:
                 self.version = result['server_version']
         return proxy_json, proxy_http
@@ -251,10 +275,19 @@ class ConnectorJSONRPCSSL(ConnectorJSONRPC):
         ...     from odoorpc import rpc
         ...     cnt = rpc.ConnectorJSONRPCSSL(HOST, port=PORT)
     """
-    def __init__(self, host, port=8069, timeout=120, version=None,
-                 deserialize=True, opener=None):
+
+    def __init__(
+        self,
+        host,
+        port=8069,
+        timeout=120,
+        version=None,
+        deserialize=True,
+        opener=None,
+    ):
         super(ConnectorJSONRPCSSL, self).__init__(
-            host, port, timeout, version, opener=opener)
+            host, port, timeout, version, opener=opener
+        )
         self._proxy_json, self._proxy_http = self._get_proxies()
 
     @property
@@ -262,9 +295,4 @@ class ConnectorJSONRPCSSL(ConnectorJSONRPC):
         return True
 
 
-PROTOCOLS = {
-    'jsonrpc': ConnectorJSONRPC,
-    'jsonrpc+ssl': ConnectorJSONRPCSSL,
-}
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+PROTOCOLS = {'jsonrpc': ConnectorJSONRPC, 'jsonrpc+ssl': ConnectorJSONRPCSSL}

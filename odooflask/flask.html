@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    @app.route(): Dekorator ini digunakan untuk mendefinisikan route untuk fungsi rute. Route adalah URL yang akan dipetakan ke fungsi rute. Metode HTTP yang akan ditangani oleh fungsi rute juga dapat ditentukan.
+@app.before_request(): Dekorator ini digunakan untuk menjalankan kode sebelum setiap permintaan. Kode ini dapat digunakan untuk memproses data dari permintaan, menginisialisasi data, atau melakukan tugas lainnya.
+@app.after_request(): Dekorator ini digunakan untuk menjalankan kode setelah setiap permintaan. Kode ini dapat digunakan untuk memproses data dari tanggapan, membersihkan data, atau melakukan tugas lainnya.
+@app.errorhandler(): Dekorator ini digunakan untuk mendefinisikan penanganan kesalahan untuk kode kesalahan HTTP tertentu. Jika kode kesalahan HTTP tertentu terjadi, kode yang ditentukan oleh dekorator ini akan dijalankan.
+@app.context_processor(): Dekorator ini digunakan untuk menginisialisasi konteks yang akan tersedia untuk semua fungsi rute. Konteks adalah kumpulan data yang dapat diakses oleh semua fungsi rute.
+@app.teardown_request(): Dekorator ini digunakan untuk menjalankan kode setelah setiap permintaan, bahkan jika terjadi kesalahan. Kode ini dapat digunakan untuk membersihkan data atau melakukan tugas lainnya.
+@app.before_first_request(): Dekorator ini digunakan untuk menjalankan kode sebelum permintaan pertama. Kode ini hanya akan dijalankan satu kali, saat server Flask pertama kali dimulai.
+@app.after_fork(): Dekorator ini digunakan untuk menjalankan kode setelah proses Flask baru difork. Kode ini akan dijalankan untuk setiap proses Flask baru yang dibuat.
+@app.before_server_start(): Dekorator ini digunakan untuk menjalankan kode sebelum server Flask dimulai. Kode ini hanya akan dijalankan satu kali, saat server Flask pertama kali dimulai.
+@app.after_server_stop(): Dekorator ini digunakan untuk menjalankan kode setelah server Flask berhenti. Kode ini hanya akan dijalankan satu kali, saat server Flask berhenti.
+    
+</body>
+</html>
