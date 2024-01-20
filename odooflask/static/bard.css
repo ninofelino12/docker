@@ -1,0 +1,30 @@
+/* Base styles for cards */
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px; /* Adjust spacing as needed */
+  }
+  
+  .cards__item {
+    width: calc(25% - 30px); /* Adjust for desired card size and spacing */
+    margin: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 4px;
+  }
+  
+  /* ... rest of your card styles ... */
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) { /* Adjust breakpoint as needed */
+    .cards__item {
+      width: calc(50% - 30px); /* Two cards per row */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .cards__item {
+      width: 100%; /* Stack cards on smaller screens */
+    }
+  }
+  
