@@ -1,6 +1,9 @@
 import base64
 from functools import wraps
+import html
 from flask import Flask, Response, jsonify, render_template_string, request,render_template
+import xml.etree.ElementTree as ET
+
 
 #from flask import Flask, jsonify, Response
 
@@ -11,6 +14,7 @@ from odoorpc.odoo import ODOO
 from json2html import *
 
 class Odoofelino(ODOO):
+    
     #server='203.194.112.105'
     userid=0
     odooid=1
@@ -19,8 +23,12 @@ class Odoofelino(ODOO):
     model='res.users'
     _databases = None
     _model_data = {}
+    user='admin'
     field=fields='id,name'.split(',') 
+    password='odooadmin'
+    database='demo'
     def __init__(self,model='res.partner', server='203.194.112.105', port=80, database='DEMO',user='odooadmin'):
+        
         self.odoo = ODOO(server, port=port)
         pass
     def logine(self):
@@ -39,14 +47,65 @@ class Odoofelino(ODOO):
         for record in records
     ])
     
+
+    def myexecute(self, **kwargs):
+        #with self.odoo.work_on(kwargs.get('model', 'product.product')):
+        #self.odoo.login(self.database,self.user,self.password)
+        self.odoo.login('DEMO', 'admin', 'odooadmin')
+        self.user = self.odoo.env.user
+        records = self.odoo.env[kwargs.get('model','res.partner')].search_read([], kwargs.get('fields', ['id', 'name']))
+        if kwargs.get('type','table') == 'html':
+            jsonText=json2html.convert(records)
+            response = Response('jsonText', status=200, mimetype="text/json")
+        else:    
+            jsonText=json.dumps(records)
+        response = Response(jsonText, status=200, mimetype="text/json")
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        response.headers["Pragma"] = odoo.fields;
+        return response
+
+    
     def judulmenu(self):
         with open("static/menu.js", "r") as file:
             script = file.read()
         return script
+    
+    def combobox(self):
+        with open("static/combobox.xml", "r") as file:
+            script = file.read()
+        return script
     def gettemplate(self, id=484):
-        arch = self.odoo.env['ir.ui.view'].browse(id).arch
+        self.logine()
+        arch = self.odoo.env['ir.ui.view'].browse(id).arch_base
         print(arch)
-        return arch
+        root = ET.fromstring(arch)
+        html_string = ""
+        hasil=''
+        for element in root:
+            if element.tag == "xpath":
+                xpath_expr = element.attrib["expr"]  # Ambil ekspresi XPath
+                xpath_element = root.find("xpath")
+                fields = xpath_element.findall("field") 
+                for field in fields:
+                    name = field.attrib["name"]  # Ambil nama field
+                    invisible = field.attrib.get("invisible", None)  # Ambil atribut invisible (jika ada)
+                    html_string += f'<input type="text" id={name} name="fname"><br><br>'
+
+                
+            else:
+        # Handle elemen XML lainnya sesuai kebutuhan (jika ada)
+                html_string += '<div id={element.tag}>{element.tag}></div>'
+        print('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu')    
+        print(html_string)
+        print('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu') 
+        response = Response(html_string, status=200, mimetype="text/html")
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        response.headers["Pragma"] = odoo.fields;
+        return response
     
     def template(self):
         Order = self.odoo.env['ir.ui.view']
@@ -58,7 +117,10 @@ class Odoofelino(ODOO):
         hasil+'</table>'
         
         return hasil
-        
+    def report(self):
+        self.logine()
+        print(self.odoo.report.list())
+        return self.odoo.report.list
 
     def savefile(self,filename,contents):
         with open('static/'+filename, 'w') as f:
@@ -83,14 +145,24 @@ class Odoofelino(ODOO):
             link.append(rule.rule)
             routes_data.append(route_info)
             if idx>1:
-               combobox+=f'<option value="{rule.endpoint}">{rule.rule}</option>'
+               #combobox+=f'<option value="{rule.rule}">{rule.endpoint}</option>'
+               # <button id="loadButton" onclick="loadJSON('http://127.0.0.1:5000/table','xmlData')">Load XML</button> 
+               #combobox+=f'<button id="loadButton" onclick="loadJSON('{rule.endpoint}','xmlData')">{rule.rule}</button>'
+               combobox += f'<li><button id="loadButton" onclick="loadJSON(\'{rule.rule}\',\'xmlData\')">{rule.endpoint}</button></li>'
             hasil+=f'<li> <a id="link{idx}" href="{rule.rule}"><img src="/static/{rule.endpoint}.svg"/>{rule.endpoint.capitalize()}</a></li>'
-            print(hasil)
+            #print(hasil)
         js=hasil
         self.savefile('combobox.xml',combobox)
         self.savefile('menu.js',js)
         return js
 
+    def getview(self):
+        reports = self.odoo.env['ir.actions.report']
+        report_id = reports.search([('name', '=', 'Invoice Report')])
+        report = reports.browse(report_id)
+        arc_base = report.arc_base
+        print(arc_base)
+        return arc_base
 
     def gettable(self,fields=['name', 'id']):
         
@@ -137,8 +209,10 @@ class Odoofelino(ODOO):
 
   
 
-odoo = Odoofelino(model='res.partner')
-
+#odoo = Odoofelino(model='res.partner')
+odoo = Odoofelino(model='res.partner', server='203.194.112.105', port=80, database='DEMO',user='odooadmin')
+#odoo = Odoofelino(model='res.partner', server='localhost', port=8015, database='DB',user='felino')
+print(odoo.info)
 app = Flask(__name__)
 
 @app.route("/")
@@ -154,10 +228,10 @@ def home(model="product.product", fields='id,name'):
     partners = json.loads(data)
     for name in partners:
         print(f"<li>{name}</li>")
-        if name['id'] < 25:
-            hasil+=f"<ul id='cardt' style='width:25%'>{name['name']}<img style='width:54px' src='/image?id={name['id']}'/></ul>"
+        #if name['id'] < 25:
+        hasil+=f"<ul id='cardt' style='width:25%'>{name['name']}<img style='width:54px' src='/image?id={name['id']}'/></ul>"
     print(hasil)    
-    return render_template('app.html',script=odoo.judulmenu(),content=f'<container>{hasil}</container>')
+    return render_template('app.html',sidebar=odoo.combobox(),script=odoo.judulmenu(),content=f'<container>{hasil}</container>')
 
 @app.route("/card")
 def homecard(model="product.product", fields='id,name'):
@@ -205,7 +279,7 @@ def cache_image(f):
     return decorated_function
 
 @app.route("/image")
-#@cache_image
+@cache_image
 def image():
     #id = request.args.get("id")
     id = request.args.get('id')
@@ -242,34 +316,20 @@ def table(model="product.product", fields='id,name'):
     return response
     #return render_template('app.html',script=odoo.judulmenu(),content=table_html)
     
-@app.route("/report")
-def template(model="ir.actions.report", fields='id,name'):
-    #data=odoo.gettable()
-    odoo.logine()
-    odoo.model='ir.actions.report'
-    data=odoo.getfel(['name','model','id'])
-    table_html=odoo.gettemplate()
-    response = Response(table_html, status=200, mimetype="text/html")
-    response_headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Pragma":odoo.fields
-     }
-   
-    return response
-
 @app.route("/template")
-def report(model="ir.actions.report", fields='id,name'):
-    odoo.logine()
-    table_html=odoo.template()
-    print(table_html)
-    response = Response(table_html, status=200, mimetype="text/html")
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-    response.headers["Pragma"] = odoo.fields;
-    return response
+def template(model="ir.actions.report", fields='id,name'):
+    typeresponse = request.args.get('type','html')
+    reports = odoo.gettemplate()
+
+    return reports
+
+   
+
+@app.route("/report")
+def report():
+    typeresponse = request.args.get('type','html')
+    reports = odoo.myexecute(fields=['id','name'],model='ir.actions.report',type=typeresponse)
+    return reports
 
 @app.route("/addons")
 def addons(model="ir.module.module", fields='id,name'):
@@ -295,7 +355,7 @@ def addons(model="ir.module.module", fields='id,name'):
 @app.after_request
 def add_header(response):
     #response.cache_control.max_age = 604800  # Cache for a week (in seconds)
-    print('add header')
+    #print('add header')
     return response
 
 

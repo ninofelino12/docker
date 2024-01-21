@@ -253,3 +253,18 @@ img {
   margin-bottom: 1.25rem;
 }
 
+container {
+  background-color:#71639e;
+}
+nav{
+  background-color:#71639e;
+}
+ul#cardt{
+  background-image: #71639e;
+}
+div.crd{
+  background-color: #e9ecef;
+}
+div{
+ background-color: #e9ecef; 
+}
