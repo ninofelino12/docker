@@ -14,7 +14,11 @@ from odoorpc.odoo import ODOO
 from json2html import *
 
 class Odoofelino(ODOO):
+    """
+    Class untuk koneksi ke ODOO
+    """
     
+
     #server='203.194.112.105'
     userid=0
     odooid=1
@@ -40,6 +44,12 @@ class Odoofelino(ODOO):
        
         
     def logine(self):
+        """
+        fungsi login dengan parameter
+        user
+        password
+        database
+        """
         #self.odoo.login('DEMO', 'admin', 'odooadmin')
         print('##########################################################')
         print('database',self.database)
@@ -371,7 +381,21 @@ def info():
     """
     info about docstring
     """
-    return addons2.__doc__
+    # print(dir(Odoofelino))
+    print('------di-------------')
+    print(dir(Odoofelino.__dict__))
+    print('-------doc--------------')
+  
+    # print(dir(Odoofelino.__module__))
+    # print('---------------------')
+    print(dir(Odoofelino))
+    print('---------------------')
+    balik='<div>'
+    hasils= dir(Odoofelino)
+    for hasil in hasils:
+        if hasil.find('__')<0:
+           balik +='<li>'+hasil+'</li>'
+    return balik+Odoofelino.__module__
 
 @app.after_request
 def add_header(response):
