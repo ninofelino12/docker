@@ -1,35 +1,27 @@
-const loadJsonLink = document.getElementsByClassName('a')
-    const outputDiv = document.getElementById("output");
+async function loadJSON(url,tag) {
+  alert('click'+url)
+  document.querySelector("#loadButton").style.cursor = "wait";
+  document.getElementById("loading-container").style.display = "block";
+  var progressBar = document.getElementById("loading-progress-bar");
+  progressBar.style.width = "0%";
 
-    loadJsonLink.addEventListener("click", async () => {
- 
-      try {
-        const response = await fetch("http://localhost"); // Replace with your actual JSON URL
+  try {
+    const response = await fetch(url);
 
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-        const jsonData = await response.json();
-        outputDiv.textContent = JSON.stringify(jsonData, null, 2); // Pretty-print JSON
-      } catch (error) {
-        console.error("Error fetching JSON:", error);
-        outputDiv.textContent = "Error loading JSON data.";
-      }
-    });
-    function clearCache() {
-  // Attempt to clear cache using available mechanisms:
-  if ('caches' in window) {
-    caches.keys().then(cacheNames => {
-      return Promise.all(cacheNames.map(cacheName => caches.delete(cacheName)));
-    }).then(() => {
-      // Cache cleared successfully
-      console.log('Cache cleared!');
-      // Optionally reload the page:
-      window.location.reload();
-    });
-  } else {
-    // Fallback to reloading the page (not as effective as clearing cache)
-    window.location.reload();
+    const data = await response.text();
+    document.getElementById(tag).innerHTML = data;
+    document.querySelector("#loading-button").style.cursor = "default";
+    progressBar.style.width = (100 / data.length) + "%";
+    document.getElementById("loading-container").style.display = "none";
+    document.getElementById("crd").style.display="none"; 
+    return data;
+  } catch (error) {
+    console.error('Error loading JSON:', error);
+    throw error; // Re-throw to allow further handling
   }
 }
+

@@ -1,7 +1,7 @@
 import base64
 from functools import wraps
 import html
-from flask import Flask, Response, jsonify, render_template_string, request,render_template
+from flask import Flask, Response, jsonify, render_template_string, request,render_template,make_response
 import xml.etree.ElementTree as ET
 
 
@@ -23,30 +23,60 @@ class Odoofelino(ODOO):
     model='res.users'
     _databases = None
     _model_data = {}
-    user='admin'
-    field=fields='id,name'.split(',') 
-    password='odooadmin'
-    database='demo'
-    def __init__(self,model='res.partner', server='203.194.112.105', port=80, database='DEMO',user='odooadmin'):
-        
-        self.odoo = ODOO(server, port=port)
-        pass
-    def logine(self):
-        self.odoo.login('DEMO', 'admin', 'odooadmin')
-        self.user = self.odoo.env.user
-         
-    def getfel(self, fields=['name', 'id']):
-        model = self.odoo.env[self.model]
-        records = model.search([])
-        Order = self.odoo.env[self.model]
-        order_ids = Order.search([])
-        partner_data = []
-        records=Order.browse(order_ids)
-        return json.dumps([
-        {field: getattr(record, field) for field in fields}
-        for record in records
-    ])
     
+    field=fields='id,name'.split(',')
+    #user='admin' 
+    # password='odooadmin'
+    # database='demo'
+    port='80'
+    # server='203.194.112.105'
+    def __init__(self,**kwargs):
+        self.server=kwargs.get('server', '203.194.112.105')
+        self.port=kwargs.get('port', '80')
+        self.database=kwargs.get('database', 'DEMO')
+        self.userodoo=kwargs.get('user', 'admin')
+        self.password=kwargs.get('password', 'odoadmin')
+        self.odoo = ODOO(self.server,port=self.port)
+       
+        
+    def logine(self):
+        #self.odoo.login('DEMO', 'admin', 'odooadmin')
+        print('##########################################################')
+        print('database',self.database)
+        #print(self.user,self.password)
+        #self.odoo.login(self.database, self.user,self.password)
+        self.odoo.login(self.database,self.userodoo,self.password)
+        self.user = self.odoo.env.user
+       
+        #print(odoo.odoo.report.list())
+         
+    # def getfel2(self, fields=['name', 'id']):
+    #     model = self.odoo.env[self.model]
+    #     records = model.search([])
+    #     Order = self.odoo.env[self.model]
+    #     order_ids = Order.search([])
+    #     partner_data = []
+    #     records=Order.browse(order_ids)
+    #     return json.dumps([
+    #     {field: getattr(record, field) for field in fields}
+    #     for record in records
+    # ])
+
+    def getfel(self, fields=['name', 'id']):
+        """Fetches specified fields from records efficiently and returns them as JSON."""
+
+        records = self.odoo.env[self.model].search_read([], fields=fields)  # Single query, read only necessary fields
+        return json.dumps([record for record in records])  # Direct serialization
+
+    
+    # def getfel31(self, fields=['name', 'id']):
+    #     Order = self.odoo.env[self.model]
+    #     order_ids = Order.search([])
+    #     records=Order.browse(order_ids)
+    #     return json.dumps([
+    #     {field: getattr(records, field) for field in fields}
+    #     for record in records])
+        
 
     def myexecute(self, **kwargs):
         #with self.odoo.work_on(kwargs.get('model', 'product.product')):
@@ -65,6 +95,8 @@ class Odoofelino(ODOO):
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
         response.headers["Pragma"] = odoo.fields;
         return response
+    
+    
 
     
     def judulmenu(self):
@@ -148,7 +180,7 @@ class Odoofelino(ODOO):
                #combobox+=f'<option value="{rule.rule}">{rule.endpoint}</option>'
                # <button id="loadButton" onclick="loadJSON('http://127.0.0.1:5000/table','xmlData')">Load XML</button> 
                #combobox+=f'<button id="loadButton" onclick="loadJSON('{rule.endpoint}','xmlData')">{rule.rule}</button>'
-               combobox += f'<li><button id="loadButton" onclick="loadJSON(\'{rule.rule}\',\'xmlData\')">{rule.endpoint}</button></li>'
+               combobox += f'<li><button id="loadButton" onclick="loadJSON(\'{rule.rule}\',\'contents\')">{rule.endpoint}</button></li>'
             hasil+=f'<li> <a id="link{idx}" href="{rule.rule}"><img src="/static/{rule.endpoint}.svg"/>{rule.endpoint.capitalize()}</a></li>'
             #print(hasil)
         js=hasil
@@ -166,7 +198,10 @@ class Odoofelino(ODOO):
 
     def gettable(self,fields=['name', 'id']):
         
-        self.odoo.login('DEMO', 'admin', 'odooadmin')
+        #self.odoo.login('DEMO', 'admin', 'odooadmin')
+        self.odoo.login(self.database, self.user,self.password)
+
+        self.user = self.odoo.env.user
         self.getfel()
         model = self.odoo.env[self.model]
         records = model.search([])
@@ -210,8 +245,8 @@ class Odoofelino(ODOO):
   
 
 #odoo = Odoofelino(model='res.partner')
-odoo = Odoofelino(model='res.partner', server='203.194.112.105', port=80, database='DEMO',user='odooadmin')
-#odoo = Odoofelino(model='res.partner', server='localhost', port=8015, database='DB',user='felino')
+#odoo = Odoofelino(model='res.partner', server='203.194.112.105', port=80, database='DEMO',user='odooadmin')
+odoo = Odoofelino(server='localhost', port=8015, database='felino',user='ninofelino12@gmail.com',password="felino")
 print(odoo.info)
 app = Flask(__name__)
 
@@ -227,47 +262,12 @@ def home(model="product.product", fields='id,name'):
     hasil=''
     partners = json.loads(data)
     for name in partners:
-        print(f"<li>{name}</li>")
+        #print(f"<li>{name}</li>")
         #if name['id'] < 25:
         hasil+=f"<ul id='cardt' style='width:25%'>{name['name']}<img style='width:54px' src='/image?id={name['id']}'/></ul>"
-    print(hasil)    
+    #print(hasil)    
     return render_template('app.html',sidebar=odoo.combobox(),script=odoo.judulmenu(),content=f'<container>{hasil}</container>')
 
-@app.route("/card")
-def homecard(model="product.product", fields='id,name'):
-    hasil=''
-    for number in range(1,5): 
-        hasil+=card()
-    with open('templates/card.html', 'w') as f:
-            f.write(hasil)    
-    print('save----------------------------')  
-    
-    rendered_content = render_template_string('''
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='bard.css') }}">                                          
-    </head>
-    <style>
-        container{
-          display: flex;
-          background-color: blanchedalmond;
-        }
-      </style>
-    <body>
-    <container>                                          
-    {{ script | safe}}  
-    </container>
-    {{ content }}  
-    </body>
-    </html>
-    '''
-    ,script=hasil,content="isi")
-    with open("cardgen.html", "w") as file:
-        file.write(rendered_content)
-    #template=render_template('appdebug.html',script=odoo.getmenu(app),content=hasil)    
-    return render_template('appdebug.html',script='<h1>MENU</h1>',content=hasil)
-    #return odoo.htmlresponse(render_template)
 
 def cache_image(f):
     @wraps(f)
@@ -319,9 +319,12 @@ def table(model="product.product", fields='id,name'):
 @app.route("/template")
 def template(model="ir.actions.report", fields='id,name'):
     typeresponse = request.args.get('type','html')
-    reports = odoo.gettemplate()
+    #reports = odoo.gettemplate()
+    odoo.logine()
+    #print(odoo.odoo.report.list()['Pricelist'])
+    #template = odoo.env['ir.ui.view'].render_template(53, data)
+    return 'render_template(template, data)'
 
-    return reports
 
    
 
@@ -333,25 +336,43 @@ def report():
 
 @app.route("/addons")
 def addons(model="ir.module.module", fields='id,name'):
-    #data=odoo.gettable()
     typefile = request.args.get('type', 'html')
     odoo.logine()
     odoo.model='ir.module.module'
     data=odoo.getfel(['name','description','description_html'])
     table_html = json2html.convert(data)
-    response = Response(table_html, status=200, mimetype="text/html")
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-    response.headers["Pragma"] = odoo.fields;
-    
-    response.headers["X-Custom-Header"] = "value"
-    #return response
+  
     if typefile=='html':
-        return render_template('app.html',content=table_html,name=menu())
-    else:
+        response = make_response(render_template('app.html',content=table_html))
+        response.headers["Pragma"] = odoo.fields;
         return response
+        #render_template('app.html',content=table_html)
     
+    else:
+        return data
+
+@app.route("/addons2")
+def addons2(model="ir.module.module", fields='id,name'):
+    """Fetches Odoo addon data and returns it as HTML or JSON."""
+
+    typefile = request.args.get('type', 'html')
+    odoo.model='ir.module.module'
+    # Fetch data efficiently
+    data = odoo.getfel(fields=['name', 'description', 'description_html'])
+
+    if typefile == 'html':
+        table_html = json2html.convert(data)
+        return render_template('app.html', content=table_html), {"Pragma": odoo.fields}  # Set headers directly
+    else:
+        return jsonify(data)  # Use jsonify for proper JSON responses    
+
+@app.route("/info")
+def info():
+    """
+    info about docstring
+    """
+    return addons2.__doc__
+
 @app.after_request
 def add_header(response):
     #response.cache_control.max_age = 604800  # Cache for a week (in seconds)
@@ -359,20 +380,3 @@ def add_header(response):
     return response
 
 
-def card():
-    card="""
-    <ul class="cards">
-    <li class="cards__item">
-    <div class="card">
-      <div class="card__image"><img src="http://127.0.0.1:5000/image/26"></div>
-      <div class="card__content">
-        <div class="card__title">Flex Basis</div>
-        <p class="card__text">This defines the default can be a length (e.g. 20%, 5rem, etc.) or a keyword. The auto keyword means "look at my width or height property."</p>
-        <button class="btn btn--block card__btn">Button</button>
-      </div>
-    </div>
-    </li>
-    </ul>
-
-    """
-    return card
