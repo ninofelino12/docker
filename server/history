@@ -1,0 +1,10 @@
+    1  cd server
+    2  ls
+    3  python3 -m venv .venv
+    4  . .venv/bin/activate
+    5  ls
+    6  pip install flask
+    7  pip install Flask-Odoo
+    8  echo app.py
+    9  echo >>app.py
+   10  history >> history

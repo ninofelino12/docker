@@ -89,9 +89,11 @@ class Odoofelino(ODOO):
         
 
     def myexecute(self, **kwargs):
-        #with self.odoo.work_on(kwargs.get('model', 'product.product')):
-        #self.odoo.login(self.database,self.user,self.password)
-        self.odoo.login('DEMO', 'admin', 'odooadmin')
+        '''
+        My execute
+        '''
+
+        self.logine()
         self.user = self.odoo.env.user
         records = self.odoo.env[kwargs.get('model','res.partner')].search_read([], kwargs.get('fields', ['id', 'name']))
         if kwargs.get('type','table') == 'html':
@@ -190,7 +192,7 @@ class Odoofelino(ODOO):
                #combobox+=f'<option value="{rule.rule}">{rule.endpoint}</option>'
                # <button id="loadButton" onclick="loadJSON('http://127.0.0.1:5000/table','xmlData')">Load XML</button> 
                #combobox+=f'<button id="loadButton" onclick="loadJSON('{rule.endpoint}','xmlData')">{rule.rule}</button>'
-               combobox += f'<li><button id="loadButton" onclick="loadJSON(\'{rule.rule}\',\'contents\')">{rule.endpoint}</button></li>'
+               combobox += f'<li><button id="loadButton" onclick="loadJSON(\'{rule.rule}\',\'content\')">{rule.endpoint}</button></li>'
             hasil+=f'<li> <a id="link{idx}" href="{rule.rule}"><img src="/static/{rule.endpoint}.svg"/>{rule.endpoint.capitalize()}</a></li>'
             #print(hasil)
         js=hasil
@@ -251,6 +253,14 @@ class Odoofelino(ODOO):
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
         return response
         
+def print_all_docstrings(cls):
+    """Prints the docstring for the class and its methods."""
+
+    #print(cls._doc_)  # Print the class docstring
+
+    for name, method in cls._dict_.items():
+        if callable(method) and hasattr(method, '_doc_'):
+            print(f"{name}:\n{method._doc_}\n")  # Print method docstrings
 
   
 
@@ -276,7 +286,7 @@ def home(model="product.product", fields='id,name'):
         #if name['id'] < 25:
         hasil+=f"<ul id='cardt' style='width:25%'>{name['name']}<img style='width:54px' src='/image?id={name['id']}'/></ul>"
     #print(hasil)    
-    return render_template('app.html',sidebar=odoo.combobox(),script=odoo.judulmenu(),content=f'<container>{hasil}</container>')
+    return render_template('app.html',sidebar=odoo.combobox(),script=odoo.judulmenu(),content=f'<container style="Display:flex;flex-wrap:wrap">{hasil}</container>')
 
 
 def cache_image(f):
@@ -345,10 +355,12 @@ def report():
     return reports
 
 @app.route("/addons")
-def addons(model="ir.module.module", fields='id,name'):
+def addons():
+    ''' Report routing
+    '''
     typefile = request.args.get('type', 'html')
     odoo.logine()
-    odoo.model='ir.module.module'
+    odoo.model='ir.actions.report'
     data=odoo.getfel(['name','description','description_html'])
     table_html = json2html.convert(data)
   
@@ -392,9 +404,13 @@ def info():
     print('---------------------')
     balik='<div>'
     hasils= dir(Odoofelino)
+    #print_all_docstrings(Odoofelino()) 
     for hasil in hasils:
         if hasil.find('__')<0:
-           balik +='<li>'+hasil+'</li>'
+           balik +='<li>'+hasil+'</li>' 
+    methods = [method for method in dir(Odoofelino) if callable(getattr(Odoofelino, method))]
+    print(methods)  # Output: ['__class__', '__delattr__', ..., 'method1', 'method2']
+       
     return balik+Odoofelino.__module__
 
 @app.after_request

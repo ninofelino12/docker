@@ -1,0 +1,81 @@
+<script type="module" src="./index.jss"></script>
+<script  src="../static/bundle.js"></script>
+<script  src="../static/script2.js"></script>
+<link rel="stylesheet" type="text/css" href="../static/style.css">
+<script>
+  function meow() {
+    // Play a random cat meow sound
+    const audio = new Audio(`cat-sounds/meow${Math.floor(Math.random() * 3)}.mp3`);
+    audio.play();
+  
+    // Display a random cat message
+    const messages = ["Purrfect!", "Meow meow!", "Want some tuna?", "Nap time!"];
+    document.getElementById("cat-message").textContent = messages[Math.floor(Math.random() * messages.length)];
+  }
+</script>
+<style>
+  .loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 5px solid #fff;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+</style>
+
+<label>
+  
+  <md-checkbox checked></md-checkbox>
+</label>
+xxxx
+<md-outlined-button>Back</md-outlined-button>
+<md-filled-button  >Next</md-filled-button>
+<script>
+  function meow() {
+  // Play a random cat meow sound
+  const audio = new Audio(`cat-sounds/meow${Math.floor(Math.random() * 3)}.mp3`);
+  audio.play();
+
+  // Display a random cat message
+  const messages = ["Purrfect!", "Meow meow!", "Want some tuna?", "Nap time!"];
+  document.getElementById("cat-message").textContent = messages[Math.floor(Math.random() * messages.length)];
+}
+</script>
+<main>
+  <div id="container" style="display: flex;flex-direction: row;">
+    
+    <div id="sidebar" style="width: 40%;">
+      <H1>Sidebar</H1>
+      <div id="loading-spinner">Loading</div>
+      <div class="loading-spinner">Load</div>
+      <button onclick="meow()">Click me and I'll meow!</button>
+      <button onclick="loadAndDisplayJson('http://127.0.0.1:5000/link')">JSON</button>
+      <md-outlined-button onclick="loadAndDisplayJson('http://127.0.0.1:5000/link')"">Partner</md-outlined-button>
+      <md-outlined-button>Product</md-outlined-button>
+      <md-filled-button  >Report</md-filled-button>
+      
+      {{ sidebar |safe }}
+      Material 3
+      <p >
+        npx rollup -p @rollup/plugin-node-resolve index.js -o static/bundl
+e.js
+      </p>
+  
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit, amet. Qui natus, exercitationem asperiores deleniti dolore ullam ipsa rerum inventore.
+    </div>
+    <div id="content">
+      <h1>content</h1>
+      <p id="dataContainer"></p>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio molestiae voluptas odio at tempore ea inventore non facere itaque dolores vel, a quisquam ducimus, similique tenetur cumque nostrum mollitia hic quod alias quidem voluptates? Cupiditate commodi sequi molestias officiis eveniet!
+    {{ main |safe }}
+    </div>
+  </div>
+  
+  
+</main>

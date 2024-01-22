@@ -1,0 +1,7 @@
+urls:
+  home:
+    url: /
+    name: Home
+  about:
+    url: /about
+    name: About

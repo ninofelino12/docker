@@ -21,7 +21,7 @@
 
   <div id="topnav" style="background-color: aquamarine;display: flex;">
     <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search...">
+      <input type="text" id="search-input" placeholder="Search..."/>
       <select id="search-type">
         <option value="all">Semua</option>
         <option value="product">Produk</option>
@@ -31,37 +31,31 @@
 
 
   </div>
-  <div id="loadingMessage"></div>
-  loading massahe
+  
   <div id="menu">
     menu
   <h1><MENU<h1>
     {{script | safe}}
   </div>
-
+  <div style="background-color: blueviolet;">
+    ddddddddddddddddddddddddddd
+  </div>
 
   <div class="container" style="background-color: rgb(35, 37, 37);display: flex;">
-    <div class="crd" style="width:30%;background-color: beige;padding: 3px;">
+    <div class="sidebar" style="width:30%;background-color: beige;padding: 3px;">
       <h1>sidebar</h1>
-      <button id="loadButton" onclick="loadJSON('http://127.0.0.1:5000/table','xmlData')">Load XML</button>
+      <button id="loadButton" onclick="loadJSON('http://127.0.0.1:5000/table','content')">Load XML</button>
       <button onclick="clearCache()">Clear Cache</button>
-      <div style="background-color: blue;">
-         {{sidebar|safe}}
-      </div>
-     
+      {{sidebar|safe}}
     </div>
 
-    <div class="content" style="background-color: aquamarine;">
+    <div class="content" style="background-color:   aquamarine;">
       <!-- 3333333333 -->
       {{content|safe}}
-      <div class="contents" style="background-color: rgb(202, 255, 127);"></div>
-    </div>
-
-    <div style="background-color: blue;">
       {{name|safe}}
+       
      
     </div>
-
   </div>
 
 

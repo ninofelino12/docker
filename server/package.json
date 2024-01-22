@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@material/drawer": "^14.0.0",
+    "@material/web": "^1.1.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.9.6"
+  }
+}
