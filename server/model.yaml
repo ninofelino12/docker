@@ -1,0 +1,16 @@
+product.product:
+    name : Product    
+    model: product.product  
+    field: id,name,description,display_name
+res.partner:
+    name : Partner 
+    model: res.partner  
+    field: id,name
+Report:     
+    name : Report 
+    model: it.ui.report  
+    field: id,name,description 
+View:     
+    name : View 
+    model: it.ui.report  
+    field: id,name,description    

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data JSON dari URL</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #fff;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #2196F3;
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Data JSON dari URL</h1>
+<label for="cars">Model:</label>
+<select name="cars" id="cars">
+    <option value="volvo">Partner</option>
+    <option value="saab">Saab</option>
+    <option value="mercedes">Mercedes</option>
+    <option value="audi">Audi</option>
+</select>
+    <button onclick="ambilData('http://localhost:5000/dataset/res.partner','hasil','table')">Partner</button>
+    <button onclick="ambilData('http://localhost:5000/dataset/product.product?field=id,name,description','hasil','table')">Product</button>
+    
+
+    <div id="hasil">content</div>
+
+
+<script>
+function ambilData(url,tag,type)  {
+    // Menggunakan fetch untuk melakukan permintaan HTTP
+    fetch(url)
+        .then(response => {
+            // Memastikan respons dalam format JSON
+            if (!response.ok) {
+                throw new Error("Gagal mengambil data");
+                alert("BUKAN JSON");
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Menampilkan data ke dalam elemen hasil
+            //document.getElementById("hasil").innerHTML=jsonToTable(JSON.parse(data));
+            document.getElementById(tag).innerHTML=jsonToTable(data);
+          //alert(data)
+        })
+        ;
+}
+
+function jsonToTable(data) {
+    const jsonData=data;
+    var tableHtml = '<table>';
+
+        // Create table header
+        tableHtml += '<thead><tr>';
+        for (var key in jsonData[0]) {
+            tableHtml += '<th>' + key + '</th>';
+        }
+        tableHtml += '</tr></thead>';
+
+        // Create table body
+        tableHtml += '<tbody>';
+        jsonData.forEach(function (obj) {
+            tableHtml += '<tr>';
+            for (var key in obj) {
+                tableHtml += '<td>' + obj[key] + '</td>';
+            }
+            tableHtml += '</tr>';
+        });
+        tableHtml += '</tbody>';
+
+        tableHtml += '</table>';
+        
+        return tableHtml;
+  };
+
+</script>
+
+</body>
+</html>

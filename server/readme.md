@@ -60,3 +60,5 @@ delete records:
 >>> existing_partner = Partner()
 >>> existing_partner.id = 2
 >>> existing_partner.delete()
+
+source /home/felino/Documents/docker/server/.venv/bin/activate

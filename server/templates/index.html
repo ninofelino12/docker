@@ -1,32 +1,42 @@
 <script type="module" src="./index.jss"></script>
 <script  src="../static/bundle.js"></script>
-<script  src="../static/script2.js"></script>
+<script  src="../static/script.js"></script>
+<script  src="../static/felino2.js"></script>
 <link rel="stylesheet" type="text/css" href="../static/style.css">
+{{script | safe}}
 <script>
   function meow() {
-    // Play a random cat meow sound
-    const audio = new Audio(`cat-sounds/meow${Math.floor(Math.random() * 3)}.mp3`);
-    audio.play();
-  
-    // Display a random cat message
-    const messages = ["Purrfect!", "Meow meow!", "Want some tuna?", "Nap time!"];
-    document.getElementById("cat-message").textContent = messages[Math.floor(Math.random() * messages.length)];
-  }
+  // Play a random cat meow sound
+  const audio = new Audio(`cat-sounds/meow${Math.floor(Math.random() * 3)}.mp3`);
+  audio.play();
+  const messages = ["Purrfect!", "Meow meow!", "Want some tuna?", "Nap time!"];
+  document.getElementById("cat-message").textContent = messages[Math.floor(Math.random() * messages.length)];
+}
 </script>
+
+
 <style>
-  .loading-spinner {
-    width: 30px;
-    height: 30px;
-    border: 5px solid #fff;
-    border-top: 5px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+progress {
+  width: 200px;
+  background-color: #bf3131;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  height: 5px;
+  animation: spin 2s linear infinite;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #333;
+
+}
 </style>
 
 <label>
@@ -36,32 +46,31 @@
 xxxx
 <md-outlined-button>Back</md-outlined-button>
 <md-filled-button  >Next</md-filled-button>
-<script>
-  function meow() {
-  // Play a random cat meow sound
-  const audio = new Audio(`cat-sounds/meow${Math.floor(Math.random() * 3)}.mp3`);
-  audio.play();
 
-  // Display a random cat message
-  const messages = ["Purrfect!", "Meow meow!", "Want some tuna?", "Nap time!"];
-  document.getElementById("cat-message").textContent = messages[Math.floor(Math.random() * messages.length)];
-}
-</script>
 <main>
   <div id="container" style="display: flex;flex-direction: row;">
     
     <div id="sidebar" style="width: 40%;">
       <H1>Sidebar</H1>
-      <div id="loading-spinner">Loading</div>
-      <div class="loading-spinner">Load</div>
-      <button onclick="meow()">Click me and I'll meow!</button>
+      <div id="loading" style="display: none;">
+        <progress>P</progress>
+        <div class="spinner"></div>
+        <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+          <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+       </svg>
+        Loading...
+      </div>
+    
+      
       <button onclick="loadAndDisplayJson('http://127.0.0.1:5000/link')">JSON</button>
-      <md-outlined-button onclick="loadAndDisplayJson('http://127.0.0.1:5000/link')"">Partner</md-outlined-button>
-      <md-outlined-button>Product</md-outlined-button>
-      <md-filled-button  >Report</md-filled-button>
+      
       
       {{ sidebar |safe }}
       Material 3
+      <md-outlined-button onclick="loadAndDisplayJson('http://127.0.0.1:5000/link')"">Partner</md-outlined-button>
+      <md-outlined-button>Product</md-outlined-button>
+      <md-filled-button  >Report</md-filled-button>
+      <div id="log">dd</div>
       <p >
         npx rollup -p @rollup/plugin-node-resolve index.js -o static/bundl
 e.js
