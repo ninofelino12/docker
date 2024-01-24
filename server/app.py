@@ -2,7 +2,9 @@ import base64
 import json
 from flask import Flask, jsonify,render_template,make_response, request
 from flask_odoo import Odoo
+from odoorpc.odoo import ODOO
 import yaml
+import logging
 
 app = Flask(__name__)
 app.config["ODOO_URL"] = "http://localhost:8015"
@@ -10,6 +12,13 @@ app.config["ODOO_DB"] = "felino"
 app.config["ODOO_USERNAME"] = "ninofelino12@gmail.com"
 app.config["ODOO_PASSWORD"] = "felino"
 odoo = Odoo(app)
+# logging.basicConfig(
+#     format="%(asctime)s %(levelname)-8s %(message)s",
+#     level=logging.INFO,
+#     filename="my_log.txt",
+# )
+# Material(app)
+
 #config = app.config.from_yaml("app.yaml")
 
 
@@ -71,10 +80,15 @@ def sidebar(**kwargs):
         ]
     with open('model.yaml', "r") as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
-    response = make_response(jsonify(menu))    
-    response = make_response(jsonify(data))
+    # flash   
+    hasil=jsonify(data)    
+    hasil = map(lambda item: {item[0]}, data.items())
+    response = make_response(jsonify(hasil))
+    
+    print("List of keys:")
+    
     response.headers["Access-Control-Allow-Origin"] = "*"
-    return response
+    return data
 
 @app.route('/')
 def index():
@@ -83,7 +97,7 @@ def index():
     
     </script>
     """
-    html=script
+    html=''
     host = request.host
     print(f'Request :{host}')
     with open('model.yaml', "r") as f:
@@ -94,11 +108,13 @@ def index():
         field=datas[data]['field']
         #url=f'"dataset/{model}"'
         url=f"'http://127.0.0.1:5000/dataset/{model}'"
+        print(field)
         print(url)
+        parameter=",'hasil','table'"
         #html+=f'<li><a href="/dataset/{model}?field={field}" onclick="alert("click")" >{datas[data]["name"]}</a></li>' 
-        html+=f'<md-filled-button onclick="loadJson2('+url+f')" >{datas[data]["name"]}</md-filled-button>' 
+        html+=f'<md-filled-button onclick="ambilData('+url+f'{parameter})" >{datas[data]["name"]}</md-filled-button>' 
     html+=''
-    return render_template("index.html",sidebar=html,main='ssss',script=script) 
+    return render_template("flask.html",sidebar=html,main='ssss',script=script) 
     
 @app.route('/delete_customer')
 def delete_customer():
@@ -114,7 +130,8 @@ def delete_customer():
 
 @app.route("/datasheet")
 def datasheet():
-    modelid = request.args.get("model",'res.partner')
+    #modelid = request.args.get("model",'res.partner')
+    modelid = request.args.get("model",'ir.act.report')
     domain = [('name', 'ilike', 'ab')]
     if request.args.get("field"):
        fields=request.args.get("field").split(',') 
@@ -142,26 +159,57 @@ def datasheet():
 with open('model.yaml', "r") as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
 
+def has_key(item,key):
+    """
+    Checks if the given dictionary has the specified key.
+
+    Args:
+        item: The dictionary to check.
+        key: The key to check for.
+
+    Returns:
+        True if the key exists, False otherwise.
+    """
+    return key in item
+def ubah_key(item,model):
+    if has_key(item,'avatar_128'):
+        item['avatar_128']=f'<img src="image?id={item["id"]}&model={model}"/>attach'
+    return item
+
+
 @app.route("/dataset/<models>")
 def partner(models):
+    print('-----------------------------------')
+    print(models)
+    print(data[models]['model'])
+    print(data[models]['field'])
     partners   = odoo[data[models]['model'] ].search_read([],data[models]['field'].split(','))
     header={"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type, Authorization"}
-    #header["Content-Type"]="text/html"
-    #response = make_response({'partners': partners}, 200, header)
+    excluded_fields = ['image', 'document']
     
-    hasil=json_string = json.dumps(partners, default=lambda x: x.__dict__)
+    #data_baru=list(map(ubah_key, partners))
+    data_baru = list(map(lambda item: ubah_key(item,data[models]['model']), partners))
+
+    print(json.dumps(data_baru))
+    #hasil=json_string = json.dumps(partners, default=lambda x: x.__dict__)
+    hasil=json_string = json.dumps(data_baru, default=lambda x: x.__dict__)
+
     response = make_response(hasil, 200, header)
     return response
 
-@app.route("/image")
+@app.route("/image2")
 def images():
     if request.args.get("id"):
        print('ada field');
        idgbr = request.args.get("id")
     else:   
         idgbr='16'
+    if request.args.get("model"):
+       model=request.args.get("model")
+    else:
+        model=request.args.get("res.partner")
 
-    partners   = odoo['product.product'].search_read([['id','=',idgbr]],["image_128"])
+    partners   = odoo[model].search_read([['id','=',idgbr]],["image_128"])
     gbr=partners[0]
     #data = json.loads(gbr)
     gambar=gbr.get('image_128')
@@ -172,6 +220,29 @@ def images():
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     response.headers["Content-Type"] = "image/png";
     return response
+
+@app.route("/image")
+def images2():
+    idgbr = request.args.get("id", "16")  # Get "id" from query string, default to "16"
+    model = request.args.get("model", "res.partner")  # Get "id" from query string, default to "16"
+    image = request.args.get("image", "image_128")  # Get "id" from query string, default to "16"
+        
+    partners = odoo[model].search_read([['id', '=', idgbr]], [image])
+    gbr = partners[0]
+    gambar = gbr.get(image)
+
+    if gambar:  # Check if image data exists
+        image_data = base64.b64decode(gambar)
+        response = make_response(image_data)
+        response.headers.update({
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Content-Type": "image/png",
+        })
+        return response
+    else:
+        return "Image not found", 404  # Return a 404 error if image not found
 
 @app.route("/product")
 def product():
@@ -201,5 +272,13 @@ def product():
 
 
 
+@app.route("/report")
+def report():
+    fel=ODOO('localhost',port=8015)
+    fel.login('felino','ninofelino12@gmail.com','felino')
+    reports = fel.env['ir.actions.report'].search_read([],['id','model','model_id'])
+    arc=fel.env['ir.actions.report'].browse(320)
+    #return arc['arch_base']
+    return json.dumps(reports)
 if __name__ == '__main__':
     app.run()

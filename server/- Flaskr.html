@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://127.0.0.1:5000/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title> - Flaskr</title>
+<link rel="stylesheet" href="./- Flaskr_files/style.css">
+<script src="./- Flaskr_files/bundle.js"></script>
+<script src="./- Flaskr_files/felino.js"></script>
+
+<script src="chrome-extension://pbcpfbcibpcbfbmddogfhcijfpboeaaf/inject.js"></script></head><body><nav>
+  <h1>Flaskr</h1>
+  <ul>
+    MAIN MENU
+    <div class="loader" style="display: none;"></div>
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    HEADER
+    <nav>
+        <nav-wrapper>
+          
+          
+          <md-outlined-button onclick="loadAndDisplayJson(&#39;http://127.0.0.1:5000/link&#39;)" "="" role="presentation"><template shadowrootmode="open" shadowrootdelegatesfocus><!---->
+      <!--?lit$091558606$--><div class="outline"></div>
+      <div class="background"></div>
+      <md-focus-ring part="focus-ring" for="button" aria-hidden="true"><template shadowrootmode="open"><!----></template></md-focus-ring>
+      <md-ripple for="button" aria-hidden="true"><template shadowrootmode="open"><!----><div class="surface   "></div></template></md-ripple>
+      <!--?lit$091558606$--><button id="button" class="button">
+      <!--?lit$091558606$-->
+      <span class="touch"></span>
+      <!--?lit$091558606$--><slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
+      <!--?lit$091558606$-->
+    
+    </button>
+    </template>Partner</md-outlined-button>
+          <md-outlined-button role="presentation"><template shadowrootmode="open" shadowrootdelegatesfocus><!---->
+      <!--?lit$091558606$--><div class="outline"></div>
+      <div class="background"></div>
+      <md-focus-ring part="focus-ring" for="button" aria-hidden="true"><template shadowrootmode="open"><!----></template></md-focus-ring>
+      <md-ripple for="button" aria-hidden="true"><template shadowrootmode="open"><!----><div class="surface   "></div></template></md-ripple>
+      <!--?lit$091558606$--><button id="button" class="button">
+      <!--?lit$091558606$-->
+      <span class="touch"></span>
+      <!--?lit$091558606$--><slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
+      <!--?lit$091558606$-->
+    
+    </button>
+    </template>Product</md-outlined-button>
+          <md-outlined-button role="presentation"><template shadowrootmode="open" shadowrootdelegatesfocus><!---->
+      <!--?lit$091558606$--><div class="outline"></div>
+      <div class="background"></div>
+      <md-focus-ring part="focus-ring" for="button" aria-hidden="true"><template shadowrootmode="open"><!----></template></md-focus-ring>
+      <md-ripple for="button" aria-hidden="true"><template shadowrootmode="open"><!----><div class="surface"></div></template></md-ripple>
+      <!--?lit$091558606$--><button id="button" class="button">
+      <!--?lit$091558606$-->
+      <span class="touch"></span>
+      <!--?lit$091558606$--><slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
+      <!--?lit$091558606$-->
+    
+    </button>
+    </template>Product</md-outlined-button>
+          <button onclick="ambilData(&#39;http://localhost:5000/dataset/res.partner&#39;,&#39;hasil&#39;,&#39;table&#39;)">Partner</button>
+          <button onclick="ambilData(&#39;http://localhost:5000/dataset/product.product?field=id,name,description&#39;,&#39;hasil&#39;,&#39;table&#39;)">Product</button>
+          <md-filled-button onclick="ambilData(&#39;http://127.0.0.1:5000/dataset/product.product&#39;,&#39;hasil&#39;,&#39;table&#39;)" role="presentation"><template shadowrootmode="open" shadowrootdelegatesfocus><!---->
+      <!--?lit$091558606$--><md-elevation aria-hidden="true"><template shadowrootmode="open"><!----><span class="shadow"></span></template></md-elevation>
+      <div class="background"></div>
+      <md-focus-ring part="focus-ring" for="button" aria-hidden="true"><template shadowrootmode="open"><!----></template></md-focus-ring>
+      <md-ripple for="button" aria-hidden="true"><template shadowrootmode="open"><!----><div class="surface"></div></template></md-ripple>
+      <!--?lit$091558606$--><button id="button" class="button">
+      <!--?lit$091558606$-->
+      <span class="touch"></span>
+      <!--?lit$091558606$--><slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
+      <!--?lit$091558606$-->
+    
+    </button>
+    </template>Product</md-filled-button><md-filled-button onclick="ambilData(&#39;http://127.0.0.1:5000/dataset/res.partner&#39;,&#39;hasil&#39;,&#39;table&#39;)" role="presentation"><template shadowrootmode="open" shadowrootdelegatesfocus><!---->
+      <!--?lit$091558606$--><md-elevation aria-hidden="true"><template shadowrootmode="open"><!----><span class="shadow"></span></template></md-elevation>
+      <div class="background"></div>
+      <md-focus-ring part="focus-ring" for="button" aria-hidden="true"><template shadowrootmode="open"><!----></template></md-focus-ring>
+      <md-ripple for="button" aria-hidden="true"><template shadowrootmode="open"><!----><div class="surface"></div></template></md-ripple>
+      <!--?lit$091558606$--><button id="button" class="button">
+      <!--?lit$091558606$-->
+      <span class="touch"></span>
+      <!--?lit$091558606$--><slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
+      <!--?lit$091558606$-->
+    
+    </button>
+    </template>Partner</md-filled-button><md-filled-button onclick="ambilData(&#39;http://127.0.0.1:5000/dataset/it.ui.report&#39;,&#39;hasil&#39;,&#39;table&#39;)" role="presentation"><template shadowrootmode="open" shadowrootdelegatesfocus><!---->
+      <!--?lit$091558606$--><md-elevation aria-hidden="true"><template shadowrootmode="open"><!----><span class="shadow"></span></template></md-elevation>
+      <div class="background"></div>
+      <md-focus-ring part="focus-ring" for="button" aria-hidden="true"><template shadowrootmode="open"><!----></template></md-focus-ring>
+      <md-ripple for="button" aria-hidden="true"><template shadowrootmode="open"><!----><div class="surface"></div></template></md-ripple>
+      <!--?lit$091558606$--><button id="button" class="button">
+      <!--?lit$091558606$-->
+      <span class="touch"></span>
+      <!--?lit$091558606$--><slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
+      <!--?lit$091558606$-->
+    
+    </button>
+    </template>Report</md-filled-button><md-filled-button onclick="ambilData(&#39;http://127.0.0.1:5000/dataset/it.ui.report&#39;,&#39;hasil&#39;,&#39;table&#39;)" role="presentation"><template shadowrootmode="open" shadowrootdelegatesfocus><!---->
+      <!--?lit$091558606$--><md-elevation aria-hidden="true"><template shadowrootmode="open"><!----><span class="shadow"></span></template></md-elevation>
+      <div class="background"></div>
+      <md-focus-ring part="focus-ring" for="button" aria-hidden="true"><template shadowrootmode="open"><!----></template></md-focus-ring>
+      <md-ripple for="button" aria-hidden="true"><template shadowrootmode="open"><!----><div class="surface"></div></template></md-ripple>
+      <!--?lit$091558606$--><button id="button" class="button">
+      <!--?lit$091558606$-->
+      <span class="touch"></span>
+      <!--?lit$091558606$--><slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
+      <!--?lit$091558606$-->
+    
+    </button>
+    </template>View</md-filled-button><md-filled-button onclick="ambilData(&#39;http://127.0.0.1:5000/dataset/it.ui.report&#39;,&#39;hasil&#39;,&#39;table&#39;)" role="presentation"><template shadowrootmode="open" shadowrootdelegatesfocus><!---->
+      <!--?lit$091558606$--><md-elevation aria-hidden="true"><template shadowrootmode="open"><!----><span class="shadow"></span></template></md-elevation>
+      <div class="background"></div>
+      <md-focus-ring part="focus-ring" for="button" aria-hidden="true"><template shadowrootmode="open"><!----></template></md-focus-ring>
+      <md-ripple for="button" aria-hidden="true"><template shadowrootmode="open"><!----><div class="surface   "></div></template></md-ripple>
+      <!--?lit$091558606$--><button id="button" class="button">
+      <!--?lit$091558606$-->
+      <span class="touch"></span>
+      <!--?lit$091558606$--><slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
+      <!--?lit$091558606$-->
+    
+    </button>
+    </template>View</md-filled-button>
+         
+<div></div>
+        </nav-wrapper></nav>  
+      
+        <style>
+
+        </style>
+        
+          <i class="material-icons loader">refresh</i>
+          
+       
+
+    
+    <div class="mdc-progress-bar mdc-progress-bar--indeterminate">
+      <div class="mdc-progress-bar__buffer"></div>
+      <div class="mdc-progress-bar__determinate"></div>
+      <div class="mdc-progress-bar__primary"></div>
+    </div>
+  </header>
+  CONTENTS
+  <div id="hasil"><table><thead><tr><th>id</th><th>name</th><th>description</th><th>display_name</th></tr></thead><tbody><tr><td classname="id">41</td><td classname="name">Screw</td><td classname="description"><p>Stainless steel screw</p></td><td classname="display_name">[CONS_25630] Screw</td></tr><tr><td classname="id">40</td><td classname="name">Bolt</td><td classname="description"><p>Stainless steel screw full (dia - 5mm, Length - 10mm)</p></td><td classname="display_name">[CONS_89957] Bolt</td></tr><tr><td classname="id">16</td><td classname="name">Corner Desk Right Sit</td><td classname="description">false</td><td classname="display_name">[E-COM06] Corner Desk Right Sit</td></tr><tr><td classname="id">17</td><td classname="name">Large Cabinet</td><td classname="description">false</td><td classname="display_name">[E-COM07] Large Cabinet</td></tr><tr><td classname="id">18</td><td classname="name">Storage Box</td><td classname="description">false</td><td classname="display_name">[E-COM08] Storage Box</td></tr><tr><td classname="id">19</td><td classname="name">Large Desk</td><td classname="description">false</td><td classname="display_name">[E-COM09] Large Desk</td></tr><tr><td classname="id">20</td><td classname="name">Pedal Bin</td><td classname="description">false</td><td classname="display_name">[E-COM10] Pedal Bin</td></tr><tr><td classname="id">21</td><td classname="name">Cabinet with Doors</td><td classname="description">false</td><td classname="display_name">[E-COM11] Cabinet with Doors</td></tr><tr><td classname="id">23</td><td classname="name">Conference Chair</td><td classname="description">false</td><td classname="display_name">[E-COM12] Conference Chair (Steel)</td></tr><tr><td classname="id">24</td><td classname="name">Conference Chair</td><td classname="description">false</td><td classname="display_name">[E-COM13] Conference Chair (Aluminium)</td></tr><tr><td classname="id">12</td><td classname="name">Customizable Desk</td><td classname="description">false</td><td classname="display_name">[FURN_0096] Customizable Desk (Steel, White)</td></tr><tr><td classname="id">13</td><td classname="name">Customizable Desk</td><td classname="description">false</td><td classname="display_name">[FURN_0097] Customizable Desk (Steel, Black)</td></tr><tr><td classname="id">14</td><td classname="name">Customizable Desk</td><td classname="description">false</td><td classname="display_name">[FURN_0098] Customizable Desk (Aluminium, White)</td></tr><tr><td classname="id">25</td><td classname="name">Office Chair Black</td><td classname="description">false</td><td classname="display_name">[FURN_0269] Office Chair Black</td></tr><tr><td classname="id">30</td><td classname="name">Individual Workplace</td><td classname="description">false</td><td classname="display_name">[FURN_0789] Individual Workplace</td></tr><tr><td classname="id">26</td><td classname="name">Corner Desk Left Sit</td><td classname="description">false</td><td classname="display_name">[FURN_1118] Corner Desk Left Sit</td></tr><tr><td classname="id">48</td><td classname="name">Drawer Black</td><td classname="description"><p>Drawer on casters for great usability.</p></td><td classname="display_name">[FURN_2100] Drawer Black</td></tr><tr><td classname="id">39</td><td classname="name">Table Leg</td><td classname="description"><p>18″ x 2½″ Square Leg</p></td><td classname="display_name">[FURN_2333] Table Leg</td></tr><tr><td classname="id">36</td><td classname="name">Cable Management Box</td><td classname="description">false</td><td classname="display_name">[FURN_5555] Cable Management Box</td></tr><tr><td classname="id">49</td><td classname="name">Drawer Case Black</td><td classname="description">false</td><td classname="display_name">[FURN_5623] Drawer Case Black</td></tr><tr><td classname="id">31</td><td classname="name">Acoustic Bloc Screens</td><td classname="description">false</td><td classname="display_name">[FURN_6666] Acoustic Bloc Screens</td></tr><tr><td classname="id">34</td><td classname="name">Large Meeting Table</td><td classname="description">false</td><td classname="display_name">[FURN_6741] Large Meeting Table</td></tr><tr><td classname="id">45</td><td classname="name">Wood Panel</td><td classname="description">false</td><td classname="display_name">[FURN_7023] Wood Panel</td></tr><tr><td classname="id">42</td><td classname="name">Ply Layer</td><td classname="description"><p>Layers that are stick together to assemble wood panels.</p></td><td classname="display_name">[FURN_7111] Ply Layer</td></tr><tr><td classname="id">5</td><td classname="name">Office Chair</td><td classname="description">false</td><td classname="display_name">[FURN_7777] Office Chair</td></tr><tr><td classname="id">8</td><td classname="name">Desk Combination</td><td classname="description">false</td><td classname="display_name">[FURN_7800] Desk Combination</td></tr><tr><td classname="id">47</td><td classname="name">Table Kit</td><td classname="description"><p>Table kit</p></td><td classname="display_name">[FURN_78236] Table Kit</td></tr><tr><td classname="id">29</td><td classname="name">Desk Stand with Screen</td><td classname="description">false</td><td classname="display_name">[FURN_7888] Desk Stand with Screen</td></tr><tr><td classname="id">43</td><td classname="name">Wear Layer</td><td classname="description"><p>Top layer of a wood panel.</p></td><td classname="display_name">[FURN_8111] Wear Layer</td></tr><tr><td classname="id">33</td><td classname="name">Four Person Desk</td><td classname="description">false</td><td classname="display_name">[FURN_8220] Four Person Desk</td></tr><tr><td classname="id">38</td><td classname="name">Table Top</td><td classname="description"><p>Solid wood is a durable natural material.</p></td><td classname="display_name">[FURN_8522] Table Top</td></tr><tr><td classname="id">46</td><td classname="name">Plastic Laminate</td><td classname="description">false</td><td classname="display_name">[FURN_8621] Plastic Laminate</td></tr><tr><td classname="id">32</td><td classname="name">Drawer</td><td classname="description"><p>Drawer with two routing possiblities.</p></td><td classname="display_name">[FURN_8855] Drawer</td></tr><tr><td classname="id">6</td><td classname="name">Office Lamp</td><td classname="description">false</td><td classname="display_name">[FURN_8888] Office Lamp</td></tr><tr><td classname="id">27</td><td classname="name">Drawer Black</td><td classname="description">false</td><td classname="display_name">[FURN_8900] Drawer Black</td></tr><tr><td classname="id">35</td><td classname="name">Three-Seat Sofa</td><td classname="description">false</td><td classname="display_name">[FURN_8999] Three-Seat Sofa</td></tr><tr><td classname="id">28</td><td classname="name">Flipover</td><td classname="description">false</td><td classname="display_name">[FURN_9001] Flipover</td></tr><tr><td classname="id">44</td><td classname="name">Ply Veneer</td><td classname="description">false</td><td classname="display_name">[FURN_9111] Ply Veneer</td></tr><tr><td classname="id">37</td><td classname="name">Table</td><td classname="description"><p>Solid wood table.</p></td><td classname="display_name">[FURN_9666] Table</td></tr><tr><td classname="id">7</td><td classname="name">Office Design Software</td><td classname="description">false</td><td classname="display_name">[FURN_9999] Office Design Software</td></tr><tr><td classname="id">15</td><td classname="name">Customizable Desk</td><td classname="description">false</td><td classname="display_name">Customizable Desk (Aluminium, Black)</td></tr><tr><td classname="id">2</td><td classname="name">Hotel Accommodation</td><td classname="description">false</td><td classname="display_name">Hotel Accommodation</td></tr><tr><td classname="id">1</td><td classname="name">Restaurant Expenses</td><td classname="description">false</td><td classname="display_name">Restaurant Expenses</td></tr><tr><td classname="id">4</td><td classname="name">Virtual Home Staging</td><td classname="description">false</td><td classname="display_name">Virtual Home Staging</td></tr><tr><td classname="id">3</td><td classname="name">Virtual Interior Design</td><td classname="description">false</td><td classname="display_name">Virtual Interior Design</td></tr></tbody></table></div>
+  
+
+  
+  
+</section>
+
+<script>
+
+  function ambilData(url,tag,type)  {
+      // Menggunakan fetch untuk melakukan permintaan HTTP
+      document.querySelector('.loader').style.display='block'
+      
+      fetch(url)
+          .then(response => {
+              // Memastikan respons dalam format JSON
+              document.querySelector('.loader').style.display='none'
+              if (!response.ok) {
+                  throw new Error("Gagal mengambil data");
+                  alert("BUKAN JSON");
+              }
+              return response.json();
+          })
+          .then(data => {
+              // Menampilkan data ke dalam elemen hasil
+              //document.getElementById("hasil").innerHTML=jsonToTable(JSON.parse(data));
+              document.getElementById(tag).innerHTML=jsonToTable(data);
+              document.querySelector('.loader').style.display='none'
+            //alert(data)
+          })
+          ;
+  }
+  
+  function jsonToTable(data) {
+      const jsonData=data;
+      var tableHtml = '<table>';
+  
+          // Create table header
+          tableHtml += '<thead><tr>';
+          for (var key in jsonData[0]) {
+              tableHtml += '<th>' + key + '</th>';
+          }
+          tableHtml += '</tr></thead>';
+  
+          // Create table body
+          tableHtml += '<tbody>';
+          jsonData.forEach(function (obj) {
+              tableHtml += '<tr>';
+              for (var key in obj) {
+                  tableHtml += `<td classname="${key}">` + obj[key] + '</td>';
+              }
+              tableHtml += '</tr>';
+          });
+          tableHtml += '</tbody>';
+  
+          tableHtml += '</table>';
+          
+          return tableHtml;
+    };
+  
+  </script><amino-inspect></amino-inspect></body><style class="amino amino-local">td.display_name {
+  background-color: red; }
+</style></html>

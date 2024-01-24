@@ -1,3 +1,4 @@
+source bin/activate
 Example
 Initialize the Flask extension:
 

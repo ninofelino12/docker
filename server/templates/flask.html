@@ -1,0 +1,147 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Flaskr</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script  src="../static/bundle.js"></script>
+<script  src="../static/felino.js"></script>
+<style>
+  td.display_name{
+    background-color: red;
+}
+div#tampilan{
+
+ display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  background-color: DodgerBlue;
+  height: 600px;
+}
+div#side{
+   
+   
+    background-color:red;
+    width: 200px; 
+    height:600px;
+}
+div#hasil{
+ width: 79%; 
+ height: 100%;
+padding: 2px;    
+}
+div#log{
+    padding: 4px;
+}
+</style>
+<nav>
+  <h1>Flaskr</h1>
+  <ul>
+    MAIN MENU
+    <div class="loader"></div>
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    HEADER
+    <nav>
+        <nav-wrapper>
+          
+          
+          <md-outlined-button onclick="loadAndDisplayJson('http://127.0.0.1:5000/link')"">Partner</md-outlined-button>
+          <md-outlined-button>Product</md-outlined-button>
+          <md-outlined-button>Product</md-outlined-button>
+          <button onclick="ambilData('http://localhost:5000/dataset/res.partner','hasil','table')">Partner</button>
+          <button onclick="ambilData('http://localhost:5000/dataset/product.product?field=id,name,description','hasil','table')">Product</button>
+          {{ sidebar |safe }}
+         
+<div ></div>
+        </nav>  
+      
+        <style>
+
+        </style>
+        
+          <i class="material-icons loader">refresh</i>
+        </div>  
+    </nav>   
+
+    {% block header %}{% endblock %}
+    <div class="mdc-progress-bar mdc-progress-bar--indeterminate">
+      <div class="mdc-progress-bar__buffer"></div>
+      <div class="mdc-progress-bar__determinate"></div>
+      <div class="mdc-progress-bar__primary"></div>
+    </div>
+  </header>
+  CONTENTS
+  <div id="tampilan" class="flex-container">
+    <div id="side" >
+          <h1>KIRI</h1>
+    </div>
+    <div  style="background-color: bisque;overflow:scroll;padding: 3px;" id="hasil">
+ssssssssssssssssssssssssss
+  </div>
+  </div>
+  
+  <div id="log" style="height:200px;background-color: aqua;">
+  Logger
+  </div>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+  {% block content %}
+  {% endblock %}
+</section>
+
+<script>
+
+  function ambilData(url,tag,type)  {
+      // Menggunakan fetch untuk melakukan permintaan HTTP
+      document.querySelector('.loader').style.display='block'
+      document.getElementById("log").textContent=url;
+      fetch(url)
+          .then(response => {
+              // Memastikan respons dalam format JSON
+              document.querySelector('.loader').style.display='none'
+              if (!response.ok) {
+                  throw new Error("Gagal mengambil data");
+                  alert("BUKAN JSON");
+              }
+              return response.json();
+          })
+          .then(data => {
+              // Menampilkan data ke dalam elemen hasil
+              //document.getElementById("hasil").innerHTML=jsonToTable(JSON.parse(data));
+              document.getElementById(tag).innerHTML=jsonToTable(data);
+              document.querySelector('.loader').style.display='none'
+            //alert(data)
+          })
+          ;
+  }
+  
+  function jsonToTable(data) {
+      const jsonData=data;
+      var tableHtml = '<table>';
+  
+          // Create table header
+          tableHtml += '<thead><tr>';
+          for (var key in jsonData[0]) {
+              tableHtml += '<th>' + key + '</th>';
+          }
+          tableHtml += '</tr></thead>';
+  
+          // Create table body
+          tableHtml += '<tbody>';
+          jsonData.forEach(function (obj) {
+              tableHtml += '<tr>';
+              for (var key in obj) {
+                  tableHtml += `<td classname="${key}">` + obj[key] + '</td>';
+              }
+              tableHtml += '</tr>';
+          });
+          tableHtml += '</tbody>';
+  
+          tableHtml += '</table>';
+          
+          return tableHtml;
+    };
+  
+  </script>

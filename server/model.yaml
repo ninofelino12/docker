@@ -2,15 +2,23 @@ product.product:
     name : Product    
     model: product.product  
     field: id,name,description,display_name
+product.template:
+    name : ProductTemplate    
+    model: product.template  
+    field: id,name,description,image_128   
 res.partner:
     name : Partner 
     model: res.partner  
-    field: id,name
-Report:     
+    field: id,name,avatar_128
+Reporter:     
     name : Report 
-    model: it.ui.report  
-    field: id,name,description 
+    model: ir.act.report
+    field: id,name
 View:     
     name : View 
-    model: it.ui.report  
-    field: id,name,description    
+    model: ir.ui.view 
+    field: id,id   
+Addons:     
+    name : Addons
+    model: ir.actions.report 
+    field: id        
