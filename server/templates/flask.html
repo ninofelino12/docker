@@ -11,6 +11,7 @@ div#tampilan{
 
  display: flex;
   flex-wrap: wrap;
+  flex-flow: row ;
   flex-direction: row;
   background-color: DodgerBlue;
   height: 600px;
@@ -19,11 +20,11 @@ div#side{
    
    
     background-color:red;
-    width: 200px; 
+    /* width: 200px;  */
     height:600px;
 }
 div#hasil{
- width: 79%; 
+ /* width: 79%;  */
  height: 100%;
 padding: 2px;    
 }
@@ -32,7 +33,7 @@ div#log{
 }
 </style>
 <nav>
-  <h1>Flaskr</h1>
+  <h1>Odoo</h1>
   <ul>
     MAIN MENU
     <div class="loader"></div>
@@ -71,11 +72,13 @@ div#log{
     </div>
   </header>
   CONTENTS
-  <div id="tampilan" class="flex-container">
+  <div id="tampilan" class="flex-container" style="width:auto;flex-flow: row "">
     <div id="side" >
           <h1>KIRI</h1>
+          {{side|safe}}
+          <a href="https://odoorpc.readthedocs.io/en/latest/ref_odoo.html">REF</a>
     </div>
-    <div  style="background-color: bisque;overflow:scroll;padding: 3px;" id="hasil">
+    <div  style="background-color: bisque;overflow:scroll;width:90%;" id="hasil">
 ssssssssssssssssssssssssss
   </div>
   </div>

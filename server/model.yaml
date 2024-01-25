@@ -10,10 +10,10 @@ res.partner:
     name : Partner 
     model: res.partner  
     field: id,name,avatar_128
-Reporter:     
+ir.actions.report:     
     name : Report 
-    model: ir.act.report
-    field: id,name
+    model: ir.actions.report
+    field: id,name,help,model
 View:     
     name : View 
     model: ir.ui.view 

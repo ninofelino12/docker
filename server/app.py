@@ -12,6 +12,7 @@ app.config["ODOO_DB"] = "felino"
 app.config["ODOO_USERNAME"] = "ninofelino12@gmail.com"
 app.config["ODOO_PASSWORD"] = "felino"
 odoo = Odoo(app)
+fel=ODOO('localhost',port=8015)
 # logging.basicConfig(
 #     format="%(asctime)s %(levelname)-8s %(message)s",
 #     level=logging.INFO,
@@ -99,6 +100,7 @@ def index():
     """
     html=''
     host = request.host
+    side=''
     print(f'Request :{host}')
     with open('model.yaml', "r") as f:
          datas = yaml.load(f, Loader=yaml.FullLoader)
@@ -108,13 +110,15 @@ def index():
         field=datas[data]['field']
         #url=f'"dataset/{model}"'
         url=f"'http://127.0.0.1:5000/dataset/{model}'"
+        url2=f"'http://127.0.0.1:5000/report/{model}'"
         print(field)
         print(url)
         parameter=",'hasil','table'"
         #html+=f'<li><a href="/dataset/{model}?field={field}" onclick="alert("click")" >{datas[data]["name"]}</a></li>' 
-        html+=f'<md-filled-button onclick="ambilData('+url+f'{parameter})" >{datas[data]["name"]}</md-filled-button>' 
+        html+=f'<md-filled-button onclick="ambilData('+url+f'{parameter})" >{datas[data]["name"]}</md-filled-button>'
+        side+=f'<md-filled-button onclick="ambilData('+url2+f'{parameter})" >{datas[data]["name"]}</md-filled-button>' 
     html+=''
-    return render_template("flask.html",sidebar=html,main='ssss',script=script) 
+    return render_template("flask.html",side=side,sidebar=html,main='ssss',script=script) 
     
 @app.route('/delete_customer')
 def delete_customer():
@@ -174,6 +178,8 @@ def has_key(item,key):
 def ubah_key(item,model):
     if has_key(item,'avatar_128'):
         item['avatar_128']=f'<img src="image?id={item["id"]}&model={model}"/>attach'
+    if has_key(item,'image_128'):
+        item['image_128']=f'<img src="image?id={item["id"]}&model={model}"/>attach'     
     return item
 
 
@@ -272,13 +278,30 @@ def product():
 
 
 
-@app.route("/report")
-def report():
-    fel=ODOO('localhost',port=8015)
-    fel.login('felino','ninofelino12@gmail.com','felino')
-    reports = fel.env['ir.actions.report'].search_read([],['id','model','model_id'])
-    arc=fel.env['ir.actions.report'].browse(320)
-    #return arc['arch_base']
-    return json.dumps(reports)
+@app.route("/report/<models>")
+def report2(models):
+    field= ['name']
+    field=data[models]['field'].split(',')
+    print(models)
+    #print(data[models]['field'])
+    # fel=ODOO('localhost',port=8015)
+    
+    fel.login(app.config["ODOO_DB"],app.config["ODOO_USERNAME"],app.config["ODOO_PASSWORD"])
+  
+    record=fel.env[data[models]['model']].search([])
+    
+    hasil=fel.execute(data[models]['model'], 'read',record,field)
+    return json.dumps(hasil)
+
+@app.route("/report2/<models>")
+def report3(models):
+    fel = ODOO('localhost', port=8015)
+    fel.login(app.config["ODOO_DB"], app.config["ODOO_USERNAME"], app.config["ODOO_PASSWORD"])
+    Order = fel.env['ir.ui.view']
+    reports = Order.search([])
+    # Return JSON directly using list comprehension:
+    return json.dumps([{"id": order.id, "name": order.name} for order in reports])
+
+    
 if __name__ == '__main__':
     app.run()
