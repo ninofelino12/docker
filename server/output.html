@@ -1,6 +1,6 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title> - Flaskr</title>
+<link rel="stylesheet" href="/static/style.css">
 <script  src="../static/bundle.js"></script>
 <!-- <script  src="../static/felino.js"></script> -->
 <link href="https://unpkg.com/tabulator-tables@5.5.3/dist/css/tabulator.min.css" rel="stylesheet">
@@ -53,7 +53,7 @@ div#log{
           <md-outlined-button>Product</md-outlined-button>
           <button onclick="ambilData('http://localhost:5000/dataset/res.partner','hasil','table')">Partner</button>
           <button onclick="ambilData('http://localhost:5000/dataset/product.product?field=id,name,description','hasil','table')">Product</button>
-          {{ sidebar |safe }}
+          <md-filled-button onclick="ambilData('http://127.0.0.1:5000/dataset/product.product','hasil','table')" >Product</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/dataset/product.template','hasil','table')" >ProductTemplate</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/dataset/res.partner','hasil','table')" >Partner</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/dataset/ir.actions.report','hasil','table')" >Report</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/dataset/ir.ui.view','hasil','table')" >View</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/dataset/ir.actions.report','hasil','table')" >Addons</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/dataset/res.company','hasil','table')" >company</md-filled-button>
          
 <div ></div>
         </nav>  
@@ -66,7 +66,7 @@ div#log{
         </div>  
     </nav>   
 
-    {% block header %}{% endblock %}
+    
     <div class="mdc-progress-bar mdc-progress-bar--indeterminate">
       <div class="mdc-progress-bar__buffer"></div>
       <div class="mdc-progress-bar__determinate"></div>
@@ -77,7 +77,7 @@ div#log{
   <div id="tampilan" class="flex-container" style="width:auto;flex-flow: row "">
     <div id="side" >
           <h1>KIRI</h1>
-          {{side|safe}}
+          <md-filled-button onclick="ambilData('http://127.0.0.1:5000/report/product.product','hasil','card')" >Product</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/report/product.template','hasil','card')" >ProductTemplate</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/report/res.partner','hasil','card')" >Partner</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/report/ir.actions.report','hasil','card')" >Report</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/report/ir.ui.view','hasil','card')" >View</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/report/ir.actions.report','hasil','card')" >Addons</md-filled-button><md-filled-button onclick="ambilData('http://127.0.0.1:5000/report/res.company','hasil','card')" >company</md-filled-button>
           <a href="https://odoorpc.readthedocs.io/en/latest/ref_odoo.html">REF</a>
     </div>
     <div  style="background-color: bisque;overflow:scroll;width:90%;" id="hasil">
@@ -88,12 +88,10 @@ ssssssssssssssssssssssssss
   <div id="log" style="height:200px;background-color: aqua;">
   Logger
   </div>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
+  
 
-  {% block content %}
-  {% endblock %}
+  
+  
 </section>
 
 <script>

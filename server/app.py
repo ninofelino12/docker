@@ -5,6 +5,7 @@ from flask_odoo import Odoo
 from odoorpc.odoo import ODOO
 import yaml
 import logging
+import pickle
 
 app = Flask(__name__)
 app.config["ODOO_URL"] = "http://localhost:8015"
@@ -22,13 +23,19 @@ fel=ODOO('localhost',port=8015)
 
 #config = app.config.from_yaml("app.yaml")
 
+class felino():
+    def __init__(self, name):
+        self.name = name
 
+    def generate_html(partners):
+        xml_data = '<?xml version="1.0" encoding="UTF-8" ?>\n<partners>\n'
+        for partner in partners:
+            xml_data += f'    <id>http:/{partner["name"]}/{partner["id"]}</id>\n'
+        return xml_data
 
-def generate_html(partners):
-    xml_data = '<?xml version="1.0" encoding="UTF-8" ?>\n<partners>\n'
-    for partner in partners:
-        xml_data += f'    <id>http:/{partner["name"]}/{partner["id"]}</id>\n'
-    return xml_data
+my_object = felino("nino")
+with open("class.pickle", "wb") as file:
+    pickle.dump(my_object, file)
 
 def list_methods():
     methods = []
@@ -114,11 +121,15 @@ def index():
         print(field)
         print(url)
         parameter=",'hasil','table'"
+        parameter2=",'hasil','card'"
         #html+=f'<li><a href="/dataset/{model}?field={field}" onclick="alert("click")" >{datas[data]["name"]}</a></li>' 
         html+=f'<md-filled-button onclick="ambilData('+url+f'{parameter})" >{datas[data]["name"]}</md-filled-button>'
-        side+=f'<md-filled-button onclick="ambilData('+url2+f'{parameter})" >{datas[data]["name"]}</md-filled-button>' 
+        side+=f'<md-filled-button onclick="ambilData('+url2+f'{parameter2})" >{datas[data]["name"]}</md-filled-button>' 
     html+=''
-    return render_template("flask.html",side=side,sidebar=html,main='ssss',script=script) 
+    rendered_content =render_template("flask.html",side=side,sidebar=html,main='ssss',script=script)
+    with open('output.html', 'w') as f:
+        f.write(rendered_content)
+    return  rendered_content
     
 @app.route('/delete_customer')
 def delete_customer():
@@ -288,6 +299,7 @@ def report2(models):
     
     fel.login(app.config["ODOO_DB"],app.config["ODOO_USERNAME"],app.config["ODOO_PASSWORD"])
   
+    #record=fel.env[data[models]['model']].search([])
     record=fel.env[data[models]['model']].search([])
     
     hasil=fel.execute(data[models]['model'], 'read',record,field)

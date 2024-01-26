@@ -13,11 +13,11 @@ res.partner:
 ir.actions.report:     
     name : Report 
     model: ir.actions.report
-    field: id,name,help,model
-View:     
+    field: id,name,report_name,help,model
+ir.ui.view:     
     name : View 
-    model: ir.ui.view 
-    field: id,id   
+    model: ir.ui.view
+    field: id,name,type,model,arch_base  
 Addons:     
     name : Addons
     model: ir.actions.report 

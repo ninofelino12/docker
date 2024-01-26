@@ -1,0 +1,39 @@
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattr__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__init__', '__init_subclass__', '__int__', '__isub__', '__iter__', '__last_update', '__le__', '__len__', '__lt__', '__metaclass__', '__module__', '__ne__', '__new__', '__nonzero__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_browse', '_columns', '_env', '_env_local', '_from_record', '_ids', '_init_values', '_name', '_odoo', '_values', '_values_to_write', '_with_context', '_with_env', 'accesses_count', 'action_id', 'active', 'active_lang_count', 'active_partner', 'activity_date_deadline', 'activity_exception_decoration', 'activity_exception_icon', 'activity_ids', 'activity_state', 'activity_summary', 'activity_type_icon', 'activity_type_id', 'activity_user_id', 'additional_info', 'api_key_ids', 'avatar_1024', 'avatar_128', 'avatar_1920', 'avatar_256', 'avatar_512', 'badge_ids', 'bank_ids', 'barcode', 'bronze_badge', 'browse', 'can_publish', 'category_id', 'channel_ids', 'child_ids', 'city', 'color', 'comment', 'commercial_company_name', 'commercial_partner_id', 'companies_count', 'company_id', 'company_ids', 'company_name', 'company_type', 'contact_address', 'country_code', 'country_id', 'create_date', 'create_uid', 'credit_limit', 'date', 'display_name', 'email', 'email_formatted', 'email_normalized', 'employee', 'env', 'function', 'gold_badge', 'groups_count', 'groups_id', 'has_message', 'id', 'ids', 'im_status', 'image_1024', 'image_128', 'image_1920', 'image_256', 'image_512', 'in_group_11', 'in_group_12', 'in_group_16', 'in_group_17', 'in_group_18', 'in_group_19', 'in_group_20', 'in_group_21', 'in_group_22', 'in_group_23', 'in_group_26', 'in_group_27', 'in_group_28', 'in_group_29', 'in_group_30', 'in_group_31', 'in_group_32', 'in_group_33', 'in_group_34', 'in_group_35', 'in_group_36', 'in_group_39', 'in_group_4', 'in_group_40', 'in_group_41', 'in_group_46', 'in_group_5', 'in_group_6', 'in_group_7', 'in_group_8', 'industry_id', 'is_blacklisted', 'is_company', 'is_published', 'karma', 'karma_tracking_ids', 'lang', 'log_ids', 'login', 'login_date', 'message_attachment_count', 'message_bounce', 'message_follower_ids', 'message_has_error', 'message_has_error_counter', 'message_has_sms_error', 'message_ids', 'message_is_follower', 'message_main_attachment_id', 'message_needaction', 'message_needaction_counter', 'message_partner_ids', 'message_unread', 'message_unread_counter', 'mobile', 'mobile_blacklisted', 'my_activity_date_deadline', 'name', 'new_password', 'next_rank_id', 'notification_type', 'odoobot_failed', 'odoobot_state', 'parent_id', 'parent_name', 'partner_gid', 'partner_id', 'partner_latitude', 'partner_longitude', 'partner_share', 'password', 'phone', 'phone_blacklisted', 'phone_mobile_search', 'phone_sanitized', 'phone_sanitized_blacklisted', 'picking_warn', 'picking_warn_msg', 'property_product_pricelist', 'property_stock_customer', 'property_stock_supplier', 'rank_id', 'ref', 'res_users_settings_ids', 'resource_calendar_id', 'resource_ids', 'rules_count', 'same_vat_partner_id', 'sel_groups_1_9_10', 'sel_groups_24_25', 'sel_groups_2_3', 'sel_groups_37_38', 'sel_groups_44_45', 'self', 'share', 'signature', 'signup_expiration', 'signup_token', 'signup_type', 'signup_url', 'signup_valid', 'silver_badge', 'state', 'state_id', 'street', 'street2', 'title', 'totp_enabled', 'totp_trusted_device_ids', 'type', 'tz', 'tz_offset', 'user_id', 'user_ids', 'vat', 'visitor_ids', 'website', 'website_id', 'website_message_ids', 'website_published', 'website_url', 'with_context', 'with_env', 'write_date', 'write_uid', 'zip']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'activity_summary', 'activity_type_icon', 'activity_type_id', 'activity_user_id', 'additional_info', 'api_key_ids', 'avatar_1024', 'avatar_128', 'avatar_1920', 'avatar_256', 'avatar_512', 'badge_ids', 'bank_ids', 'barcode', 'bronze_badge', 'browse', 'can_publish', 'category_id', 'channel_ids', 'child_ids', 'city', 'color', 'comment', 'commercial_company_name', 'commercial_partner_id', 'companies_count', 'company_id', 'company_ids', 'company_name', 'company_type', 'contact_address', 'country_code', 'country_id', 'create_date', 'create_uid', 'credit_limit', 'date', 'display_name', 'email', 'email_formatted', 'email_normalized', 'employee', 'env', 'function', 'gold_badge', 'groups_count', 'groups_id', 'has_message', 'id', 'ids', 'im_status', 'image_1024', 'image_128', 'image_1920', 'image_256', 'image_512', 'in_group_11', 'in_group_12', 'in_group_16', 'in_group_17', 'in_group_18', 'in_group_19', 'in_group_20', 'in_group_21', 'in_group_22', 'in_group_23', 'in_group_26', 'in_group_27', 'in_group_28', 'in_group_29', 'in_group_30', 'in_group_31', 'in_group_32', 'in_group_33', 'in_group_34', 'in_group_35', 'in_group_36', 'in_group_39', 'in_group_4', 'in_group_40', 'in_group_41', 'in_group_46', 'in_group_5', 'in_group_6', 'in_group_7', 'in_group_8', 'industry_id', 'is_blacklisted', 'is_company', 'is_published', 'karma', 'karma_tracking_ids', 'lang', 'log_ids', 'login', 'login_date', 'message_attachment_count', 'message_bounce', 'message_follower_ids', 'message_has_error', 'message_has_error_counter', 'message_has_sms_error', 'message_ids', 'message_is_follower', 'message_main_attachment_id', 'message_needaction', 'message_needaction_counter', 'message_partner_ids', 'message_unread', 'message_unread_counter', 'mobile', 'mobile_blacklisted', 'my_activity_date_deadline', 'name', 'new_password', 'next_rank_id', 'notification_type', 'odoobot_failed', 'odoobot_state', 'parent_id', 'parent_name', 'partner_gid', 'partner_id', 'partner_latitude', 'partner_longitude', 'partner_share', 'password', 'phone', 'phone_blacklisted', 'phone_mobile_search', 'phone_sanitized', 'phone_sanitized_blacklisted', 'picking_warn', 'picking_warn_msg', 'property_product_pricelist', 'property_stock_customer', 'property_stock_supplier', 'rank_id', 'ref', 'res_users_settings_ids', 'resource_calendar_id', 'resource_ids', 'rules_count', 'same_vat_partner_id', 'sel_groups_1_9_10', 'sel_groups_24_25', 'sel_groups_2_3', 'sel_groups_37_38', 'sel_groups_44_45', 'self', 'share', 'signature', 'signup_expiration', 'signup_token', 'signup_type', 'signup_url', 'signup_valid', 'silver_badge', 'state', 'state_id', 'street', 'street2', 'title', 'totp_enabled', 'totp_trusted_device_ids', 'type', 'tz', 'tz_offset', 'user_id', 'user_ids', 'vat', 'visitor_ids', 'website', 'website_id'
+, 'website_message_ids', 
+'website_published', 'website_url', 'with_context', 'with_env', 'write_date', 'write_uid', 'zip'
