@@ -44,6 +44,33 @@ class OdooClient(ODOO):
             
         return html_links_string 
     
+    def f_execute_byid(self,models,id,type):
+        with open('model.yaml', "r") as f:
+                data = yaml.load(f, Loader=yaml.FullLoader)
+        # oo
+        if type=="jpg":
+            if (models=="res.partner"):
+                field="avatar_128"
+            else:
+              field="image_128"
+            
+            record = super().env[data[models]['model']].search([('id', '=',int(id))])
+            partner_data = record[0]
+            #image_data = partner_data.get('avatar_128')
+            result=self.execute(data[models]['model'], 'read',record,[field])  
+            return base64.b64decode(result[0].get(field))
+        elif type=="xml":
+            field="arch_base"
+            record = super().env[data[models]['model']].search([('id', '=', 4)])
+            partner_data = record[0]
+            result=self.execute(data[models]['model'], 'read',record,[field])  
+            return result[0].get(field)
+        else:
+            field=data[models]['field'].split(',')
+            record=super().env[data[models]['model']].search([])
+            result=self.execute(data[models]['model'], 'read',record,field)    
+        return result
+    
     def f_execute(self,models,type):
         with open('model.yaml', "r") as f:
                 data = yaml.load(f, Loader=yaml.FullLoader)

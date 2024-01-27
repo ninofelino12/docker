@@ -74,13 +74,38 @@
             alert(data);
             var checkBox = document.getElementById("myCheck");
             if (checkBox.checked){
-                document.getElementById('section').innerHTML=jsonToTable(data); 
+                document.getElementById('section').innerHTML=jsonToCard(data); 
             } else {
-                document.getElementById('section').innerHTML=jsonToCard(data);
+                document.getElementById('section').innerHTML=jsonToTable(data);
             }
            
         })
         }
+
+        function getXml(url){
+               
+               url=`${url}`;
+               alert(url);
+               fetch(url).then(response => {
+           
+           if (!response.ok) {
+                 throw new Error("Gagal mengambil data");
+                 alert("BUKAN JSON");
+             }
+           return response.text();
+         })
+         .then(data => {
+           alert(data);
+           var checkBox = document.getElementById("myCheck");
+           
+           //document.getElementById('section').textContent=`<code>${data}</code>`; 
+           document.getElementById('section').innerHTML=`<code>${data}</code>`; 
+           document.getElementById('xml').textContent=`<code>${data}</code>`; 
+           
+          
+          
+       })
+       }
 
         function jsonToTable(data) {
       const jsonData=data;
@@ -150,6 +175,7 @@
         <section>
             <h2>Section 2</h2>
             <!-- Content for the second section -->
+            <div id="xml"></div>
             <p>This is the content of Section 2.</p>
         </section>
     </main>

@@ -31,11 +31,11 @@ def hello_world():
     nav=myodo.nav()
     return render_template('index.html',header=heade,nav=nav)
 
-@app.route("/image")
+@app.route("/image/<model>/<id>")
 
-def images():
+def images(model,id):
     myodo=OdooClient("localhost","8015",'felino','ninofelino12@gmail.com','felino')
-    image_stream=myodo.f_execute('res.partner','jpg')
+    image_stream=myodo.f_execute_byid(model,id,'jpg')
     #return jsonify()
     print(image_stream)
     with open('\image\avatar_image.png', 'wb') as image_file:
@@ -68,11 +68,17 @@ def has_key(item,key):
 
 def ubah_key(item,model):
     if has_key(item,'avatar_128'):
-        item['avatar_128']=f'<img src="image?id={item["id"]}&model={model}"/>'
+        item['avatar_128']=f'<img src="image/{model}/{item["id"]}"/>'
     if has_key(item,'image_128'):
-        item['image_128']=f'<img src="image?id={item["id"]}&model={model}"/>'     
+        item['image_128']=f'<img src="image/{model}/{item["id"]}"/>'     
     if has_key(item,'arch_base'):
-        item['arch_base']=f'<a href="view?id={item["id"]}&model={model}"/>{item["name"]}</a>'       
+        url="'view?id=7'"
+        item['arch_base']=f'<button onclick="getXml({url})"/>{item["name"]}</button>'  
+    if has_key(item,'icon_image'):
+        url="'view?id=7'"
+        item['icon_image']=f'<img src="image?id={item["id"]}&model={model}"/>'   
+
+
     return item
 
 @app.route("/model/<model>")

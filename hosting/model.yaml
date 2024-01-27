@@ -18,11 +18,17 @@ ir.ui.view:
     name : View 
     model: ir.ui.view
     field: id,name,type,model,arch_base  
-Addons:     
+ir.module.module:     
     name : Addons
-    model: ir.actions.report 
-    field: id        
-Company:     
+    model: ir.module.module 
+    field: id,name,display_name,maintainer,icon_image,website        
+res.company:     
     name : company
     model: res.company
-    field: id,name        
+    field: id,name      
+ir.model:
+    name : model
+    model: ir.model 
+    field: id,name,display_name,modules,info,field_id 
+
+    

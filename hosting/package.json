@@ -1,0 +1,14 @@
+{
+  "name": "source",
+  "version": "1.0.0",
+  "description": "Odoo Gateway",
+  "main": "static/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "odoo-xmlrpc": "^1.0.8"
+  }
+}
