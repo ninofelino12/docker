@@ -5,6 +5,7 @@ import pickle
 from odoorpc import ODOO,report
 from odoo_rpc_client import Client
 
+
 import base64
 
 
@@ -13,11 +14,35 @@ class OdooClient(ODOO):
       
     '''  
     
+    
+             
     def __init__(self, server,port,dbname,user,password):
         super(OdooClient, self).__init__(server, port=port)
         self.login(dbname, user, password)
-        
+        #self.infoo = self.get.session()
+        # with open('model.yaml', "r") as f:
+        #      self.data = yaml.load(f, Loader=yaml.FullLoader)
+        # self.model=self.data['model']
 
+    def setmodel(self,model,field,search,image):
+        self.model=model
+        self.field=field
+        self.search=search
+        self.image=image
+    
+    def getmodel(self):
+        record=self.env[self.model].search(self.search)
+        hasil=self.execute(self.model, 'read',record,self.field)
+        result=[]
+        for item in hasil:  
+            if self.image:
+               item[self.image] = f'<img src="image/{self.model}/{item["id"]}"/>'
+            result.append(item)
+        return result
+
+    def getAttachment(self):
+        data=self.f_browse('ir.model.fields',[('model','=',self.model),('ttype','=','binary')],['id','name','ttype'])
+        return  [item['name'] for item in data if item['ttype'] == 'binary']
     def user(self):
         """
         This method is a custom method that is added to the class.
@@ -25,8 +50,46 @@ class OdooClient(ODOO):
 
         return self.odoo.env.user
     
+    def f_execute_byid(self, models, id, type):
+        with open('model.yaml', 'r') as f:
+             model_data = yaml.load(f, Loader=yaml.FullLoader)
+        #model_data=self.data
+        model_name = model_data[models]['model']
+        fields = model_data[models].get('field', 'arch_base').split(',')  # Default to 'arch_base'
+        record = super().env[model_name].search([('id', '=', int(id))])
+        result = self.execute(model_name, 'read', record, model_data[models]['image'])
+        return (base64.b64decode(result[0].get(fields[0])) if type == "jpg" else result)
 
     def nav(self):
+        with open('model.yaml', 'r') as f:
+             data = yaml.load(f, Loader=yaml.FullLoader)
+        #data=self.data
+        links = [value['name'] for value in data.values()] 
+        combined_list = [(data[key]['name'], data[key]['model']) for key in data]
+        html_links = ['<a href="/model/{}">{}</a>'.format(model, name) for name, model in combined_list]
+        html_string = ''.join([f'<a href="">{link}</a>' for link in links])
+
+        html_links_string = ''.join(['<button class="btn btn-primary o_form_button_edit"  onclick="getContent(\'{}\',\'html\')">{}</button>'.format(model,name) for name, model in combined_list])
+        model_name =  data.get('name')
+        model_model = data.get('model')
+           
+        return html_links_string     
+        
+    def f_browse(self,model,search,field):
+        '''
+        f_browse(model,search,field)
+        model
+        search [('id', '=', int(id))]
+        field
+        limit
+        '''   
+        record = self.env[model].search(search) 
+        result = self.execute(model, 'read', record, field)
+        return result
+           
+        
+        
+    def nav2(self):
         with open('model.yaml', "r") as f:
              data = yaml.load(f, Loader=yaml.FullLoader)
              links = [value['name'] for value in data.values()] 
@@ -37,14 +100,11 @@ class OdooClient(ODOO):
              html_links_string = ''.join(['<button onclick="getContent(\'{}\',\'html\')">{}</button>'.format(model,name) for name, model in combined_list])
              model_name =  data.get('name')
              model_model = data.get('model')
-            #  print(f"Name: {model_name}")
-            #  print(f"Model: {model_model}")
-            # namesw = [data[key]['name'] for key in data]
-            # models = [data[key]['model'] for key in data]
-            
+           
         return html_links_string 
     
-    def f_execute_byid(self,models,id,type):
+    def f_execute_byid2(self,models,
+                       id,type):
         with open('model.yaml', "r") as f:
                 data = yaml.load(f, Loader=yaml.FullLoader)
         # oo

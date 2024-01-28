@@ -2,30 +2,37 @@ product.product:
     name : Product    
     model: product.product  
     field: id,name,description,display_name
+    image: null
 product.template:
     name : ProductTemplate    
     model: product.template  
-    field: id,name,description,image_128   
+    field: id,name,description,image_128  
+    image: image_128
 res.partner:
     name : Partner 
     model: res.partner  
     field: id,name,avatar_128
+    image: avatar_128 
 ir.actions.report:     
     name : Report 
     model: ir.actions.report
     field: id,name,report_name,help,model
+    image: null
 ir.ui.view:     
     name : View 
     model: ir.ui.view
     field: id,name,type,model,arch_base  
+    image: arch_base
 ir.module.module:     
     name : Addons
     model: ir.module.module 
-    field: id,name,display_name,maintainer,icon_image,website        
+    field: id,name,display_name,maintainer,icon_image,website 
+    image: null       
 res.company:     
     name : company
     model: res.company
-    field: id,name      
+    field: id,name 
+    image: null     
 ir.model:
     name : model
     model: ir.model 

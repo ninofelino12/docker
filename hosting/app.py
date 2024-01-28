@@ -1,12 +1,12 @@
-from flask import Flask,jsonify,send_file,render_template
+from flask import Flask,jsonify,send_file,render_template,redirect, url_for,Request
 import yaml
 import logging
 import pickle
 from odoorpc import ODOO
 import base64
-
+import requests
 from odooclient import OdooClient
-
+import os
 
  
 app = Flask(__name__)
@@ -21,6 +21,8 @@ def hello_world():
         'content': 'Welcome to my Flask web application.'
     }
     user = myodo.env.user
+   
+    #print(session_info)
     print(dir(user))
     print(user.name)            # name of the user connected
     print(user.company_id.name) # the name of its company
@@ -91,3 +93,25 @@ def model(model):
 
     # hasil=json_string = json.dumps(data_baru, default=lambda x: x.__dict__)
     return jsonify(hasil)
+
+@app.route('/xml')
+def render_xml_template():
+    xml_template = """
+   
+    <data>
+        <message>Hello, this is XML rendering with Flask!</message>
+    </data>
+    """
+    return app.response_class(xml_template, mimetype='application/xml')
+
+@app.route('/css/<url>')
+def rendercss(url):
+    server = 'http://localhost:8015/web/assets/debug/'
+    response = requests.get(server+url)
+    if response.status_code == 200:
+        with open('static/'+os.path.basename(url), 'wb') as file:  # Change filename if needed
+            file.write(response.content)
+        print("File saved successfully!")
+    else:
+        print("Failed to download file. Status code:", response.status_code)
+    return redirect('http://localhost:8015/web/assets/debug/'+url)

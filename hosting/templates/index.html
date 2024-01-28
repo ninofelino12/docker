@@ -6,57 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <!-- Add your CSS links or styles here -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav {
-            background-color: #eee;
-            padding: 10px;
-            text-align: center;
-        }
-
-        main {
-            padding: 20px;
-        }
-
-        section {
-            margin-bottom: 20px;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="css">
+    <link rel="stylesheet" href="css/web.assets_backend.min.css">
+    <link rel="stylesheet" href="css/web.assets_common.min.css">
+    <link rel="stylesheet" href="css/web.assets_backend_prod_only.min.js">
+    <link rel="stylesheet" href="css/http://localhost:8015/web.assets_backend_prod_only.min.js">
+   
 </head>
 
 <body>
-    <header>
-        <!-- <h1>Dashboard Title</h1> -->
-        {{header|safe}}
-       
-        
-    </header>
+   
     
-    <nav>
-        <!-- Navigation links or menu can be added here -->
-       
-        <label for="myCheck">Show Table:</label> 
+    <nav class="o_main_navbar">
+        <div>
+            <label for="myCheck">Show Table:</label> 
         <input type="checkbox" id="myCheck" onclick="myFunction()">
         {{nav|safe}}
+        </div>
+        
+    </nav>">
+
+        <!-- Navigation links or menu can be added here -->
+       
+        
         <script>
             function getContent(url,jenis){
                
@@ -109,10 +81,10 @@
 
         function jsonToTable(data) {
       const jsonData=data;
-      var tableHtml = '<table>';
+      var tableHtml = '<table class="o_list_table table table-sm table-hover table-striped o_list_table_ungrouped" >';
   
           // Create table header
-          tableHtml += '<thead><tr>';
+          tableHtml += '<thead ><tr>';
           for (var key in jsonData[0]) {
               tableHtml += '<th>' + key + '</th>';
           }
@@ -164,9 +136,14 @@
   
         </script>
     </nav>
-
+    <header class="o_control_panel">
+        <!-- <h1>Dashboard Title</h1> -->
+        {{header|safe}}
+       
+        
+    </header>
     <main>
-        <section id="section">
+        <section id="section" style="padding: 15px;">
             <h2>Section 1</h2>
             <!-- Content for the first section -->
             <p>This is the content of Section 1.</p>

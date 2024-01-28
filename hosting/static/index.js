@@ -38,8 +38,39 @@ class CardBuilder {
     }
   }
   
+  class DataFetcher {
+    constructor(url) {
+      this.url = url;
+    }
+  
+    async fetchData() {
+      const response = await fetch(this.url);
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
+      }
+      const jsonData = await response.json();
+      return jsonData;
+    }
+  
+    // Menambahkan metode untuk memproses data
+    process(data) {
+      // Modifikasi data sesuai kebutuhan
+      return data.map((item) => item.name);
+    }
+  }
+  
   // Contoh penggunaan
-  const containerElement = document.getElementById("card-container");
-  const url = "https://api.example.com/data.json";
-  const cardBuilder = new CardBuilder(containerElement, url);
-  cardBuilder.buildCards();
+  const url = "localhost:5000/model/product.product";
+  const dataFetcher = new DataFetcher(url);
+  dataFetcher.fetchData().then((data) => {
+    const processedData = dataFetcher.process(data);
+    // Gunakan data yang sudah diproses di sini
+    console.log(processedData);
+  });
+
+
+  // Contoh penggunaan
+//   const containerElement = document.getElementById("card-container");
+//   const url = "https://api.example.com/data.json";
+//   const cardBuilder = new CardBuilder(containerElement, url);
+//   cardBuilder.buildCards();
