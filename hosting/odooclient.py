@@ -55,11 +55,10 @@ class OdooClient(ODOO):
              model_data = yaml.load(f, Loader=yaml.FullLoader)
         #model_data=self.data
         model_name = model_data[models]['model']
-        fields = model_data[models].get('field', 'arch_base').split(',')  # Default to 'arch_base'
-        record = super().env[model_name].search([('id', '=', int(id))])
-        result = self.execute(model_name, 'read', record, model_data[models]['image'])
-        return (base64.b64decode(result[0].get(fields[0])) if type == "jpg" else result)
-
+        field='image_128'
+        record=[int(id)]
+        result = self.execute(model_name, 'read',[int(id)] ,[field])      
+        return base64.b64decode(result[0].get(field))    
     def nav(self):
         with open('model.yaml', 'r') as f:
              data = yaml.load(f, Loader=yaml.FullLoader)

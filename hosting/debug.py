@@ -5,6 +5,10 @@ import pickle
 from odoorpc import ODOO
 import base64
 import xmltodict
+from sqlalchemy import create_engine, inspect
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Float, Boolean  # Import common data types
+
 
 from odooclient import OdooClient
 

@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,send_file,render_template,redirect, url_for,Request
+from flask import Flask,jsonify,send_file,render_template,redirect, url_for,Request,Response 
 import yaml
 import logging
 import pickle
@@ -37,13 +37,17 @@ def hello_world():
 
 def images(model,id):
     myodo=OdooClient("localhost","8015",'felino','ninofelino12@gmail.com','felino')
+    print('------------------------------------------')
+    print(id)
     image_stream=myodo.f_execute_byid(model,id,'jpg')
-    #return jsonify()
-    print(image_stream)
-    with open('\image\avatar_image.png', 'wb') as image_file:
-        image_file.write(image_stream)
-    return send_file('\image\avatar_image.png', mimetype='image/png')
-
+    #   #return jsonify()
+    # print(image_stream)
+    # with open('\image\avatar_image.png', 'wb') as image_file:
+    #     image_file.write(image_stream)
+    # return send_file('\image\avatar_image.png', mimetype='image/png')
+    resp = Response(
+        response=image_stream, status=200,  mimetype="image/png")
+    return resp
 @app.route("/view")
 
 def view():
