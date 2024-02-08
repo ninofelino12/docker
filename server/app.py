@@ -1,19 +1,19 @@
 import base64
 import json
 from flask import Flask, jsonify,render_template,make_response, request
-from flask_odoo import Odoo
+# from flask_odoo import Odoo
 from odoorpc.odoo import ODOO
 import yaml
-import logging
-import pickle
+# import logging
+# import pickle
 
 app = Flask(__name__)
 app.config["ODOO_URL"] = "http://localhost:8015"
 app.config["ODOO_DB"] = "felino"
 app.config["ODOO_USERNAME"] = "ninofelino12@gmail.com"
 app.config["ODOO_PASSWORD"] = "felino"
-odoo = Odoo(app)
-fel=ODOO('localhost',port=8015)
+# odoo = Odoo(app)
+# fel=ODOO('localhost',port=8015)
 # logging.basicConfig(
 #     format="%(asctime)s %(levelname)-8s %(message)s",
 #     level=logging.INFO,
@@ -34,8 +34,8 @@ class felino():
         return xml_data
 
 my_object = felino("nino")
-with open("class.pickle", "wb") as file:
-    pickle.dump(my_object, file)
+# with open("class.pickle", "wb") as file:
+#     pickle.dump(my_object, file)
 
 def list_methods():
     methods = []

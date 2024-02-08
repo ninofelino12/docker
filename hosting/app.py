@@ -7,6 +7,8 @@ import base64
 import requests
 from odooclient import OdooClient
 import os
+import xmltodict
+from html2image import Html2Image
 
  
 app = Flask(__name__)
@@ -48,15 +50,20 @@ def images(model,id):
     resp = Response(
         response=image_stream, status=200,  mimetype="image/png")
     return resp
-@app.route("/view")
+@app.route("/view/<models>/<field>/<id>")
 
-def view():
+def view(models,field,id):
     myodo=OdooClient("localhost","8015",'felino','ninofelino12@gmail.com','felino')
     image_stream=myodo.f_execute('ir.ui.view','xml')
     #return jsonify()
     print(image_stream)
-    
-    return image_stream
+    myodo.get_view(models,field,id)
+    print(image_stream)
+    my_dict=xmltodict.parse(image_stream)
+    html=myodo.generate_html(my_dict)
+    hti = Html2Image()
+    hti.screenshot(html_str=html, save_as=f'{models}.png')
+    return html
 
 
 def has_key(item,key):
@@ -74,12 +81,12 @@ def has_key(item,key):
 
 def ubah_key(item,model):
     if has_key(item,'avatar_128'):
-        item['avatar_128']=f'<img src="image/{model}/{item["id"]}"/>'
+        item['avatar_128']=f'<img class="img img-fluid" src="image/{model}/{item["id"]}"/>'
     if has_key(item,'image_128'):
-        item['image_128']=f'<img src="image/{model}/{item["id"]}"/>'     
+        item['image_128']=f'<img class="img img-fluid" src="image/{model}/{item["id"]}"/>'     
     if has_key(item,'arch_base'):
-        url="'view?id=7'"
-        item['arch_base']=f'<button onclick="getXml({url})"/>{item["name"]}</button>'  
+        url=f"'view/{model}/arch_base/7'"
+        item['arch_base']=f'<button class="btn btn-primary o_form_button_edit" onclick="getXml({url})"/>{item["name"]}</button>'  
     if has_key(item,'icon_image'):
         url="'view?id=7'"
         item['icon_image']=f'<img src="image?id={item["id"]}&model={model}"/>'   
